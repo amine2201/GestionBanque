@@ -62,7 +62,7 @@ public class Compte {
         String      compteStr  = "------------------------------------------------------\n";
                     compteStr += "| N° de Compte            : "   + getNumeroCompte()   + "\n";
                     compteStr += "| Solde du Compte         : "   + getSolde()    + " Dh\n" ;
-                    compteStr += "| Propriétaire du Compte  : "   + getPropriétaire().getNomComplet() + "\n" ;
+                    compteStr += "| Propriétaire du Compte  : "   + String.valueOf(getPropriétaire().getNomComplet()) + "\n" ;
                     compteStr += "------------------------------------------------------\n";
 
         return compteStr;
