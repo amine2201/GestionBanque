@@ -21,6 +21,10 @@ public class Log {
         this.type = type;
     }
 
+    public TypeLog getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
         String logStr = "[" + date + "]["+time+"][{"+type+"}] : " +  message;
