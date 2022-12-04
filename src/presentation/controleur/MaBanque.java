@@ -70,6 +70,7 @@ public class MaBanque {
 //                }
 //                maBanque.getClientsDeBanque().addAll(clients);
 
+
                 clavier.close();
 
         }
