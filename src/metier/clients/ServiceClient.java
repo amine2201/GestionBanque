@@ -150,8 +150,8 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
         for(int i=0;i<client.getComptesClient().size();i++){
             System.out.println("| "+(i+1)+". "+client.getComptesClient().get(i).getNumeroCompte());
         }
-        System.out.print("| Votre choix : ");
         do{
+            System.out.print("| Votre choix : ");
             choix=clavier.nextInt();clavier.nextLine();
             if(choix>=1 && choix<=client.getComptesClient().size())
                 break;
@@ -179,15 +179,7 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
         System.out.println("| 6. Afficher info client");
         System.out.println("| 7. Changer Compte");
         System.out.println("| 8. Se deconnecter");
-        System.out.println("------------------------------------------------------");
-        do {
-            System.out.print("| Votre choix: ");
-            choix=clavier.nextInt();clavier.nextLine();
-            if(choix>0 && choix<9)
-                break;
-            else System.out.println("|"+RED +" Choix invalide"+RESET);
-        }while (true);
-        System.out.println("------------------------------------------------------");
+        choix=getChoix(1,8);
         switch (choix){
             case 1:versement();break;
             case 2:menuRetrait();break;
@@ -214,15 +206,7 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
         System.out.println("| 2. EModifier votre email");
         System.out.println("| 3. Modifier votre numero de telephone");
         System.out.println("| 4. Retourner au menu principal");
-        System.out.println("------------------------------------------------------");
-        do {
-            System.out.print("| Votre choix: ");
-            choix=clavier.nextInt();clavier.nextLine();
-            if(choix>0 && choix<4)
-                break;
-            else System.out.println("|"+RED +" Choix invalide"+RESET);
-        }while (true);
-        System.out.println("------------------------------------------------------");
+        choix=getChoix(1,4);
         modifierProfile(choix);
         System.out.println("------------------------------------------------------");
         if(choix==4)
@@ -242,16 +226,8 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
         System.out.println("| 4. Retrait de 500.0 dh");
         System.out.println("| 5. Retrait d'un autre montant");
         System.out.println("| 6. Retour au menu principal");
-        System.out.println("------------------------------------------------------");
-        do {
-            System.out.print("| Votre choix: ");
-            choix=clavier.nextInt();clavier.nextLine();
-            if(choix>0 && choix<7)
-                break;
-            else System.out.println("|"+RED +" Choix invalide"+RESET);
-        }while (true);
-        System.out.println("------------------------------------------------------");
-        if(choix<=4)
+        choix = getChoix(1,6);
+            if(choix<=4)
             retrait(choix);
         else if(choix==5) retrait();
         System.out.println("------------------------------------------------------");
@@ -263,7 +239,8 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
     @Override
     public List<Log> afficherLogDeType(TypeLog typeLog) {
         List<Log> logList=new ArrayList<>();
-        logList.addAll(compte.getLogs().stream().filter(log -> log.getType().equals(typeLog)).collect(Collectors.toList()));
+        logList.addAll(compte.getLogs().stream().filter(log -> log.getType().equals(typeLog))
+                .collect(Collectors.toList()));
         return logList;
     }
 
@@ -278,16 +255,8 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
         System.out.println("| 4. Afficher tous le retraits du compte");
         System.out.println("| 5. Afficher tous le versements du compte");
         System.out.println("| 6. Retourner au menu principal");
-        System.out.println("------------------------------------------------------");
-        do {
-            System.out.print("| Votre choix: ");
-            choix=clavier.nextInt();clavier.nextLine();
-            if(choix>0 && choix<7)
-                break;
-            else System.out.println("|"+RED +" Choix invalide"+RESET);
-        }while(true);
-        System.out.println("------------------------------------------------------");
-        switch (choix){
+            choix = getChoix(1,6);
+            switch (choix){
             case 1: afficherSolde(); break;
             case 2: dernièresOpérations(); break;
             case 3: System.out.println(afficherLogDeType(TypeLog.VIREMENT));break;
@@ -298,6 +267,20 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
         if(choix==6)
             break;
         }while (true);
+        return choix;
+    }
+
+    private int getChoix(int d,int f) {
+        int choix;
+        System.out.println("------------------------------------------------------");
+        do {
+            System.out.print("| Votre choix: ");
+            choix=clavier.nextInt();clavier.nextLine();
+            if(choix>=d && choix<=f)
+                break;
+            else System.out.println("|"+RED +" Choix invalide"+RESET);
+        }while(true);
+        System.out.println("------------------------------------------------------");
         return choix;
     }
 }
