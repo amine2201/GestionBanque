@@ -1,5 +1,6 @@
 package metier.clients;
 
+import metier.authentification.IServiceIHM;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.Log;
@@ -10,7 +11,7 @@ import java.util.regex.Pattern;
 
 import static metier.InteractiveConsole.clavier;
 
-public class ServiceClient implements IServiceClient{
+public class ServiceClient implements IServiceClient, IServiceIHMClient{
     private Client client;
     private Compte compte;
     public ServiceClient(Client client){
@@ -156,4 +157,23 @@ public class ServiceClient implements IServiceClient{
         System.out.println("idk");
     }
 
+    @Override
+    public int menuGlobal() {
+        return 0;
+    }
+
+    @Override
+    public int menuModification() {
+        return 0;
+    }
+
+    @Override
+    public int menuRetrait() {
+        return 0;
+    }
+
+    @Override
+    public int menuInformations() {
+        return 0;
+    }
 }

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static metier.InteractiveConsole.clavier;
 
-public class ServiceAdmin implements IServiceAdmin{
+public class ServiceAdmin implements IServiceAdmin, IServiceIHMAdmin{
     private Banque banque;
 
     public ServiceAdmin(Banque banque) {
@@ -220,5 +220,50 @@ public class ServiceAdmin implements IServiceAdmin{
         banque.getClientsDeBanque().forEach(c-> comptes.addAll(c.getComptesClient()));
         return comptes.stream().sorted((c1,c2)->c1.getPropriétaire().getNom().compareTo(c2.getPropriétaire().getNom()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public int menuModification() {
+        return 0;
+    }
+
+    @Override
+    public int menuRecherche() {
+        return 0;
+    }
+
+    @Override
+    public int menuInformations() {
+        return 0;
+    }
+
+    @Override
+    public int menuAjout() {
+        return 0;
+    }
+
+    @Override
+    public int menuSuppression() {
+        return 0;
+    }
+
+    @Override
+    public int tableauDeBord() {
+        return 0;
+    }
+
+    @Override
+    public int menuTrie() {
+        return 0;
+    }
+
+    @Override
+    public int menuComptabilité() {
+        return 0;
+    }
+
+    @Override
+    public int menuGlobal() {
+        return 0;
     }
 }

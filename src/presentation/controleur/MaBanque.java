@@ -28,11 +28,6 @@ public class MaBanque {
                                         "212535224433",
                                         "bp@banquePop.ma");
 
-
-                Scanner clavier = new Scanner(System.in);
-                loginService = new ServiceAuth(maBanque);
-                loginService.seConnecter();
-
 //                IServiceAdmin serviceAdmin=new ServiceAdmin(maBanque);
 //                Client client1=new Client("log1","mdp1","nom1","prenom1","mail1","cin1","tel1", Sexe.HOMME);
 //                Client client2=new Client("log2","mdp2","nom2","prenom2","mail2","cin2","tel1", Sexe.HOMME);
@@ -69,7 +64,8 @@ public class MaBanque {
 //                        c+=3;
 //                }
 //                maBanque.getClientsDeBanque().addAll(clients);
-
+                loginService = new ServiceAuth(maBanque);
+                loginService.seConnecter();
 
                 clavier.close();
 
