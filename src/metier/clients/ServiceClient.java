@@ -1,6 +1,7 @@
 package metier.clients;
 
 
+import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.ConsoleColors;
@@ -17,11 +18,13 @@ import static metier.InteractiveConsole.clavier;
 public class ServiceClient implements IServiceClient, IServiceIHMClient{
     private Client client;
     private Compte compte;
+    private Banque banque;
     private static final String RESET = ConsoleColors.RESET.getValeur();
     private static final String RED = ConsoleColors.RED.getValeur();
     private static final String GREEN = ConsoleColors.GREEN.getValeur();
-    public ServiceClient(Client client){
+    public ServiceClient(Client client,Banque banque){
         this.client=client;
+        this.banque=banque;
     }
 
     public Client getClient() {
@@ -80,6 +83,12 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
 
     @Override
     public boolean virement() {
+        Long id;
+        System.out.println("| Entrer le compte :");
+        System.out.print("| b-co00");
+        id=clavier.nextLong();clavier.nextLine();
+        Compte compte1=chercherCompte(id);
+        if(compte1!=null){
         System.out.print("| Entrer le montant: ");
         Double solde=clavier.nextDouble();clavier.nextLine();
         if(solde>0){
@@ -89,7 +98,19 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
             return true;
         }
         System.out.println("|"+RED +" Solde invalide" + RESET);
+        }
+        else System.out.println("|"+RED +" Compte introuvable" + RESET);
         return false;
+    }
+
+    private Compte chercherCompte(Long id) {
+        for(Client client : banque.getClientsDeBanque()){
+            for(Compte compte : client.getComptesClient()){
+                if(compte.getNumeroCompte().equals("b-co00"+id))
+                    return compte;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -191,8 +212,14 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
             case 7: choisirCompte();break;
         }
         System.out.println("------------------------------------------------------");
-        if(choix==8)
-            break;
+        if(choix==8){
+            System.out.println("------------------------------------------------------");
+            if(client.getSexe().getIndice()==0)
+            System.out.println("| Au revoir Mr "+client.getNomComplet());
+            else
+            System.out.println("| Au revoir Mme "+client.getNomComplet());
+            System.out.println("------------------------------------------------------");
+            break;}
         }while (true);
         return choix;
     }
@@ -256,16 +283,20 @@ public class ServiceClient implements IServiceClient, IServiceIHMClient{
         System.out.println("| 5. Afficher tous le versements du compte");
         System.out.println("| 6. Retourner au menu principal");
             choix = getChoix(1,6);
+            if(choix==6)
+                break;
+            System.out.println(GREEN);
             switch (choix){
-            case 1: afficherSolde(); break;
+            case 1:
+                System.out.println("| Votre solde : "+afficherSolde()); break;
             case 2: dernièresOpérations(); break;
             case 3: System.out.println(afficherLogDeType(TypeLog.VIREMENT));break;
             case 4: System.out.println(afficherLogDeType(TypeLog.RETRAIT));break;
             case 5: System.out.println(afficherLogDeType(TypeLog.VERSEMENT));break;
         }
+            System.out.println(RESET);
         System.out.println("------------------------------------------------------");
-        if(choix==6)
-            break;
+
         }while (true);
         return choix;
     }

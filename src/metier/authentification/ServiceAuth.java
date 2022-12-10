@@ -42,7 +42,7 @@ public class ServiceAuth implements IAuth, IServiceIHM {
         else {
             Client client=chercherClient(login,mdp);
             if(client!=null)
-            service=new ServiceClient(client);
+            service=new ServiceClient(client,banque);
             else System.out.println("|"+RED +" Login ou mot de passe incorrect"+RESET);
         }
         if(service!=null)

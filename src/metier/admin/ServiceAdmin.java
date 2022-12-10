@@ -174,7 +174,7 @@ public class ServiceAdmin implements IServiceAdmin, IServiceIHMAdmin{
         Client client;
         Long id;
         System.out.print("| Entrer l'ID du client: ");
-        id=clavier.nextLong();
+        id=clavier.nextLong();clavier.nextLine();
         client=chercherClientParId(id);
         if(client!=null){
             switch (filtre){
