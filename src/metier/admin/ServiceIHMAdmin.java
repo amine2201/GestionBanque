@@ -1,5 +1,6 @@
 package metier.admin;
 
+import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.ConsoleColors;
@@ -13,11 +14,13 @@ import static metier.InteractiveConsole.clavier;
 
 public class ServiceIHMAdmin implements IServiceIHMAdmin{
     private IServiceAdmin serviceAdmin;
+    private Banque banque;
     private static final String RESET = ConsoleColors.RESET.getValeur();
     private static final String RED = ConsoleColors.RED.getValeur();
     private static final String GREEN = ConsoleColors.GREEN.getValeur();
-    public ServiceIHMAdmin(IServiceAdmin serviceAdmin) {
-        this.serviceAdmin = serviceAdmin;
+    public ServiceIHMAdmin(Banque banque) {
+        this.banque=banque;
+        this.serviceAdmin = new ServiceAdmin(banque);
     }
 
     public IServiceAdmin getServiceAdmin() {
