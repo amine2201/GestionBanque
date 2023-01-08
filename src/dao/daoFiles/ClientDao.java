@@ -74,13 +74,16 @@ public class ClientDao implements IDao<Client,Long> {
 
     @Override
     public Client update(Client client) {
-        List<String> lines;
         try {
-            lines=Files.readAllLines(Clients_Tab,StandardCharsets.UTF_8);
+            List<String> lines=Files.readAllLines(Clients_Tab,StandardCharsets.UTF_8);
             for(int i=1; i<lines.size();i++){
-                Long id=Long.valueOf(lines.get(i).substring(0,lines.get(i).indexOf(',')));
-                if(client.getId().equals(id)) {
+                Long idClient=Long.valueOf(lines.get(i).substring(0,lines.get(i).indexOf(',')));
+                if(client.getId().equals(idClient)) {
                     lines.set(i, clientString(client));
+                    if(client.getId()>id){
+                        this.id=client.getId();
+                        setId(id);
+                    }
                     break;
                 }
             }
@@ -92,14 +95,14 @@ public class ClientDao implements IDao<Client,Long> {
     }
 
     @Override
-    public Boolean deleteById(Long id) {
+    public Boolean deleteById(Long idClient) {
         List<String> lines;
         Boolean deleted=false;
         try {
             lines=Files.readAllLines(Clients_Tab,StandardCharsets.UTF_8);
             for(int i=1; i<lines.size();i++){
-                Long idClient=Long.valueOf(lines.get(i).substring(0,lines.get(i).indexOf(',')));
-                if(idClient.equals(id)) {
+                Long id_Client=Long.valueOf(lines.get(i).substring(0,lines.get(i).indexOf(',')));
+                if(id_Client.equals(idClient)) {
                     lines.remove(i);
                     deleted=true;
                     break;
@@ -164,7 +167,6 @@ public class ClientDao implements IDao<Client,Long> {
         try {
             List<String> lines=Files.readAllLines(IDS,StandardCharsets.UTF_8);
             String[] ids=lines.get(1).split(",");
-            Long oldId= Long.valueOf(ids[1]);
             lines.set(1,ids[0]+","+id+","+ids[2]);
             Files.write(IDS,lines);
         } catch (IOException e) {

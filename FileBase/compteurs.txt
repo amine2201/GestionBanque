@@ -1,2 +1,2 @@
 compteurBanque,compteurClient,compteurCompte
-1,5,0
+1,1,1

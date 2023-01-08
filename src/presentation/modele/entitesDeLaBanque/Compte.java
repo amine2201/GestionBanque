@@ -30,6 +30,14 @@ public class Compte {
         logs.add(log);
     }
 
+    public static long getCompteur() {
+        return compteur;
+    }
+
+    public static void setCompteur(long compteur) {
+        Compte.compteur = compteur;
+    }
+
     public Client           getPropriétaire() {
         return propriétaire;
     }
@@ -54,6 +62,14 @@ public class Compte {
         setDateCreation();
         setSolde(0.0);
         setPropriétaire(null);
+    }
+
+    public Compte(String numeroCompte, Double solde, LocalDateTime dateCreation, Client propriétaire, List<Log> logs) {
+        this.numeroCompte = numeroCompte;
+        this.solde = solde;
+        this.dateCreation = dateCreation;
+        this.propriétaire = propriétaire;
+        this.logs = logs;
     }
 
     @Override

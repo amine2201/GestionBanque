@@ -20,9 +20,20 @@ public class Log {
         this.time = time;
         this.type = type;
     }
-
     public TypeLog getType() {
         return type;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     @Override
