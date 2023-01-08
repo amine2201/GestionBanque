@@ -1,5 +1,5 @@
 id,nom,prenom,login,password,cin,tel,email,sex
-1,nom1,penom1,log1,mdp1,cin1,tel1,mail1,HOMME
+1,nom1,prenom1,log1,mdp1,cin1,tel1,mail1,HOMME
 2,nom2,prenom2,log2,mdp2,cin2,tel2,mail2,HOMME
 3,nom3,prenom3,log3,mdp3,cin3,tel3,mail3,HOMME
 4,nom4,prenom4,log4,mdp4,cin4,tel1,mail4,HOMME

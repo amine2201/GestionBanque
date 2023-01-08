@@ -9,4 +9,6 @@ public interface IDao<T, ID> {
     T update(T object);
     Boolean deleteById(ID id);
     Boolean delete(T object);
+    ID  getId();
+    void setId(ID id);
 }
