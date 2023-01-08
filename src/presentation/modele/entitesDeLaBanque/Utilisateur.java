@@ -1,5 +1,7 @@
 package presentation.modele.entitesDeLaBanque;
 
+import java.util.Objects;
+
 public class Utilisateur {
     protected static long compteur = 1;
     protected Long id;
@@ -13,6 +15,11 @@ public class Utilisateur {
     public void         setId() {
         this.id = compteur++;
     }
+
+    public static void setCompteur(long compteur) {
+        Utilisateur.compteur = compteur;
+    }
+
     public String       getNomComplet() {
         return prenom + " " + nom;
     }
@@ -58,6 +65,20 @@ public class Utilisateur {
         this.motDePasse     = pass;
         this.role           = role;
     }
+    public  Utilisateur(Long id, String login, String pass, String role){
+        this.id=id;
+        this.login          = login;
+        this.motDePasse     = pass;
+        this.role           = role;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Utilisateur that = (Utilisateur) o;
+
+        return Objects.equals(id, that.id);
+    }
 }

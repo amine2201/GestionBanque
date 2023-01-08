@@ -5,7 +5,7 @@ public interface InteractiveConsole {
 
     Scanner clavier = new Scanner(System.in);
 
-    default void fermerClavier(){
+    static void fermerClavier(){
 
             clavier.close();
 

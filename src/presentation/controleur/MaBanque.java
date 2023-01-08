@@ -1,22 +1,18 @@
 package presentation.controleur;
 
+import metier.InteractiveConsole;
 import metier.admin.IServiceAdmin;
 import metier.admin.ServiceAdmin;
 import metier.authentification.IAuth;
-import metier.authentification.IServiceIHM;
 import metier.authentification.ServiceAuth;
-import metier.clients.IServiceClient;
-import metier.clients.ServiceClient;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.Sexe;
 import presentation.modele.util.TypeLog;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
-import static metier.InteractiveConsole.clavier;
 
 public class MaBanque {
         public static IAuth loginService;
@@ -67,8 +63,7 @@ public class MaBanque {
                 loginService = new ServiceAuth(maBanque);
                 loginService.seConnecter();
 
-                clavier.close();
-
+                InteractiveConsole.fermerClavier();
         }
 
 }

@@ -3,7 +3,9 @@ package metier;
 public interface Verifiable {
 
 
-
+    default boolean isAdmin(String login, String pass){
+        return false;
+    }
     default boolean isNumeric(String value){
         try {
             Integer.parseInt(value);

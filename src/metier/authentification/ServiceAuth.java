@@ -4,6 +4,7 @@ package metier.authentification;
 import metier.admin.ServiceAdmin;
 import metier.admin.ServiceIHMAdmin;
 import metier.clients.ServiceClient;
+import metier.clients.ServiceIHMClient;
 import presentation.modele.entitesDeLaBanque.Admin;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
@@ -44,7 +45,7 @@ public class ServiceAuth implements IAuth {
         else {
             Client client=chercherClient(login,mdp);
             if(client!=null)
-            service=new ServiceClient(client,banque);
+            service=new ServiceIHMClient(client,banque);
             else System.out.println("|"+RED +" Login ou mot de passe incorrect"+RESET);
         }
         if(service!=null)
