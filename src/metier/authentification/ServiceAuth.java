@@ -12,6 +12,9 @@ import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Utilisateur;
 import presentation.modele.util.ConsoleColors;
 
+import java.util.List;
+import java.util.Map;
+
 import static metier.InteractiveConsole.clavier;
 
 public class ServiceAuth implements IAuth {
@@ -38,7 +41,12 @@ public class ServiceAuth implements IAuth {
         System.out.println("------------------------------------------------------");
         LoginFormValidator loginFormValidator=new LoginFormValidator(banque);
         Utilisateur utilisateur=loginFormValidator.validerUtilisateur(login,mdp);
-        if(utilisateur==null) System.out.println("|"+RED +" Login ou mot de passe incorrect"+RESET);
+        if(utilisateur==null) {
+            Map<String, String> errors = loginFormValidator.getErrors();
+            for(String field : errors.keySet()) {
+                System.out.println("|" + RED + errors.get(field) + RESET);
+            }
+        }
         else if(utilisateur.getRole().equals("Admin"))
             service=new ServiceIHMAdmin(banque);
         else if(utilisateur.getRole().equals("Client"))
