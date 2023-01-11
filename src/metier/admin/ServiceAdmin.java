@@ -1,5 +1,8 @@
 package metier.admin;
 
+import dao.IDao;
+import dao.daoFiles.ClientDao;
+import dao.daoFiles.CompteDao;
 import metier.Verifiable;
 import metier.forms.ClientFormValidator;
 import presentation.modele.entitesDeLaBanque.Banque;
@@ -20,11 +23,14 @@ import static metier.InteractiveConsole.clavier;
 
 public class ServiceAdmin implements IServiceAdmin{
     private Banque banque;
+    private ClientDao clientDao;
+    private CompteDao compteDao;
     private static final String RESET = ConsoleColors.RESET.getValeur();
     private static final String RED = ConsoleColors.RED.getValeur();
     private static final String GREEN = ConsoleColors.GREEN.getValeur();
     public ServiceAdmin(Banque banque) {
         this.banque = banque;
+        clientDao=new ClientDao();
     }
 
     @Override
@@ -53,6 +59,7 @@ public class ServiceAdmin implements IServiceAdmin{
                 System.out.println("| "+RED+errors.get(field)+RESET);
             }
         }
+        clientDao.save(client);
         return client;
     }
 
@@ -62,25 +69,25 @@ public class ServiceAdmin implements IServiceAdmin{
         long id=clavier.nextLong();clavier.nextLine();
         Client client=chercherClientParId(id);
         if(client!=null){
+            compteDao=new CompteDao(client);
             Compte compte=new Compte();
             compte.setLog(TypeLog.CREATION,"pour le client "+client.getNomComplet());
             compte.setPropriétaire(client);
             System.out.print("| Solde initial (Y/N): ");
             if(clavier.nextLine().equals("Y")){
                 double solde;
-                do{
                 System.out.print("| Entrer le solde: ");
                 String line =clavier.nextLine();
                 if(Verifiable.isDecimal(line)) {
-                    solde=Double.valueOf(line);
+                    solde=Double.parseDouble(line);
                 if (solde>0)
-                    break;
+                    compte.setSolde(solde);
                 }
                 else System.out.println("| "+RED+"Solde invalide"+RESET);
-                }while (true);
-                compte.setSolde(solde);
+
             }
             client.getComptesClient().add(compte);
+            compteDao.save(compte);
             System.out.println("| "+GREEN+"Compte "+compte.getNumeroCompte()+" cree "+RESET);
             return client;
 
@@ -178,8 +185,10 @@ public class ServiceAdmin implements IServiceAdmin{
                     System.out.print("| Entrer le nouveau nom: ");
                     nom = clavier.nextLine();
                     clientFormValidator.validerNom(nom,client);
-                    if(clientFormValidator.getErrors().size()==0)
+                    if(clientFormValidator.getErrors().size()==0){
                     System.out.println("|"+GREEN +" Nom change "+ RESET);
+                    clientDao.update(client);
+                    }
                     else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_NOM)+RESET);
                     break;
                 case "prenom":
@@ -187,8 +196,10 @@ public class ServiceAdmin implements IServiceAdmin{
                     System.out.print("| Entrer le nouveau prenom: ");
                     prenom = clavier.nextLine();
                     clientFormValidator.validerNom(prenom,client);
-                    if(clientFormValidator.getErrors().size()==0)
+                    if(clientFormValidator.getErrors().size()==0){
                         System.out.println("|"+GREEN +" prenom change "+ RESET);
+                        clientDao.update(client);
+                    }
                     else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_PRENOM)+RESET);
                     break;
                 case "mdp":
@@ -198,8 +209,10 @@ public class ServiceAdmin implements IServiceAdmin{
                     System.out.print("| Confirmer votre mot de passe: ");
                     mdpc=clavier.nextLine();
                     clientFormValidator.validerPass(mdp,mdpc,client);
-                    if(clientFormValidator.getErrors().size()==0)
+                    if(clientFormValidator.getErrors().size()==0){
                         System.out.println("|"+GREEN +" mot de passe change "+ RESET);
+                        clientDao.update(client);
+                    }
                     else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_PASS)+RESET);
                     break;
                 case "email":
@@ -207,8 +220,10 @@ public class ServiceAdmin implements IServiceAdmin{
                     System.out.print("| Entrer le nouveau email: ");
                     email = clavier.nextLine();
                     clientFormValidator.validerEmail(email,client);
-                    if(clientFormValidator.getErrors().size()==0)
+                    if(clientFormValidator.getErrors().size()==0){
                         System.out.println("|"+GREEN +" Email change "+ RESET);
+                        clientDao.update(client);
+                    }
                     else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_EMAIL)+RESET);
                     break;
 
@@ -217,8 +232,10 @@ public class ServiceAdmin implements IServiceAdmin{
                     System.out.print("| Entrer le nouveau numero: ");
                     num = clavier.nextLine();
                     clientFormValidator.validerTel(num,client);
-                    if(clientFormValidator.getErrors().size()==0)
+                    if(clientFormValidator.getErrors().size()==0){
                         System.out.println("|"+GREEN +" Tel change "+ RESET);
+                        clientDao.update(client);
+                    }
                     else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_TEL)+RESET);
                     break;
                 case "cin":
@@ -226,8 +243,10 @@ public class ServiceAdmin implements IServiceAdmin{
                     System.out.print("| Entrer le nouveau CIN: ");
                     cin = clavier.nextLine();
                     clientFormValidator.validerCIN(cin,client);
-                    if(clientFormValidator.getErrors().size()==0)
+                    if(clientFormValidator.getErrors().size()==0){
                         System.out.println("|"+GREEN +" CIN change "+ RESET);
+                        clientDao.update(client);
+                    }
                     else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_CIN)+RESET);
                     break;
             }

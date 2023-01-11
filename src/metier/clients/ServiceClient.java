@@ -1,6 +1,9 @@
 package metier.clients;
 
 
+import dao.daoFiles.ClientDao;
+import dao.daoFiles.CompteDao;
+import metier.Verifiable;
 import metier.forms.ClientFormValidator;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
@@ -11,8 +14,6 @@ import presentation.modele.util.TypeLog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static metier.InteractiveConsole.clavier;
 
@@ -20,12 +21,16 @@ public class ServiceClient implements IServiceClient{
     private Client client;
     private Compte compte;
     private Banque banque;
+    private ClientDao clientDao;
+    private CompteDao compteDao;
     private static final String RESET = ConsoleColors.RESET.getValeur();
     private static final String RED = ConsoleColors.RED.getValeur();
     private static final String GREEN = ConsoleColors.GREEN.getValeur();
     public ServiceClient(Client client,Banque banque){
         this.client=client;
         this.banque=banque;
+        clientDao=new ClientDao();
+        compteDao=new CompteDao(client);
     }
 
     public Client getClient() {
@@ -33,6 +38,7 @@ public class ServiceClient implements IServiceClient{
     }
     public void setClient(Client client){
         this.client=client;
+        compteDao=new CompteDao(client);
     }
 
     public Compte getCompte() {
@@ -51,6 +57,7 @@ public class ServiceClient implements IServiceClient{
             compte.setSolde(compte.getSolde()+solde);
             compte.setLog(TypeLog.VERSEMENT,"de "+solde);
             System.out.println("|"+GREEN + " Versement effectue" + RESET);
+            compteDao.update(compte);
             return true;
         }
         System.out.println("|"+RED +" Solde invalide" + RESET);
@@ -65,6 +72,7 @@ public class ServiceClient implements IServiceClient{
             compte.setSolde(compte.getSolde()-solde);
             compte.setLog(TypeLog.RETRAIT,"de "+solde);
             System.out.println("|"+GREEN + " Retrait effectue" + RESET);
+            compteDao.update(compte);
             return true;
         }
         System.out.println("|"+RED +" Solde insuffisant" + RESET);
@@ -84,6 +92,7 @@ public class ServiceClient implements IServiceClient{
             compte.setSolde(compte.getSolde()-solde);
             compte.setLog(TypeLog.RETRAIT,"de "+solde);
             System.out.println("|"+GREEN + " Retrait effectue" + RESET);
+            compteDao.update(compte);
             return true;
         }
         System.out.println("|"+RED +" Solde insuffisant" + RESET);
@@ -98,12 +107,15 @@ public class ServiceClient implements IServiceClient{
         id=clavier.nextLong();clavier.nextLine();
         Compte compte1=chercherCompte(id);
         if(compte1!=null){
+            CompteDao compteDao1=new CompteDao(compte1.getPropriétaire());
         System.out.print("| Entrer le montant: ");
         Double solde=clavier.nextDouble();clavier.nextLine();
         if(solde>0){
             compte.setSolde(compte.getSolde()+solde);
             compte.setLog(TypeLog.VIREMENT,"de "+solde);
             System.out.println("|"+GREEN + " Virement effectue" + RESET);
+            compteDao1.update(compte);
+            compteDao.update(compte);
             return true;
         }
         System.out.println("|"+RED +" Solde invalide" + RESET);
@@ -133,8 +145,10 @@ public class ServiceClient implements IServiceClient{
                 System.out.print("| Confirmer votre mot de passe: ");
                 mdpc=clavier.nextLine();
                 clientFormValidator.validerPass(mdp,mdpc,client);
-                if(clientFormValidator.getErrors().size()==0)
+                if(clientFormValidator.getErrors().size()==0){
                     System.out.println("|"+GREEN +" mot de passe change "+ RESET);
+                    clientDao.update(client);
+                }
                 else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_PASS)+RESET);
                 break;
             case 2:
@@ -142,8 +156,10 @@ public class ServiceClient implements IServiceClient{
                 System.out.print("| Entrer le nouveau email: ");
                 email = clavier.nextLine();
                 clientFormValidator.validerEmail(email,client);
-                if(clientFormValidator.getErrors().size()==0)
+                if(clientFormValidator.getErrors().size()==0){
                     System.out.println("|"+GREEN +" Email change "+ RESET);
+                    clientDao.update(client);
+                }
                 else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_EMAIL)+RESET);
                 break;
             case 3:
@@ -151,8 +167,10 @@ public class ServiceClient implements IServiceClient{
                 System.out.print("| Entrer le nouveau numero: ");
                 num = clavier.nextLine();
                 clientFormValidator.validerTel(num,client);
-                if(clientFormValidator.getErrors().size()==0)
+                if(clientFormValidator.getErrors().size()==0){
                     System.out.println("|"+GREEN +" Tel change "+ RESET);
+                    clientDao.update(client);
+                }
                 else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_TEL)+RESET);
                 break;
         }
@@ -181,9 +199,12 @@ public class ServiceClient implements IServiceClient{
         }
         do{
             System.out.print("| Votre choix : ");
-            choix=clavier.nextInt();clavier.nextLine();
+            String line =clavier.nextLine();
+            if(Verifiable.isNumeric(line)) {
+                choix = Integer.parseInt(line);
             if(choix>=1 && choix<=client.getComptesClient().size())
                 break;
+            }
             else System.out.println("|"+RED +" Choix invalide"+RESET);
         }while (true);
         compte=client.getComptesClient().get(choix-1);
@@ -197,9 +218,7 @@ public class ServiceClient implements IServiceClient{
 
     @Override
     public List<Log> afficherLogDeType(TypeLog typeLog) {
-        List<Log> logList=new ArrayList<>();
-        logList.addAll(compte.getLogs().stream().filter(log -> log.getType().equals(typeLog))
-                .collect(Collectors.toList()));
-        return logList;
+        return new ArrayList<>(compte.getLogs().stream().filter(log -> log.getType().equals(typeLog))
+                .toList());
     }
 }
