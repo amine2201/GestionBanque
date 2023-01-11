@@ -1,12 +1,15 @@
 package metier;
 
+import presentation.modele.entitesDeLaBanque.Admin;
+
 public interface Verifiable {
 
 
-    default boolean isAdmin(String login, String pass){
-        return false;
+    static boolean isAdmin(String login, String pass){
+        return Admin.getInstance().getLogin().equals(login) && Admin.getInstance().getMotDePasse().equals(pass);
+
     }
-    default boolean isNumeric(String value){
+    static boolean isNumeric(String value){
         try {
             Integer.parseInt(value);
             return true;
@@ -14,7 +17,7 @@ public interface Verifiable {
             return false;
         }
     }
-    default boolean isDecimal(String value){
+    static boolean isDecimal(String value){
         try {
             Double.parseDouble(value);
             return true;

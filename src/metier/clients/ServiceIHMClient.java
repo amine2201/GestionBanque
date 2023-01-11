@@ -1,5 +1,6 @@
 package metier.clients;
 
+import metier.Verifiable;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
@@ -140,10 +141,14 @@ public class ServiceIHMClient implements IServiceIHMClient{
         System.out.println("------------------------------------------------------");
         do {
             System.out.print("| Votre choix: ");
-            choix=clavier.nextInt();clavier.nextLine();
-            if(choix>=d && choix<=f)
+            String line =clavier.nextLine();
+            if(Verifiable.isNumeric(line))
+            {
+                choix=Integer.parseInt(line);
+                if(choix>=d && choix<=f)
                 break;
-            else System.out.println("|"+RED +" Choix invalide"+RESET);
+            }
+            System.out.println("|"+RED +" Choix invalide"+RESET);
         }while(true);
         System.out.println("------------------------------------------------------");
         return choix;

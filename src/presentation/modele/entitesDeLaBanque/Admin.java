@@ -7,7 +7,7 @@ public class Admin  extends Utilisateur {
     private Admin(){
 
         login       = "admin";
-        motDePasse  = "1234";
+        motDePasse  = "12345";
         role        = "Admin";
         nom         =  "Jaoui";
         prenom      = "Amine";

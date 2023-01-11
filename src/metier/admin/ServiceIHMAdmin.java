@@ -1,5 +1,6 @@
 package metier.admin;
 
+import metier.Verifiable;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
@@ -358,10 +359,13 @@ public class ServiceIHMAdmin implements IServiceIHMAdmin{
         System.out.println("------------------------------------------------------");
         do {
             System.out.print("| Votre choix: ");
-            choix=clavier.nextInt();clavier.nextLine();
-            if(choix>=d && choix<=f)
-                break;
-            else System.out.println("|"+RED +" Choix invalide"+RESET);
+            String line =clavier.nextLine();
+            if(Verifiable.isNumeric(line)) {
+                choix = Integer.parseInt(line);
+                if (choix >= d && choix <= f)
+                    break;
+            }
+            System.out.println("|"+RED +" Choix invalide"+RESET);
         }while(true);
         System.out.println("------------------------------------------------------");
         return choix;
