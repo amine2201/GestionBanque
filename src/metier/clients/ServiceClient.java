@@ -1,6 +1,7 @@
 package metier.clients;
 
 
+import metier.forms.ClientFormValidator;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
@@ -123,38 +124,37 @@ public class ServiceClient implements IServiceClient{
 
     @Override
     public boolean modifierProfile(int choixModification) {
+        ClientFormValidator clientFormValidator=new ClientFormValidator();
         switch (choixModification){
             case 1:
-                String mdp;
+                String mdp,mdpc;
                 System.out.print("| Entrer le nouveau mot de passe: ");
                 mdp=clavier.nextLine();
                 System.out.print("| Confirmer votre mot de passe: ");
-                if(clavier.nextLine().equals(mdp)){
-                    client.setMotDePasse(mdp);
+                mdpc=clavier.nextLine();
+                clientFormValidator.validerPass(mdp,mdpc,client);
+                if(clientFormValidator.getErrors().size()==0)
                     System.out.println("|"+GREEN +" mot de passe change "+ RESET);
-                    return true;
-                }
-                else System.out.println("|"+RED +" confirmation incorrecte: "+ RESET);break;
+                else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_PASS)+RESET);
+                break;
             case 2:
                 String email;
                 System.out.print("| Entrer le nouveau email: ");
                 email = clavier.nextLine();
-                if (Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email)){
-                    client.setEmail(email);
+                clientFormValidator.validerEmail(email,client);
+                if(clientFormValidator.getErrors().size()==0)
                     System.out.println("|"+GREEN +" Email change "+ RESET);
-                    return true;
-                }
-                else System.out.println("|"+RED +" Email invalide"+ RESET);break;
+                else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_EMAIL)+RESET);
+                break;
             case 3:
                 String num;
                 System.out.print("| Entrer le nouveau numero: ");
                 num = clavier.nextLine();
-                if(Pattern.matches("(^[+][0-9]{12,13}$)|[0-9]{10}",num)){
-                    client.setTel(num);
-                    System.out.println("|"+GREEN +" Num change "+ RESET);
-                    return true;
-                }
-                else System.out.println("|"+RED +" Numero invalide"+ RESET);break;
+                clientFormValidator.validerTel(num,client);
+                if(clientFormValidator.getErrors().size()==0)
+                    System.out.println("|"+GREEN +" Tel change "+ RESET);
+                else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_TEL)+RESET);
+                break;
         }
         return false;
     }
