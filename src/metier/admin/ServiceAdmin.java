@@ -1,5 +1,7 @@
 package metier.admin;
 
+import metier.Verifiable;
+import metier.forms.ClientFormValidator;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -26,42 +29,30 @@ public class ServiceAdmin implements IServiceAdmin{
 
     @Override
     public Client nouveauClient() {
-        String email, cin, tel;
-        Sexe sexe;
-        String prenom, nom;
+        String email, cin, tel, sexe, prenom, nom;
         System.out.print("| Entrer Le Nom: ");
         nom=clavier.nextLine();
         System.out.print("| Entrer Le Prenom: ");
         prenom=clavier.nextLine();
         System.out.print("| Entrer le CIN: ");
         cin=clavier.nextLine();
-        do{
         System.out.print("| Entrer L'Email: ");
         email=clavier.nextLine();
-        if (Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email))
-            break;
-        System.out.println("|"+RED +" Email invalide"+ RESET);
-        }while (true);
-        do{
         System.out.print("| Entrer Le tel: ");
         tel=clavier.nextLine();
-        if(Pattern.matches("(^[+][0-9]{12,13}$)|[0-9]{10}",tel))
-            break;
-            System.out.println("|"+RED +" Numero invalide"+ RESET);
-        }while (true);
         System.out.print("| Entrer votre sexe (H/F): ");
-        sexe=clavier.nextLine().equals("H")?Sexe.HOMME:Sexe.FEMME;
-        Client client=new Client();
-        client.setLogin("Client"+client.getId());
-        client.setMotDePasse("pass");
-        client.setNom(nom);
-        client.setPrenom(prenom);
-        client.setCin(cin);
-        client.setTel(tel);
-        client.setSexe(sexe);
-        client.setEmail(email);
+        sexe=clavier.nextLine();
+        ClientFormValidator clientFormValidator=new ClientFormValidator();
+        Client client = clientFormValidator.validerUtilisateur(prenom,nom,email,"password","password",cin,tel,sexe);
+        if(client!=null){
         banque.getClientsDeBanque().add(client);
-        System.out.println("| "+GREEN+ "Client "+client.getNomComplet()+" ajoute"+RESET);
+        System.out.println("| "+GREEN+ "Client "+client.getNomComplet()+" ajoute"+RESET);}
+        else{
+            Map<String, String> errors=clientFormValidator.getErrors();
+            for(String field : errors.keySet()){
+                System.out.println("| "+RED+errors.get(field)+RESET);
+            }
+        }
         return client;
     }
 
@@ -79,9 +70,12 @@ public class ServiceAdmin implements IServiceAdmin{
                 double solde;
                 do{
                 System.out.print("| Entrer le solde: ");
-                solde=clavier.nextLong();clavier.nextLine();
+                String line =clavier.nextLine();
+                if(Verifiable.isDecimal(line)) {
+                    solde=Double.valueOf(line);
                 if (solde>0)
                     break;
+                }
                 else System.out.println("| "+RED+"Solde invalide"+RESET);
                 }while (true);
                 compte.setSolde(solde);
@@ -177,57 +171,64 @@ public class ServiceAdmin implements IServiceAdmin{
         id=clavier.nextLong();clavier.nextLine();
         client=chercherClientParId(id);
         if(client!=null){
+            ClientFormValidator clientFormValidator=new ClientFormValidator();
             switch (filtre){
                 case "nom":
                     String nom;
                     System.out.print("| Entrer le nouveau nom: ");
                     nom = clavier.nextLine();
-                    client.setNom(nom);
+                    clientFormValidator.validerNom(nom,client);
+                    if(clientFormValidator.getErrors().size()==0)
                     System.out.println("|"+GREEN +" Nom change "+ RESET);
+                    else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_NOM)+RESET);
                     break;
                 case "prenom":
                     String prenom;
                     System.out.print("| Entrer le nouveau prenom: ");
                     prenom = clavier.nextLine();
-                    client.setPrenom(prenom);
-                    System.out.println("|"+GREEN +" Prenom change "+ RESET);
+                    clientFormValidator.validerNom(prenom,client);
+                    if(clientFormValidator.getErrors().size()==0)
+                        System.out.println("|"+GREEN +" prenom change "+ RESET);
+                    else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_PRENOM)+RESET);
                     break;
                 case "mdp":
-                    String mdp;
+                    String mdp,mdpc;
                     System.out.print("| Entrer le nouveau mot de passe: ");
                     mdp=clavier.nextLine();
                     System.out.print("| Confirmer votre mot de passe: ");
-                    if(clavier.nextLine().equals(mdp)){
-                        client.setMotDePasse(mdp);
+                    mdpc=clavier.nextLine();
+                    clientFormValidator.validerPass(mdp,mdpc,client);
+                    if(clientFormValidator.getErrors().size()==0)
                         System.out.println("|"+GREEN +" mot de passe change "+ RESET);
-                    }
-                    else System.out.println("|"+RED +" Confirmation incorrecte "+ RESET);
+                    else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_PASS)+RESET);
                     break;
                 case "email":
                     String email;
                     System.out.print("| Entrer le nouveau email: ");
                     email = clavier.nextLine();
-                    if (Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email)){
-                        client.setEmail(email);
+                    clientFormValidator.validerEmail(email,client);
+                    if(clientFormValidator.getErrors().size()==0)
                         System.out.println("|"+GREEN +" Email change "+ RESET);
-                    }
-                    else System.out.println("|"+RED +" Email invalide"+ RESET);break;
+                    else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_EMAIL)+RESET);
+                    break;
+
                 case "num":
                     String num;
                     System.out.print("| Entrer le nouveau numero: ");
                     num = clavier.nextLine();
-                    if(Pattern.matches("(^[+][0-9]{12,13}$)|[0-9]{10}",num)){
-                        client.setTel(num);
-                        System.out.println("|"+GREEN +" Num change "+ RESET);
-                    }
-                    else System.out.println("|"+RED +" Numero invalide"+ RESET);
+                    clientFormValidator.validerTel(num,client);
+                    if(clientFormValidator.getErrors().size()==0)
+                        System.out.println("|"+GREEN +" Tel change "+ RESET);
+                    else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_TEL)+RESET);
                     break;
                 case "cin":
                     String cin;
                     System.out.print("| Entrer le nouveau CIN: ");
                     cin = clavier.nextLine();
-                    client.setCin(cin);
-                    System.out.println("|"+GREEN +" Num change "+ RESET);
+                    clientFormValidator.validerCIN(cin,client);
+                    if(clientFormValidator.getErrors().size()==0)
+                        System.out.println("|"+GREEN +" CIN change "+ RESET);
+                    else System.out.println("| "+RED+clientFormValidator.getErrors().get(ClientFormValidator.CHAMP_CIN)+RESET);
                     break;
             }
         }
