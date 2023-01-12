@@ -12,7 +12,9 @@ public class LoginFrame extends JFrame {
     private JPasswordField txt_pass;
     private JButton btn_login, btn_cancel;
 
+
     public void initLabels(){
+
         lbl_title= new JLabel("Login");
         lbl_title.setFont(new Font("Optima",Font.BOLD,30));
         lbl_title.setForeground(Color.WHITE);
@@ -80,10 +82,9 @@ public class LoginFrame extends JFrame {
         JPanel centerPane= new JPanel();
         centerPane.setBackground(new Color(238,235,235));
         centerPane.setLayout(new GridLayout(2,1));
-        centerPane.setBorder(new EmptyBorder(120,0,120,40));
+        centerPane.setBorder(new EmptyBorder(120,20,120,20));
         centerPane.add(txt_login);
         centerPane.add(txt_pass);
-
         formPane.add(westPane,BorderLayout.WEST);
         formPane.add(centerPane, BorderLayout.CENTER);
 
