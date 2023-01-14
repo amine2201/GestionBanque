@@ -202,7 +202,7 @@ public class ClientFormValidator {
         validerCIN(cin,client);
         validerTel(tel,client);
         validerSexe(sexe,client);
-
+        client.setLogin("Client"+client.getId());
         if(errors.isEmpty()) {
                 setResultMsg("succes");
         }

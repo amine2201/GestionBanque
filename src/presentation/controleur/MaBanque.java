@@ -13,7 +13,6 @@ import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.Sexe;
 import presentation.modele.util.TypeLog;
-import presentation.vue.Frame;
 
 import java.util.*;
 
