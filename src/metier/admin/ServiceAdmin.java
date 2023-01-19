@@ -11,12 +11,9 @@ import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static metier.InteractiveConsole.clavier;

@@ -1,19 +1,22 @@
-package presentation.vue;
+package presentation.vue.clientVue;
 
+import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.util.Sexe;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Arrays;
+import java.util.List;
 
-public class ClientCreationPanel extends JPanel {
-//    id,nom,prenom,login,password,cin,tel,email,sex
+public class ClientModificationPanel extends JPanel {
+    //    id,nom,prenom,login,password,cin,tel,email,sex
     private JLabel lbl_id, lbl_nom, lbl_prenom, lbl_login, lbl_mdp,lbl_mdp_confirmation, lbl_cin, lbl_tel, lbl_email,lbl_sexe;
     private JTextField txt_id, txt_nom, txt_prenom, txt_login, txt_cin, txt_tel, txt_email;
     private JPasswordField txt_mdp,txt_mdp_confirmation;
     private JComboBox<Sexe> txt_sexe;
-
+    private List<Integer> fields;
+    private Client client;
     void initLabels(){
         lbl_id=new JLabel("Identifiant");
         lbl_id.setFont(new Font("Optima",Font.BOLD,17));
@@ -67,58 +70,67 @@ public class ClientCreationPanel extends JPanel {
     }
 
     void initTextFields(){
-        txt_id=new JTextField("1");
+        txt_id=new JTextField(client.getId().toString());
         txt_id.setFont(new Font("Optima",Font.BOLD,17));
         txt_id.setForeground(Color.BLACK);
         txt_id.setHorizontalAlignment(JTextField.LEFT);
-        txt_id.setEditable(false);
+        if(fields.contains(1))txt_id.setEditable(false);
 
-        txt_nom=new JTextField("");
+        txt_nom=new JTextField(client.getNom());
         txt_nom.setFont(new Font("Optima",Font.BOLD,17));
         txt_nom.setForeground(Color.BLACK);
         txt_nom.setHorizontalAlignment(JTextField.LEFT);
+        if(fields.contains(2))txt_nom.setEditable(false);
 
-        txt_prenom=new JTextField("");
+        txt_prenom=new JTextField(client.getPrenom());
         txt_prenom.setFont(new Font("Optima",Font.BOLD,17));
         txt_prenom.setForeground(Color.BLACK);
         txt_prenom.setHorizontalAlignment(JTextField.LEFT);
+        if(fields.contains(3))txt_prenom.setEditable(false);
 
-        txt_login=new JTextField("");
+        txt_login=new JTextField(client.getLogin());
         txt_login.setFont(new Font("Optima",Font.BOLD,17));
         txt_login.setForeground(Color.BLACK);
         txt_login.setHorizontalAlignment(JTextField.LEFT);
+        if(fields.contains(4))txt_login.setEditable(false);
 
-        txt_cin=new JTextField("");
+        txt_cin=new JTextField(client.getCin());
         txt_cin.setFont(new Font("Optima",Font.BOLD,17));
         txt_cin.setForeground(Color.BLACK);
         txt_cin.setHorizontalAlignment(JTextField.LEFT);
+        if(fields.contains(5))txt_cin.setEditable(false);
 
-        txt_tel=new JTextField("");
+        txt_tel=new JTextField(client.getTel());
         txt_tel.setFont(new Font("Optima",Font.BOLD,17));
         txt_tel.setForeground(Color.BLACK);
         txt_tel.setHorizontalAlignment(JTextField.LEFT);
+        if(fields.contains(6))txt_tel.setEditable(false);
 
-        txt_email=new JTextField("");
+        txt_email=new JTextField(client.getEmail());
         txt_email.setFont(new Font("Optima",Font.BOLD,17));
         txt_email.setForeground(Color.BLACK);
         txt_email.setHorizontalAlignment(JTextField.LEFT);
+        if(fields.contains(7))txt_email.setEditable(false);
 
-        txt_mdp=new JPasswordField("");
+        txt_mdp=new JPasswordField(client.getMotDePasse());
         txt_mdp.setFont(new Font("Optima",Font.BOLD,17));
         txt_mdp.setForeground(Color.BLACK);
         txt_mdp.setHorizontalAlignment(JTextField.LEFT);
+        if(fields.contains(8))txt_mdp.setEditable(false);
 
-        txt_mdp_confirmation=new JPasswordField("");
+        txt_mdp_confirmation=new JPasswordField(client.getMotDePasse());
         txt_mdp_confirmation.setFont(new Font("Optima",Font.BOLD,17));
         txt_mdp_confirmation.setForeground(Color.BLACK);
         txt_mdp_confirmation.setHorizontalAlignment(JTextField.LEFT);
+        if(fields.contains(9))txt_mdp_confirmation.setEditable(false);
 
         txt_sexe=new JComboBox<>();
         txt_sexe.addItem(Sexe.FEMME);
         txt_sexe.addItem(Sexe.HOMME);
+        txt_sexe.setSelectedItem(client.getSexe());
         txt_sexe.setFont(new Font("Optima",Font.BOLD,17));
         txt_sexe.setForeground(Color.BLACK);
-
+        if(fields.contains(10))txt_sexe.setEditable(false);
 
     }
 
@@ -163,7 +175,9 @@ public class ClientCreationPanel extends JPanel {
         add(westPanel,BorderLayout.WEST);
         add(centerPanel,BorderLayout.CENTER);
     }
-    ClientCreationPanel(int top,int left,int bottom,int right){
+    ClientModificationPanel(int top, int left, int bottom, int right, Client client, List<Integer> fields){
+        this.client=client;
+        this.fields=fields;
         initPanels(top,left,bottom,right);
         setBackground(new Color(34, 40, 49));
 

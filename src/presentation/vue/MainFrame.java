@@ -20,6 +20,7 @@ public class MainFrame extends JFrame {
         sideMenuPanel =new SideMenuPanel(List.of("Ajouter","Modifier","Chercher","Supprimer"),20,10,400,10);
         footerPanel=new FooterPanel(List.of("Ajouter","Modifier","Chercher","Supprimer"),10,400,20,20);
         identityPanel= new IdentityPanel(List.of("Supprimer"),10,10,20,30);
+        centerPanel= new TablePanel();
         initActions();
     }
 

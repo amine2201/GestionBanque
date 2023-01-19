@@ -208,9 +208,9 @@ public class ServiceIHMAdmin implements IServiceIHMAdmin{
             System.out.println("| 3. Retourner au menu principal");
             System.out.println("------------------------------------------------------");
             choix = getChoix(1, 3);
-            switch (choix){
-                case 1 : serviceAdmin.nouveauClient();break;
-                case 2 : serviceAdmin.nouveauCompteClientExistant(); break;
+            switch (choix) {
+                case 1 -> serviceAdmin.nouveauClient();
+                case 2 -> serviceAdmin.nouveauCompteClientExistant();
             }
             if (choix==3)
                 break;
@@ -253,9 +253,9 @@ public class ServiceIHMAdmin implements IServiceIHMAdmin{
             System.out.println("| 3. Retour au menu principal");
             System.out.println("------------------------------------------------------");
             choix = getChoix(1, 3);
-            switch (choix){
-                case 1 : menuTrieClient();break;
-                case 2 : menuTrieCompte(); break;
+            switch (choix) {
+                case 1 -> menuTrieClient();
+                case 2 -> menuTrieCompte();
             }
             if (choix==3)
                 break;
@@ -278,12 +278,12 @@ public class ServiceIHMAdmin implements IServiceIHMAdmin{
             if(choix==6)
                 break;
             List<Client> clients=new ArrayList<>();
-            switch (choix){
-                case 1:clients.addAll(serviceAdmin.trierClientParNom());break;
-                case 2:clients.addAll(serviceAdmin.trierClientParCin());break;
-                case 3:clients.addAll(serviceAdmin.trierClientParEmail());break;
-                case 4:clients.addAll(serviceAdmin.trierClientParAdresse());break;
-                case 5:clients.addAll(serviceAdmin.trierClientParSoldeCompte());break;
+            switch (choix) {
+                case 1 -> clients.addAll(serviceAdmin.trierClientParNom());
+                case 2 -> clients.addAll(serviceAdmin.trierClientParCin());
+                case 3 -> clients.addAll(serviceAdmin.trierClientParEmail());
+                case 4 -> clients.addAll(serviceAdmin.trierClientParAdresse());
+                case 5 -> clients.addAll(serviceAdmin.trierClientParSoldeCompte());
             }
             if(clients.size()==0)
                 System.out.println("| "+RED+"Aucun compte est cree"+RESET);
@@ -303,10 +303,10 @@ public class ServiceIHMAdmin implements IServiceIHMAdmin{
             System.out.println("------------------------------------------------------");
             choix = getChoix(1, 4);
             List<Compte> comptes = new ArrayList<>();
-            switch (choix){
-                case 1:comptes.addAll(serviceAdmin.trierComptesParSolde());break;
-                case 2:comptes.addAll(serviceAdmin.trierComptesParDateDeCreation());break;
-                case 3:comptes.addAll(serviceAdmin.trierComptesParNomPropriétaire());break;
+            switch (choix) {
+                case 1 -> comptes.addAll(serviceAdmin.trierComptesParSolde());
+                case 2 -> comptes.addAll(serviceAdmin.trierComptesParDateDeCreation());
+                case 3 -> comptes.addAll(serviceAdmin.trierComptesParNomPropriétaire());
             }
             if(comptes.size()==0)
                 System.out.println("| "+RED+"Aucun compte est cree"+RESET);
@@ -333,23 +333,25 @@ public class ServiceIHMAdmin implements IServiceIHMAdmin{
             System.out.println("| 3. Menu Modification");
             System.out.println("| 4. Menu Supression");
             System.out.println("| 5. Menu trie");
-            System.out.println("| 6. Menu Informations");
-            System.out.println("| 7. Menu Comptabilite");
-            System.out.println("| 8. Tableau de bord");
-            System.out.println("| 9. Se deconnecter");
+//            System.out.println("| 6. Menu Informations");
+//            System.out.println("| 7. Menu Comptabilite");
+            System.out.println("| 6. Tableau de bord");
+            System.out.println("| 7. Se deconnecter");
             System.out.println("------------------------------------------------------");
-            choix = getChoix(1, 9);
-            switch (choix){
-                case 1: menuAjout(); break;
-                case 2: menuRecherche();break;
-                case 3: menuModification();break; //not yet
-                case 4: menuSuppression();break;
-                case 5: menuTrie();break;
-                case 6: menuInformations();break; //not yet
-                case 7: menuComptabilité();break; //not yet
-                case 8: tableauDeBord();break; //not yet
+            choix = getChoix(1, 7);
+            switch (choix) {
+                case 1 -> menuAjout();
+                case 2 -> menuRecherche();
+                case 3 -> menuModification();
+                case 4 -> menuSuppression();
+                case 5 -> menuTrie();
+
+//                case 6: menuInformations();break; //not yet
+//                case 7: menuComptabilité();break; //not yet
+                case 6 -> tableauDeBord();
+                //not yet
             }
-            if (choix==9)
+            if (choix==7)
                 break;
         }while (true);
         return 0;
