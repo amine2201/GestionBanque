@@ -11,9 +11,7 @@ import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static metier.InteractiveConsole.clavier;
@@ -261,7 +259,24 @@ public class ServiceAdmin implements IServiceAdmin{
 
     @Override
     public TableauDeBord calculerEtAfficherStatistiques() {
-        return null;
+        TableauDeBord tableauDeBord=new TableauDeBord();
+        tableauDeBord.setNombreTotaleClient((long) banque.getClientsDeBanque().size());
+        tableauDeBord.setNombreTotaleCompte((long) banque.getClientsDeBanque()
+                .stream().map(client -> client.getComptesClient().size()).reduce(0, Integer::sum));
+        tableauDeBord.setMaxSolde(banque.getClientsDeBanque()
+                .stream().map(Client::getComptesClient)
+                .flatMap(Collection::stream).map(Compte::getSolde)
+                .max(Double::compareTo).orElse((double)0));
+        tableauDeBord.setMinSolde(banque.getClientsDeBanque()
+                .stream().map(Client::getComptesClient)
+                .flatMap(Collection::stream).map(Compte::getSolde)
+                .min(Double::compareTo).orElse((double)0));
+        tableauDeBord.setNomClientLePlusRiche(Objects.requireNonNull(banque.getClientsDeBanque().stream()
+                .filter(client -> client.getComptesClient()
+                        .stream().anyMatch(compte -> compte.getSolde().equals(tableauDeBord.getMaxSolde()))).findFirst().orElse(null)).getNomComplet());
+        tableauDeBord.setTotalClientsFemme((long) banque.getClientsDeBanque().stream().filter(client -> client.getSexe().equals(Sexe.FEMME)).count());
+        tableauDeBord.setTotaleClientsHomme((long) banque.getClientsDeBanque().stream().filter(client -> client.getSexe().equals(Sexe.HOMME)).count());
+        return tableauDeBord;
     }
 
     @Override
