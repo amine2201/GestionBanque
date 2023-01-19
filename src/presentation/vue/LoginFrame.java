@@ -1,8 +1,12 @@
 package presentation.vue;
 
+import metier.forms.LoginFormValidator;
+import presentation.modele.entitesDeLaBanque.Banque;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.Arrays;
 
 public class LoginFrame extends JFrame {
     private Container mainContainer;
@@ -11,7 +15,6 @@ public class LoginFrame extends JFrame {
     private JTextField txt_login;
     private JPasswordField txt_pass;
     private JButton btn_login, btn_cancel;
-
 
     public void initLabels(){
 
@@ -106,6 +109,26 @@ public class LoginFrame extends JFrame {
         mainContainer.add(titlePane,BorderLayout.NORTH);
         mainContainer.add(formPane,BorderLayout.CENTER);
         mainContainer.add(buttonsPane,BorderLayout.SOUTH);
+    }
+
+    public JButton getBtn_login() {
+        return btn_login;
+    }
+
+    public JTextField getTxt_login() {
+        return txt_login;
+    }
+
+    public JPasswordField getTxt_pass() {
+        return txt_pass;
+    }
+
+    public void setTxt_login(JTextField txt_login) {
+        this.txt_login = txt_login;
+    }
+
+    public void setTxt_pass(JPasswordField txt_pass) {
+        this.txt_pass = txt_pass;
     }
 
     public LoginFrame(String title){

@@ -1,4 +1,4 @@
-package presentation.vue;
+package presentation.vue.generalVue;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

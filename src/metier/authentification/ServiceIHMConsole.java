@@ -1,23 +1,21 @@
 package metier.authentification;
 
 import metier.Verifiable;
-import metier.admin.IServiceAdmin;
-import metier.admin.ServiceAdmin;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.util.ConsoleColors;
 
 import static metier.InteractiveConsole.clavier;
 
-public class ServiceIHM implements IServiceIHM{
+public class ServiceIHMConsole implements IServiceIHM{
     private static final String RESET = ConsoleColors.RESET.getValeur();
     private static final String RED = ConsoleColors.RED.getValeur();
     private static final String GREEN = ConsoleColors.GREEN.getValeur();
     private Banque banque;
     private  IAuth auth;
 
-    public ServiceIHM(Banque banque) {
+    public ServiceIHMConsole(Banque banque) {
         this.banque = banque;
-        auth=new ServiceAuth(banque);
+        auth=new ServiceAuthConsole(banque);
     }
 
     @Override

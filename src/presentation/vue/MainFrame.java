@@ -1,5 +1,10 @@
 package presentation.vue;
 
+import presentation.vue.generalVue.FooterPanel;
+import presentation.vue.generalVue.IdentityPanel;
+import presentation.vue.generalVue.SideMenuPanel;
+import presentation.vue.generalVue.TablePanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;

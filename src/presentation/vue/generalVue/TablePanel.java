@@ -1,4 +1,4 @@
-package presentation.vue;
+package presentation.vue.generalVue;
 
 import dao.daoFiles.ClientDao;
 import presentation.vue.clientVue.TableModel;
