@@ -1,6 +1,5 @@
 package metier.admin;
 
-import dao.IDao;
 import dao.daoFiles.ClientDao;
 import dao.daoFiles.CompteDao;
 import metier.Verifiable;
@@ -16,14 +15,14 @@ import java.util.stream.Collectors;
 
 import static metier.InteractiveConsole.clavier;
 
-public class ServiceAdmin implements IServiceAdmin{
+public class ServiceAdminConsole implements IServiceAdmin{
     private Banque banque;
     private ClientDao clientDao;
     private CompteDao compteDao;
     private static final String RESET = ConsoleColors.RESET.getValeur();
     private static final String RED = ConsoleColors.RED.getValeur();
     private static final String GREEN = ConsoleColors.GREEN.getValeur();
-    public ServiceAdmin(Banque banque) {
+    public ServiceAdminConsole(Banque banque) {
         this.banque = banque;
         clientDao=new ClientDao();
     }

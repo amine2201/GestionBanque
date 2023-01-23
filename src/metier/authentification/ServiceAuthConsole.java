@@ -1,7 +1,7 @@
 package metier.authentification;
 
 
-import metier.admin.ServiceIHMAdmin;
+import metier.admin.ServiceIHMAdminConsole;
 import metier.clients.ServiceIHMClient;
 import metier.forms.LoginFormValidator;
 import presentation.modele.entitesDeLaBanque.Admin;
@@ -45,7 +45,7 @@ public class ServiceAuthConsole implements IAuth {
             }
         }
         else if(utilisateur.getRole().equals("Admin"))
-            service=new ServiceIHMAdmin(banque);
+            service=new ServiceIHMAdminConsole(banque);
         else if(utilisateur.getRole().equals("Client"))
             service=new ServiceIHMClient((Client) utilisateur,banque);
         if(service!=null)

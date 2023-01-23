@@ -13,15 +13,15 @@ import java.util.List;
 
 import static metier.InteractiveConsole.clavier;
 
-public class ServiceIHMAdmin implements IServiceIHMAdmin{
+public class ServiceIHMAdminConsole implements IServiceIHMAdmin{
     private IServiceAdmin serviceAdmin;
     private Banque banque;
     private static final String RESET = ConsoleColors.RESET.getValeur();
     private static final String RED = ConsoleColors.RED.getValeur();
     private static final String GREEN = ConsoleColors.GREEN.getValeur();
-    public ServiceIHMAdmin(Banque banque) {
+    public ServiceIHMAdminConsole(Banque banque) {
         this.banque=banque;
-        this.serviceAdmin = new ServiceAdmin(banque);
+        this.serviceAdmin = new ServiceAdminConsole(banque);
     }
 
     public IServiceAdmin getServiceAdmin() {

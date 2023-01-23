@@ -2,17 +2,9 @@ package presentation.controleur;
 
 import dao.daoFiles.ClientDao;
 import dao.daoFiles.CompteDao;
-import metier.admin.IServiceAdmin;
-import metier.admin.ServiceAdmin;
 import presentation.modele.entitesDeLaBanque.Admin;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
-import presentation.modele.entitesDeLaBanque.Compte;
-import presentation.modele.util.Sexe;
-import presentation.modele.util.TypeLog;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class SeedData {
     public static Banque seedData(){
@@ -22,7 +14,7 @@ public class SeedData {
                 "212535224433",
                 "bp@banquePop.ma");
 //
-//        IServiceAdmin serviceAdmin=new ServiceAdmin(maBanque);
+//        IServiceAdmin serviceAdmin=new ServiceAdminConsole(maBanque);
 //        Client client1=new Client("log1","mdp1","nom1","prenom1","mail1","cin1","tel1", Sexe.HOMME);
 //        Client client2=new Client("log2","mdp2","nom2","prenom2","mail2","cin2","tel1", Sexe.HOMME);
 //        Client client3=new Client("log3","mdp3","nom3","prenom3","mail3","cin3","tel1", Sexe.HOMME);

@@ -1,12 +1,14 @@
 package presentation.vue;
 
-import metier.forms.LoginFormValidator;
+import metier.authentification.IAuthGUI;
+import metier.authentification.ServiceAuthGUI;
 import presentation.modele.entitesDeLaBanque.Banque;
+import presentation.modele.util.AuthResult;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.Arrays;
+
 
 public class LoginFrame extends JFrame {
     private Container mainContainer;
@@ -15,6 +17,7 @@ public class LoginFrame extends JFrame {
     private JTextField txt_login;
     private JPasswordField txt_pass;
     private JButton btn_login, btn_cancel;
+    private IAuthGUI auth;
 
     public void initLabels(){
 
@@ -100,6 +103,7 @@ public class LoginFrame extends JFrame {
         buttonsPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
         buttonsPane.add(btn_cancel);
         buttonsPane.add(btn_login);
+        initActions();
     }
 
     public void initContainer(){
@@ -111,27 +115,16 @@ public class LoginFrame extends JFrame {
         mainContainer.add(buttonsPane,BorderLayout.SOUTH);
     }
 
-    public JButton getBtn_login() {
-        return btn_login;
+    public void initActions(){
+        btn_login.addActionListener( l -> {
+                AuthResult authResult =auth.seConnecter(txt_login.getText(),new String(txt_pass.getPassword()));
+                if(authResult.isSuccess()) JOptionPane.showMessageDialog(this,authResult.getErrorMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                else dispose();
+            });
+        btn_cancel.addActionListener(l -> dispose());
     }
 
-    public JTextField getTxt_login() {
-        return txt_login;
-    }
-
-    public JPasswordField getTxt_pass() {
-        return txt_pass;
-    }
-
-    public void setTxt_login(JTextField txt_login) {
-        this.txt_login = txt_login;
-    }
-
-    public void setTxt_pass(JPasswordField txt_pass) {
-        this.txt_pass = txt_pass;
-    }
-
-    public LoginFrame(String title){
+    public LoginFrame(String title,Banque banque){
         initContainer();
         setTitle(title);
         setSize(400,500);
@@ -140,10 +133,6 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
         setVisible(true);
+        auth=new ServiceAuthGUI(banque);
     }
-
-    public static void main(String[] args) {
-        new LoginFrame("Login");
-    }
-
 }

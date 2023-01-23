@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ClientDao implements IDao<Client,Long> {
     public  static  final Path Clients_Tab = Paths.get("FileBase/clients.txt");
@@ -24,7 +25,7 @@ public class ClientDao implements IDao<Client,Long> {
 
     @Override
     public List<Client> findall() {
-        List<Client> clientList=new ArrayList<Client>();
+        List<Client> clientList=new ArrayList<>();
         try {
             List<String> clients=Files.readAllLines(Clients_Tab, StandardCharsets.UTF_8);
             clients.remove(0);
@@ -48,7 +49,7 @@ public class ClientDao implements IDao<Client,Long> {
         Client client = null;
         List<Client> clients=findall();
         for(Client client1: clients){
-            if(client1.getId()==id){
+            if(Objects.equals(client1.getId(), id)){
                 client=client1;
                 break;
             }
@@ -97,7 +98,7 @@ public class ClientDao implements IDao<Client,Long> {
     @Override
     public Boolean deleteById(Long idClient) {
         List<String> lines;
-        Boolean deleted=false;
+        boolean deleted=false;
         try {
             lines=Files.readAllLines(Clients_Tab,StandardCharsets.UTF_8);
             for(int i=1; i<lines.size();i++){
@@ -118,7 +119,7 @@ public class ClientDao implements IDao<Client,Long> {
     @Override
     public Boolean delete(Client client) {
         List<String> lines;
-        Boolean deleted=false;
+        boolean deleted=false;
         try {
             lines=Files.readAllLines(Clients_Tab,StandardCharsets.UTF_8);
             String head=lines.remove(0);
@@ -155,9 +156,8 @@ public class ClientDao implements IDao<Client,Long> {
             List<String> lines=Files.readAllLines(IDS,StandardCharsets.UTF_8);
             String[] ids=lines.get(1).split(",");
             if(ids.length<2)
-                return Long.valueOf(1);
-            Long id= Long.valueOf(ids[1]);
-                return id;
+                return 1L;
+            return Long.valueOf(ids[1]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
