@@ -5,7 +5,7 @@ import presentation.modele.entitesDeLaBanque.Client;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-public class TableModel extends AbstractTableModel {
+public class TableClient extends AbstractTableModel {
     Object[][] data;
     String[] columnNames;
 
@@ -33,13 +33,20 @@ public class TableModel extends AbstractTableModel {
         }
         this.fireTableDataChanged();
     }
-    public TableModel(String... names){
+    public TableClient(String... names){
         initColumnNames(names);
     }
 
     @Override
     public String getColumnName(int column) {
         return columnNames[column];
+    }
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        if (data[0].length==0) {
+            return Object.class;
+        }
+        return getValueAt(0, columnIndex).getClass();
     }
 
     @Override

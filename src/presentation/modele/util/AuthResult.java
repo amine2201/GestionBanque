@@ -24,4 +24,5 @@ public class AuthResult {
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
+
 }

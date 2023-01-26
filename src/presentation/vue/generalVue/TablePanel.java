@@ -1,27 +1,46 @@
 package presentation.vue.generalVue;
 
 import dao.daoFiles.ClientDao;
-import presentation.vue.clientVue.TableModel;
+import dao.daoFiles.CompteDao;
+import presentation.modele.entitesDeLaBanque.Client;
+import presentation.modele.entitesDeLaBanque.Compte;
+import presentation.vue.clientVue.TableClient;
+import presentation.vue.compteVue.TableCompte;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TablePanel extends JPanel {
-    private TableModel tableModel;
+    private TableClient tableClient;
+    private TableCompte tableCompte;
     JTable table;
     JScrollPane scrollPane;
 
     JTableHeader tableHeader;
 //    DefaultTableCellRenderer centerRenderer;
-    private void initTable(){
-        tableModel= new TableModel("ID","NOM","PRENOM","LOGIN","PASS","CIN","EMAIL","TEL","SEXE");
-        tableModel.initClientsData(new ClientDao().findall());
-        table=new JTable(tableModel);
+    private void initTable(int i){
+        if(i==1){
+        tableClient = new TableClient("ID","NOM","PRENOM","LOGIN","PASS","CIN","EMAIL","TEL","SEXE");
+        tableClient.initClientsData(new ClientDao().findAll());
+        table=new JTable(tableClient);}
+        if(i==2){
+            tableCompte = new TableCompte("Numero","Date de creation","Solde","Proprietaire");
+            List<Compte> comptes=new ArrayList<>();
+            for(Client client: new ClientDao().findAll()){
+                comptes.addAll(new CompteDao(client).findAll());
+            }
+            tableCompte.initComptesData(comptes);
+            table=new JTable(tableCompte);
+        }
         table.setFont(new Font("Optima",Font.BOLD,15));
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setRowHeight(35);
+        table.setAutoCreateRowSorter(true);
+        JTableUtilities.setCellsAlignment(table,SwingConstants.CENTER);
 
         tableHeader=table.getTableHeader();
         tableHeader.setFont(new Font("Optima",Font.BOLD,23));
@@ -39,8 +58,8 @@ public class TablePanel extends JPanel {
         scrollPane=new JScrollPane(table);
 
     }
-    public TablePanel(){
-        initTable();
+    public TablePanel(int i){
+        initTable(i);
         setLayout(new GridLayout(1,1));
         scrollPane.getViewport().setBackground(new Color(34, 40, 49));
         add(scrollPane);

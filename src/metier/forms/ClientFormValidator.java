@@ -1,10 +1,7 @@
 package metier.forms;
 
-import metier.Verifiable;
-import presentation.modele.entitesDeLaBanque.Admin;
-import presentation.modele.entitesDeLaBanque.Banque;
+
 import presentation.modele.entitesDeLaBanque.Client;
-import presentation.modele.entitesDeLaBanque.Utilisateur;
 import presentation.modele.util.Sexe;
 
 import java.util.HashMap;
@@ -19,6 +16,7 @@ public class ClientFormValidator {
     public static final String CHAMP_PASS = "pass";
     public static final String CHAMP_CIN = "cin";
     public static final String CHAMP_TEL = "tel";
+    public static final String CHAMP_SEXE = "sexe";
     private Map<String, String> errors= new HashMap<>();
     private String resultMsg;
 
@@ -189,10 +187,56 @@ public class ClientFormValidator {
                 client.setSexe(Sexe.HOMME);
             else client.setSexe(Sexe.FEMME);
         } catch (FormException e) {
-            setError(CHAMP_TEL,e.getMessage());
+            setError(CHAMP_SEXE,e.getMessage());
         }
     }
+    public boolean modifierUtilisateur(String prenom, String nom,String email,String pass,String passConfirmation, String cin, String tel,String sexe){
+        boolean valid=true;
+        try {
+            verifierPrenom(prenom);
+        } catch (FormException e){
+            setError(CHAMP_PRENOM,e.getMessage());
+            valid=false;
+        }
+        try {
+            verifierNom(nom);
+        }catch (FormException e){
+            setError(CHAMP_NOM,e.getMessage());
+            valid=false;
+        }
+        try {
+            verifierEmail(email);
+        }catch (FormException e){
+            setError(CHAMP_EMAIL,e.getMessage());
+            valid=false;
+        }
+        try {
+            verifierPass(pass,passConfirmation);
+        }catch (FormException e){
+            setError(CHAMP_PASS,e.getMessage());
+            valid=false;
+        }
+        try {
+            verifierCIN(cin);
+        }catch (FormException e){
+            setError(CHAMP_CIN,e.getMessage());
+            valid=false;
+        }
+        try {
+            verifierTel(tel);
+        }catch (FormException e){
+            setError(CHAMP_TEL,e.getMessage());
+            valid=false;
+        }
+        try {
+            verifierSexe(sexe);
+        }catch (FormException e){
+            setError(CHAMP_SEXE,e.getMessage());
+            valid=false;
+        }
 
+        return valid;
+    }
     public Client validerUtilisateur(String prenom, String nom,String email,String pass,String passConfirmation, String cin, String tel,String sexe){
         Client client= new Client();
         validerPrenom(prenom,client);

@@ -51,10 +51,10 @@ public class SeedData {
 //        }
 //        maBanque.getClientsDeBanque().addAll(clients);
         ClientDao clientDao=new ClientDao();
-        maBanque.setClientsDeBanque(clientDao.findall());
+        maBanque.setClientsDeBanque(clientDao.findAll());
         for(Client client: maBanque.getClientsDeBanque()){
             CompteDao compteDao=new CompteDao(client);
-            client.setComptesClient(compteDao.findall());
+            client.setComptesClient(compteDao.findAll());
         }
         return maBanque;
     }

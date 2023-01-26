@@ -15,8 +15,10 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CompteDao implements IDao<Compte,String> {
     public static final Path Comptes_Tab = Paths.get("FileBase/comptes.txt");
@@ -30,7 +32,7 @@ public class CompteDao implements IDao<Compte,String> {
     }
 
     @Override
-    public List<Compte> findall() {
+    public List<Compte> findAll() {
         List<Compte> comptes=new ArrayList<Compte>();
         try {
             List<String> lines= Files.readAllLines(Comptes_Tab, StandardCharsets.UTF_8);
@@ -216,6 +218,19 @@ public class CompteDao implements IDao<Compte,String> {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Compte> findByKeyWord(String keyword) {
+        List<Compte> comptes=findAll();
+        return  comptes.stream().filter(
+                c-> c.getNumeroCompte().equals(keyword) ||
+                        c.getDateCreation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).contains(keyword) ||
+                        c.getSolde().toString().equals(keyword) ||
+                        c.getPropriétaire().getId().toString().equals(keyword)
+
+        ).collect(Collectors.toList());
+    }
+
     private String compteString(Compte compte){
 //                id,dateCreation,solde,idClient
         return compte.getNumeroCompte()+","+compte.getDateCreation()+","+compte.getSolde()+","+client.getId();

@@ -3,7 +3,7 @@ package dao;
 import java.util.List;
 
 public interface IDao<T, ID> {
-    List<T> findall();
+    List<T> findAll();
     T findById(ID id);
     T save(T object);
     T update(T object);
@@ -11,4 +11,5 @@ public interface IDao<T, ID> {
     Boolean delete(T object);
     Long  getId();
     void setId(Long id);
+    List<T> findByKeyWord(String keyword);
 }

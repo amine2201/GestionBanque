@@ -8,6 +8,9 @@ public class Utilisateur {
     protected String prenom, nom;
     protected String login, motDePasse, role;
 
+    public static long getCompteur() {
+        return compteur;
+    }
 
     public Long         getId() {
         return id;

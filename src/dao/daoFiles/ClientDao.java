@@ -13,6 +13,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ClientDao implements IDao<Client,Long> {
     public  static  final Path Clients_Tab = Paths.get("FileBase/clients.txt");
@@ -24,7 +25,7 @@ public class ClientDao implements IDao<Client,Long> {
     }
 
     @Override
-    public List<Client> findall() {
+    public List<Client> findAll() {
         List<Client> clientList=new ArrayList<>();
         try {
             List<String> clients=Files.readAllLines(Clients_Tab, StandardCharsets.UTF_8);
@@ -47,7 +48,7 @@ public class ClientDao implements IDao<Client,Long> {
     @Override
     public Client findById(Long id) {
         Client client = null;
-        List<Client> clients=findall();
+        List<Client> clients= findAll();
         for(Client client1: clients){
             if(Objects.equals(client1.getId(), id)){
                 client=client1;
@@ -172,5 +173,26 @@ public class ClientDao implements IDao<Client,Long> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Client> findByKeyWord(String keyword) {
+        List<Client> clients = findAll();
+
+        return
+                clients
+                        .stream()
+                        .filter(client ->
+                                client.getId().toString().equals(keyword) ||
+                                        client.getNom().toLowerCase().contains(keyword.toLowerCase())    ||
+                                        client.getPrenom().toLowerCase().contains(keyword.toLowerCase())    ||
+                                        client.getLogin().equals(keyword)    ||
+                                        client.getMotDePasse().equals(keyword)    ||
+                                        client.getCin().equalsIgnoreCase(keyword)    ||
+                                        client.getEmail().equalsIgnoreCase(keyword)    ||
+                                        client.getTel().equals(keyword)    ||
+                                        client.getSexe().toString().toLowerCase().equalsIgnoreCase(keyword)
+                        )
+                        .collect(Collectors.toList());
     }
 }

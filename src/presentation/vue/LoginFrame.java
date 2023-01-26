@@ -1,7 +1,10 @@
 package presentation.vue;
 
+import metier.admin.ServiceAdminGUI;
 import metier.authentification.IAuthGUI;
 import metier.authentification.ServiceAuthGUI;
+import metier.clients.ServiceClientGUI;
+import presentation.modele.entitesDeLaBanque.Admin;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.util.AuthResult;
 
@@ -18,6 +21,7 @@ public class LoginFrame extends JFrame {
     private JPasswordField txt_pass;
     private JButton btn_login, btn_cancel;
     private IAuthGUI auth;
+    private Banque banque;
 
     public void initLabels(){
 
@@ -118,8 +122,12 @@ public class LoginFrame extends JFrame {
     public void initActions(){
         btn_login.addActionListener( l -> {
                 AuthResult authResult =auth.seConnecter(txt_login.getText(),new String(txt_pass.getPassword()));
-                if(authResult.isSuccess()) JOptionPane.showMessageDialog(this,authResult.getErrorMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-                else dispose();
+                if(!authResult.isSuccess()) JOptionPane.showMessageDialog(this,authResult.getErrorMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                else {
+                    if(authResult.getUtilisateur() instanceof Admin)
+                        new MainFrame("Banque",new ServiceAdminGUI(banque),null);
+                    else new MainFrame("Banque",null,new ServiceClientGUI());
+                    dispose();}
             });
         btn_cancel.addActionListener(l -> dispose());
     }
@@ -133,6 +141,7 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
         setVisible(true);
+        this.banque=banque;
         auth=new ServiceAuthGUI(banque);
     }
 }
