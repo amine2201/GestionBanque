@@ -10,13 +10,20 @@ public class HintTextField extends JTextField {
 
     Font gainFont = new Font("Optima", Font.BOLD, 18);
     Font lostFont = new Font("Candara", Font.ITALIC, 17);
-
+    Color lostColor =new Color(186, 85, 211);
+    Color gainColor=new Color(0,0,0);
+    public void resetField(String hint){
+        setText(hint);
+        setFont(lostFont);
+        setForeground(lostColor);
+        setHorizontalAlignment(JTextField.CENTER);
+    }
 
     public HintTextField(final String hint) {
 
         setText(hint);
         setFont(lostFont);
-        setForeground(new Color(186, 85, 211));
+        setForeground(lostColor);
         setHorizontalAlignment(JTextField.CENTER);
 
 
@@ -27,9 +34,11 @@ public class HintTextField extends JTextField {
                 if (getText().equals(hint)) {
                     setText("");
                     setFont(gainFont);
+                    setForeground(gainColor);
                 } else {
                     setText(getText());
                     setFont(gainFont);
+                    setForeground(gainColor);
                 }
             }
 
@@ -39,11 +48,11 @@ public class HintTextField extends JTextField {
                     setText(hint);
                     setFont(lostFont);
                     //setForeground(Color.GRAY);
-                    setForeground(new Color(186, 85, 211));
+                    setForeground(lostColor);
                 } else {
                     setText(getText());
                     setFont(gainFont);
-                    setForeground(new Color(186, 85, 211));
+                    setForeground(lostColor);
                 }
             }
         });
@@ -56,37 +65,8 @@ public class HintTextField extends JTextField {
         setFont(lostFont);
         setForeground(lostColor);
         setHorizontalAlignment(JTextField.CENTER);
-
-
-
-        this.addFocusListener(new FocusAdapter() {
-
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (getText().equals(hint)) {
-                    setText("");
-                    setFont(gainFont);
-                    setForeground(gainColor);
-                } else {
-                    setText(getText());
-                    setFont(gainFont);
-                    setForeground(gainColor);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (getText().equals(hint)|| getText().length()==0) {
-                    setText(hint);
-                    setFont(lostFont);
-                    setForeground(lostColor);
-                } else {
-                    setText(getText());
-                    setFont(gainFont);
-                    setForeground(gainColor);
-                }
-            }
-        });
+        this.gainColor=gainColor;
+        this.lostColor=lostColor;
 
     }
 

@@ -49,7 +49,6 @@ public class TableCompte extends AbstractTableModel {
     public int getRowCount() {
         return data.length;
     }
-
     @Override
     public int getColumnCount() {
         return columnNames.length;

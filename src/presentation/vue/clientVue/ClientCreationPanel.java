@@ -1,15 +1,17 @@
 package presentation.vue.clientVue;
 
+import metier.admin.IServiceAdminGUI;
+import presentation.modele.util.ActionResult;
 import presentation.modele.util.Sexe;
 import presentation.vue.HintTextField;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class ClientCreationPanel extends JPanel {
 //    id,nom,prenom,login,password,cin,tel,email,sex
@@ -20,7 +22,10 @@ public class ClientCreationPanel extends JPanel {
     private JTextField txt_id;
     private JPasswordField txt_mdp,txt_mdp_confirmation;
     private JComboBox<String> txt_sexe;
+    private JButton btn_add,btn_cancel;
+    private IServiceAdminGUI serviceAdmin;
     private long client_id;
+    private ClassLoader cl=getClass().getClassLoader();;
     void initLabels(){
         lbl_id=setLabel("Identifiant",Color.WHITE,17);
         lbl_nom=setLabel("Nom",Color.WHITE,17);
@@ -74,13 +79,56 @@ public class ClientCreationPanel extends JPanel {
         ((JLabel)txt_sexe.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         txt_sexe.setForeground(Color.BLACK);
 
-
     }
+    private void initButtons(){
+        btn_add = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
+        btn_add.setFont(new Font("Optima",Font.BOLD,17));
+        btn_add.setBackground(new Color(0, 173, 181));
 
+        btn_cancel = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancel.png"))));
+        btn_cancel.setFont(new Font("Optima",Font.BOLD,17));
+        btn_cancel.setBackground(new Color(0, 173, 181));
+    }
+    private void initActions(){
+        btn_add.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btn_add.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/addHover.png"))));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_add.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
+            }
+        });
+
+        btn_cancel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btn_cancel.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancelHover.png"))));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_cancel.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancel.png"))));
+            }
+        });
+
+        btn_cancel.addActionListener(e -> {
+            resetFields(client_id,"Prenom","Nom","Login","","","CIN","TEL","Email","");
+        });
+        btn_add.addActionListener(e -> {
+                List<String> values=getValues();
+                ActionResult actionResult= serviceAdmin.nouveauClient(values.get(0),values.get(1),values.get(2),values.get(3),values.get(4),values.get(5),values.get(6),values.get(7));
+                setResult(actionResult.getErrorMessage());
+
+        });
+    }
     void initPanels(int top,int left,int bottom,int right){
         initTextFields();
         initLabels();
-
+        initButtons();
+        initActions();
         setBorder(new EmptyBorder(top,left,bottom,right));
         setLayout(new BorderLayout());
 
@@ -130,10 +178,18 @@ public class ClientCreationPanel extends JPanel {
         eastPanel.add(err_email);
         eastPanel.add(err_sexe);
 
+        JPanel southPanel= new JPanel();
+        southPanel.setBackground(new Color(34, 40, 49));
+        southPanel.setBorder(new EmptyBorder(10,10,10,10));
+        southPanel.setLayout(new GridLayout(1,2,20,20));
+        southPanel.setPreferredSize(new Dimension(getWidth(),100));
+        southPanel.add(btn_add);
+        southPanel.add(btn_cancel);
 
         add(westPanel,BorderLayout.WEST);
         add(centerPanel,BorderLayout.CENTER);
         add(eastPanel,BorderLayout.EAST);
+        add(southPanel,BorderLayout.SOUTH);
 
     }
     private JLabel setLabel(String txt,Color color,int size){
@@ -143,7 +199,7 @@ public class ClientCreationPanel extends JPanel {
         lbl.setHorizontalAlignment(JLabel.CENTER);
         return lbl;
     }
-    public List<String> getValues(){
+    private List<String> getValues(){
         List<String> values= new ArrayList<>();
         values.add(txt_prenom.getText());
         values.add(txt_nom.getText());
@@ -155,9 +211,10 @@ public class ClientCreationPanel extends JPanel {
         values.add((String) txt_sexe.getSelectedItem());
         return values;
     }
-    public void setResult(Map<String,String> err){
+    private void setResult(Map<String,String> err){
         if(err==null){
                 JOptionPane.showMessageDialog(this,"Client Ajoute","Succes",JOptionPane.INFORMATION_MESSAGE);
+                resetFields(client_id,"Prenom","Nom","Login","","","CIN","TEL","Email","");
         }
         else {
             if(err.containsKey(CHAMP_PRENOM))
@@ -184,7 +241,21 @@ public class ClientCreationPanel extends JPanel {
 
         }
     }
-    public ClientCreationPanel(int top, int left, int bottom, int right,long id){
+
+    private void resetFields(long id,String prenom,String nom,String login,String mdp,String mdpC,String cin,String tel, String email, String sexe ){
+        txt_id.setText(id+"");
+        txt_prenom.resetField(prenom);
+        txt_nom.resetField(nom);
+        txt_login.resetField(login);
+        txt_mdp.setText(mdp);
+        txt_mdp_confirmation.setText(mdpC);
+        txt_cin.resetField(cin);
+        txt_tel.resetField(tel);
+        txt_email.resetField(email);
+        txt_sexe.setSelectedItem(sexe);
+    }
+    public ClientCreationPanel(IServiceAdminGUI serviceAdmin,int top, int left, int bottom, int right,long id){
+        this.serviceAdmin=serviceAdmin;
         client_id=id;
         initPanels(top,left,bottom,right);
         setBackground(new Color(34, 40, 49));

@@ -58,6 +58,9 @@ public class TablePanel extends JPanel {
         scrollPane=new JScrollPane(table);
 
     }
+    public int getSelectedRow(){
+        return table.getSelectedRow();
+    }
     public TablePanel(int i){
         initTable(i);
         setLayout(new GridLayout(1,1));
