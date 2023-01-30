@@ -16,6 +16,18 @@ public class TableCrudPanel extends JPanel {
         return btn_delete;
     }
 
+    public JButton getBtn_add() {
+        return btn_add;
+    }
+
+    public JButton getBtn_edit() {
+        return btn_edit;
+    }
+
+    public JButton getBtn_delete() {
+        return btn_delete;
+    }
+
     private void initButtons(){
 
         btn_add = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));

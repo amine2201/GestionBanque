@@ -17,7 +17,6 @@ import java.util.*;
 public class ServiceAdminGUI implements IServiceAdminGUI{
     private final Banque banque;
     private final ClientDao clientDao;
-    private CompteDao compteDao;
     public ServiceAdminGUI(Banque banque) {
         this.banque = banque;
         clientDao=new ClientDao();
@@ -39,7 +38,7 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
     @Override
     public ActionResult nouveauCompteClientExistant(Client client,double solde) {
         if(client!=null){
-            compteDao=new CompteDao(client);
+            CompteDao compteDao=new CompteDao(client);
             Compte compte=new Compte();
             compte.setLog(TypeLog.CREATION,"pour le client "+client.getNomComplet());
             compte.setPropriétaire(client);
@@ -53,8 +52,26 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
     }
 
     @Override
+    public List<Client> getClients() {
+        return new ClientDao().findAll();
+    }
+
+    @Override
     public List<Client> chercherClient(String mot) {
         return clientDao.findByKeyWord(mot);
+    }
+    @Override
+    public Client chercherClientParId(Long id) {
+        return clientDao.findById(id);
+    }
+
+    @Override
+    public List<Compte> getComptes() {
+        List<Compte> comptes=new ArrayList<>();
+        for(Client client: new ClientDao().findAll()){
+            comptes.addAll(new CompteDao(client).findAll());
+        }
+        return comptes;
     }
 
     @Override
@@ -65,6 +82,17 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
             comptes.addAll(compteDao.findByKeyWord(mot));
         }
         return comptes;
+    }
+
+    @Override
+    public Compte chercherCompteParNum(String numCompte) {
+            for(Client client : clientDao.findAll()){
+                CompteDao compteDao=new CompteDao(client);
+                Compte compte=compteDao.findById(numCompte);
+                if(compte!=null)
+                    return compte;
+            }
+            return null;
     }
 
     @Override
@@ -93,6 +121,16 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
             return new ActionResult(true,null);
         }
         return new ActionResult(false,Map.of("client","Client introuvable"));
+    }
+
+    @Override
+    public ActionResult supprimerCompte(String numCompte) {
+        for(Client client: clientDao.findAll()){
+            CompteDao compteDao=new CompteDao(client);
+            if(compteDao.deleteById(numCompte))
+                return new ActionResult(true,null);
+        }
+        return new ActionResult(false,null);
     }
 
     @Override

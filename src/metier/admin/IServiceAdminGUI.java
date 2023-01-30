@@ -12,10 +12,16 @@ import java.util.Map;
 public interface IServiceAdminGUI {
     ActionResult nouveauClient(String prenom, String nom, String email, String pass, String passConfirmation, String cin, String tel, String sexe);
     ActionResult nouveauCompteClientExistant(Client client,double solde);
+    List<Client> getClients();
     List<Client> chercherClient(String mot);
+    Client          chercherClientParId(Long id);
+    List<Compte> getComptes();
     List<Compte> chercherCompte(String mot);
+    Compte          chercherCompteParNum(String numCompte);
     ActionResult modifierClient(String prenom, String nom, String email, String pass, String passConfirmation, String cin, String tel, String sexe,Client client);
     ActionResult supprimerClient(Long id);
+    ActionResult supprimerCompte(String numCompte);
     TableauDeBord calculerEtAfficherStatistiques();
+
 
 }

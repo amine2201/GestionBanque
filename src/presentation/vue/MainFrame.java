@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
         else sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
 //        footerPanel=new FooterPanel(List.of("Ajouter","Annuler"),10,400,20,20);
         identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
-        centerPanel= new TablePanel(1);
+        centerPanel= new TablePanel(1,serviceAdmin);
         initActions();
     }
 
