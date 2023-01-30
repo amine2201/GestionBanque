@@ -25,7 +25,7 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
     @Override
     public ActionResult nouveauClient(String prenom, String nom, String email, String pass, String passConfirmation, String cin, String tel, String sexe) {
         ClientFormValidator clientFormValidator=new ClientFormValidator();
-        Client client = clientFormValidator.validerUtilisateur(prenom,nom,email,"password","password",cin,tel,sexe);
+        Client client = clientFormValidator.validerUtilisateur(prenom,nom,email,pass,passConfirmation,cin,tel,sexe);
         if(client!=null){
             banque.getClientsDeBanque().add(client);
             clientDao.save(client);

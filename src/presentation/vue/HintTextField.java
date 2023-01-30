@@ -61,10 +61,7 @@ public class HintTextField extends JTextField {
 
     public HintTextField(final String hint, Color gainColor, Color lostColor) {
 
-        setText(hint);
-        setFont(lostFont);
-        setForeground(lostColor);
-        setHorizontalAlignment(JTextField.CENTER);
+        this(hint);
         this.gainColor=gainColor;
         this.lostColor=lostColor;
 

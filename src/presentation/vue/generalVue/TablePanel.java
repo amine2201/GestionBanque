@@ -4,6 +4,7 @@ import dao.daoFiles.ClientDao;
 import dao.daoFiles.CompteDao;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
+import presentation.vue.SearchPanel;
 import presentation.vue.clientVue.TableClient;
 import presentation.vue.compteVue.TableCompte;
 
@@ -17,10 +18,10 @@ import java.util.List;
 public class TablePanel extends JPanel {
     private TableClient tableClient;
     private TableCompte tableCompte;
-    JTable table;
-    JScrollPane scrollPane;
-
-    JTableHeader tableHeader;
+    private JTable table;
+    private JScrollPane scrollPane;
+    private JTableHeader tableHeader;
+    private SearchPanel searchPanel;
 //    DefaultTableCellRenderer centerRenderer;
     private void initTable(int i){
         if(i==1){
@@ -56,15 +57,14 @@ public class TablePanel extends JPanel {
         tableHeader.setForeground(new Color(238, 238, 238));
         table.setForeground(new Color(238, 238, 238));
         scrollPane=new JScrollPane(table);
-
-    }
-    public int getSelectedRow(){
-        return table.getSelectedRow();
+        searchPanel=new SearchPanel(new Color(34, 40, 49));
     }
     public TablePanel(int i){
         initTable(i);
-        setLayout(new GridLayout(1,1));
+
+        setLayout(new BorderLayout());
         scrollPane.getViewport().setBackground(new Color(34, 40, 49));
-        add(scrollPane);
+        add(scrollPane,BorderLayout.CENTER);
+        add(searchPanel,BorderLayout.SOUTH);
     }
 }

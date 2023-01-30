@@ -1,6 +1,7 @@
 package presentation.vue;
 
 import metier.admin.IServiceAdminGUI;
+import metier.admin.ServiceAdminGUI;
 import metier.clients.IServiceClientGUI;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.util.ActionResult;
@@ -37,7 +38,7 @@ public class MainFrame extends JFrame {
         else sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
 //        footerPanel=new FooterPanel(List.of("Ajouter","Annuler"),10,400,20,20);
         identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
-        centerPanel= new ClientCreationPanel(serviceAdmin,10,10,10,10,1);
+        centerPanel= new TablePanel(1);
         initActions();
     }
 
@@ -62,5 +63,6 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
+
 
 }
