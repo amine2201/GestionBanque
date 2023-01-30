@@ -6,6 +6,7 @@ import metier.clients.IServiceClientGUI;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.util.ActionResult;
 import presentation.vue.clientVue.ClientCreationPanel;
+
 import presentation.vue.generalVue.FooterPanel;
 import presentation.vue.generalVue.IdentityPanel;
 import presentation.vue.generalVue.SideMenuPanel;
@@ -28,9 +29,18 @@ public class MainFrame extends JFrame {
     private IServiceClientGUI serviceClient;
     private final List<String> adminActions= List.of("DashBoard","Client","Compte");
     private final List<String> clientActions=List.of("Virer","tirer","Chercher","Supprimer");;
-
+    private int _switch;
     private void initActions(){
+        if(centerPanel instanceof TablePanel tablePanel){
+            tablePanel.getBtn_add().addActionListener(e->{
+                if(_switch==1){
 
+                }
+            });
+            tablePanel.getBtn_edit().addActionListener(e->{
+//               centerPanel=new ClientModificationPanel()
+            });
+        }
     }
     private void initPanels(){
         if(serviceAdmin!=null)
@@ -38,7 +48,7 @@ public class MainFrame extends JFrame {
         else sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
 //        footerPanel=new FooterPanel(List.of("Ajouter","Annuler"),10,400,20,20);
         identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
-        centerPanel= new TablePanel(1,serviceAdmin);
+        centerPanel= new TablePanel(_switch=1,serviceAdmin);
         initActions();
     }
 
@@ -52,7 +62,12 @@ public class MainFrame extends JFrame {
         mainContainer.add(identityPanel,BorderLayout.NORTH);
         mainContainer.add(centerPanel,BorderLayout.CENTER);
     }
-
+    private void redirect(JPanel panel){
+        mainContainer.remove(centerPanel);
+        centerPanel=panel;
+        mainContainer.add(centerPanel,BorderLayout.CENTER);
+        mainContainer.revalidate();
+    }
     public MainFrame(String title, IServiceAdminGUI serviceAdmin, IServiceClientGUI serviceClient){
         this.serviceAdmin=serviceAdmin;
         this.serviceClient=serviceClient;

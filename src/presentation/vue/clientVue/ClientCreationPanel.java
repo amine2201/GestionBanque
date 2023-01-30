@@ -73,8 +73,8 @@ public class ClientCreationPanel extends JPanel {
         txt_mdp_confirmation.setHorizontalAlignment(JTextField.LEFT);
 
         txt_sexe=new JComboBox<>();
-        txt_sexe.addItem(Sexe.FEMME.getLibelle());
         txt_sexe.addItem(Sexe.HOMME.getLibelle());
+        txt_sexe.addItem(Sexe.FEMME.getLibelle());
         txt_sexe.setFont(new Font("Optima",Font.BOLD,17));
         ((JLabel)txt_sexe.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
         txt_sexe.setForeground(Color.BLACK);

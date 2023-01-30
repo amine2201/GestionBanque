@@ -143,6 +143,13 @@ public class TablePanel extends JPanel {
             });
         }
     }
+    public JButton getBtn_add(){
+        return searchPanel.getCrudPanel().getBtn_add();
+    }
+    public JButton getBtn_edit(){
+        return searchPanel.getCrudPanel().getBtn_edit();
+    }
+
     public TablePanel(int i,IServiceAdminGUI serviceAdmin){
         this.serviceAdmin=serviceAdmin;
         _switch=i;
