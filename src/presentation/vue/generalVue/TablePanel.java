@@ -20,6 +20,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TablePanel extends JPanel {
     private TableClient tableClient;
@@ -149,7 +150,13 @@ public class TablePanel extends JPanel {
     public JButton getBtn_edit(){
         return searchPanel.getCrudPanel().getBtn_edit();
     }
+    public Object getSelectedID(){
+            int row=table.getSelectedRow();
+            if(row!=-1)
+                return _switch==1?tableClient.getValueAt(row,0):tableCompte.getValueAt(row,0);
+            return -1;
 
+    }
     public TablePanel(int i,IServiceAdminGUI serviceAdmin){
         this.serviceAdmin=serviceAdmin;
         _switch=i;

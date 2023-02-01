@@ -18,8 +18,7 @@ public class ClientCreationPanel extends JPanel {
     public static final String CHAMP_PRENOM = "prenom",CHAMP_NOM = "nom",CHAMP_EMAIL = "email", CHAMP_PASS = "pass",CHAMP_CIN = "cin",CHAMP_TEL = "tel",CHAMP_SEXE = "sexe";
     private JLabel lbl_id, lbl_nom, lbl_prenom, lbl_login, lbl_mdp,lbl_mdp_confirmation, lbl_cin, lbl_tel, lbl_email,lbl_sexe;
     private JLabel err_id, err_nom, err_prenom, err_login, err_mdp, err_mdp_confirmation, err_cin, err_tel, err_email,err_sexe;
-    private HintTextField  txt_nom, txt_prenom, txt_login, txt_cin, txt_tel, txt_email;
-    private JTextField txt_id;
+    private HintTextField txt_id, txt_nom, txt_prenom, txt_login, txt_cin, txt_tel, txt_email;
     private JPasswordField txt_mdp,txt_mdp_confirmation;
     private JComboBox<String> txt_sexe;
     private JButton btn_add,btn_cancel;
@@ -51,10 +50,9 @@ public class ClientCreationPanel extends JPanel {
     }
 
     void initTextFields(){
-        txt_id=new JTextField(client_id+"");
-        txt_id.setFont(new Font("Optima",Font.BOLD,17));
-        txt_id.setHorizontalAlignment(JTextField.CENTER);
+        txt_id=new HintTextField("Client ID");
         txt_id.setEditable(false);
+        txt_id.setText(client_id+"");
         txt_nom=new HintTextField("Nom");
         txt_prenom=new HintTextField("Prenom");
         txt_login=new HintTextField("Login");

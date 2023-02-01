@@ -259,6 +259,7 @@ public class ClientModificationPanel extends JPanel {
     }
     public ClientModificationPanel(IServiceAdminGUI serviceAdmin, int top, int left, int bottom, int right, Client client){
         this.serviceAdmin=serviceAdmin;
+        this.client=client;
         initPanels(top,left,bottom,right);
         setBackground(new Color(34, 40, 49));
 

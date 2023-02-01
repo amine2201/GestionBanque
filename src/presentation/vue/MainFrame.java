@@ -1,13 +1,11 @@
 package presentation.vue;
 
 import metier.admin.IServiceAdminGUI;
-import metier.admin.ServiceAdminGUI;
 import metier.clients.IServiceClientGUI;
 import presentation.modele.entitesDeLaBanque.Client;
-import presentation.modele.util.ActionResult;
 import presentation.vue.clientVue.ClientCreationPanel;
 
-import presentation.vue.generalVue.FooterPanel;
+import presentation.vue.clientVue.ClientModificationPanel;
 import presentation.vue.generalVue.IdentityPanel;
 import presentation.vue.generalVue.SideMenuPanel;
 import presentation.vue.generalVue.TablePanel;
@@ -33,12 +31,31 @@ public class MainFrame extends JFrame {
     private void initActions(){
         if(centerPanel instanceof TablePanel tablePanel){
             tablePanel.getBtn_add().addActionListener(e->{
-                if(_switch==1){
+                if(_switch==1)
+                    redirect(new ClientCreationPanel(serviceAdmin,10,10,10,10,Client.getCompteur()));
 
-                }
             });
             tablePanel.getBtn_edit().addActionListener(e->{
-//               centerPanel=new ClientModificationPanel()
+                Object id=tablePanel.getSelectedID();
+                if(id instanceof Integer i && i==-1){
+                    String message=_switch==1?"Veuillez choisir un client d'abord !!!":"Veuillez choisir un compte d'abord !!!";
+                    JOptionPane.showMessageDialog(this,
+                            message,
+                            "A L E R T",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    if(_switch==1){
+                        Long idClient=(long)id;
+                        Client client=serviceAdmin.chercherClientParId(idClient);
+                        if(client!=null)
+                            redirect(new ClientModificationPanel(serviceAdmin,10,10,10,10,client));
+                    }
+                    else{
+                        String numClient=String.valueOf(id);
+                        System.out.println(numClient);
+                    }
+                }
             });
         }
     }

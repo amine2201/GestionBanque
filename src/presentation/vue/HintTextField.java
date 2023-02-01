@@ -44,16 +44,17 @@ public class HintTextField extends JTextField {
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (getText().equals(hint)|| getText().length()==0) {
-                    setText(hint);
-                    setFont(lostFont);
-                    //setForeground(Color.GRAY);
-                    setForeground(lostColor);
-                } else {
-                    setText(getText());
-                    setFont(gainFont);
-                    setForeground(lostColor);
-                }
+                if(isEditable())
+                    if (getText().equals(hint)|| getText().length()==0) {
+                        setText(hint);
+                        setFont(lostFont);
+                        //setForeground(Color.GRAY);
+                        setForeground(lostColor);
+                    } else {
+                        setText(getText());
+                        setFont(gainFont);
+                        setForeground(lostColor);
+                    }
             }
         });
 
@@ -67,14 +68,12 @@ public class HintTextField extends JTextField {
 
     }
 
-
-
-
-
-
-
-
-
+    @Override
+    public void setText(String t) {
+        super.setText(t);
+        setFont(gainFont);
+        setForeground(gainColor);
+    }
 
     public HintTextField(final String hint, Font f, Color textColor, Color backColor, boolean opaque) {
 
