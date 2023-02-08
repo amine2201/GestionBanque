@@ -6,8 +6,10 @@ import presentation.modele.entitesDeLaBanque.Client;
 import presentation.vue.clientVue.ClientCreationPanel;
 
 import presentation.vue.clientVue.ClientModificationPanel;
+import presentation.vue.compteVue.CompteCreationPanel;
 import presentation.vue.generalVue.IdentityPanel;
 import presentation.vue.generalVue.SideMenuPanel;
+import presentation.vue.generalVue.StatistiquesPanel;
 import presentation.vue.generalVue.TablePanel;
 
 import javax.swing.*;
@@ -16,6 +18,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class MainFrame extends JFrame {
     Container mainContainer;
@@ -28,7 +31,7 @@ public class MainFrame extends JFrame {
     private final List<String> adminActions= List.of("DashBoard","Client","Compte");
     private final List<String> clientActions=List.of("Virer","tirer","Chercher","Supprimer");;
     private int _switch;
-    private void initActions(){
+    private void initAdminActions(){
         if(centerPanel instanceof TablePanel tablePanel){
             tablePanel.getBtn_add().addActionListener(e->{
                 if(_switch==1)
@@ -58,15 +61,42 @@ public class MainFrame extends JFrame {
                 }
             });
         }
+        Map<String,JButton> buttonMap=sideMenuPanel.getButtons();
+            for(String label : buttonMap.keySet()){
+                if(label.equals("DashBoard"))
+                    buttonMap.get(label).addActionListener(e->{
+                        JPanel panel=new StatistiquesPanel(serviceAdmin.calculerEtAfficherStatistiques(),10,10,10,10);
+                        redirect(panel);
+                    });
+                if(label.equals("Client"))
+                    buttonMap.get(label).addActionListener(e->{
+                        JPanel panel=new TablePanel(1,serviceAdmin);
+                        redirect(panel);
+                    });
+                if(label.equals("Compte"))
+                    buttonMap.get(label).addActionListener(e->{
+                        JPanel panel=new TablePanel(2,serviceAdmin);
+                        redirect(panel);
+                    });
+            }
+    }
+    private void initClientActions(){
+
+    }
+    private void initAdminPanel(){
+        sideMenuPanel =new SideMenuPanel(adminActions,20,10,400,10);
+//        footerPanel=new FooterPanel(List.of("Ajouter","Annuler"),10,400,20,20);
+        identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
+        centerPanel= new StatistiquesPanel(serviceAdmin.calculerEtAfficherStatistiques(),10,10,10,10);
+        initAdminActions();
+    }
+    private void initClientPanel(){
+        sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
     }
     private void initPanels(){
         if(serviceAdmin!=null)
-        sideMenuPanel =new SideMenuPanel(adminActions,20,10,400,10);
-        else sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
-//        footerPanel=new FooterPanel(List.of("Ajouter","Annuler"),10,400,20,20);
-        identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
-        centerPanel= new TablePanel(_switch=1,serviceAdmin);
-        initActions();
+            initAdminPanel();
+        else initClientPanel();
     }
 
     private void initContainer(){

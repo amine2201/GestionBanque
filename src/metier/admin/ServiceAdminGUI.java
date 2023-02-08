@@ -3,6 +3,7 @@ package metier.admin;
 import dao.daoFiles.ClientDao;
 import dao.daoFiles.CompteDao;
 import metier.forms.ClientFormValidator;
+import metier.forms.CompteFormValidator;
 import presentation.modele.entitesDeLaBanque.Banque;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
@@ -28,27 +29,26 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
         if(client!=null){
             banque.getClientsDeBanque().add(client);
             clientDao.save(client);
-            nouveauCompteClientExistant(client,0);
-            return new ActionResult(true,null);
+            return nouveauCompte(client,0);
         }
             return new ActionResult(false,clientFormValidator.getErrors());
 
     }
-
+    private ActionResult nouveauCompte(Client client, double solde){
+        CompteDao compteDao=new CompteDao(client);
+        Compte compte=new Compte();
+        compte.setLog(TypeLog.CREATION,"pour le client "+client.getNomComplet());
+        compte.setPropriétaire(client);
+        compte.setSolde(solde);
+        client.getComptesClient().add(compte);
+        compteDao.save(compte);
+        return new ActionResult(true,null);
+    }
     @Override
-    public ActionResult nouveauCompteClientExistant(Client client,double solde) {
-        if(client!=null){
-            CompteDao compteDao=new CompteDao(client);
-            Compte compte=new Compte();
-            compte.setLog(TypeLog.CREATION,"pour le client "+client.getNomComplet());
-            compte.setPropriétaire(client);
-            if(solde!=0)
-                compte.setSolde(solde);
-            client.getComptesClient().add(compte);
-            compteDao.save(compte);
-            return new ActionResult(true,null);
-        }
-        return new ActionResult(false,Map.of("client","client est null"));
+    public ActionResult nouveauCompteClientExistant(String idClient,String solde) {
+        CompteFormValidator compteFormValidator=new CompteFormValidator(clientDao);
+        Client client=compteFormValidator.validerCompte(idClient,solde);
+        return new ActionResult(client!=null,compteFormValidator.getErrors());
     }
 
     @Override

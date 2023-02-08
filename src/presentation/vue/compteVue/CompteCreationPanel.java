@@ -2,11 +2,15 @@ package presentation.vue.compteVue;
 
 import metier.admin.IServiceAdminGUI;
 import presentation.modele.entitesDeLaBanque.Compte;
+import presentation.modele.util.ActionResult;
 import presentation.vue.HintTextField;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Map;
 import java.util.Objects;
 
 public class CompteCreationPanel extends JPanel{
@@ -42,11 +46,64 @@ public class CompteCreationPanel extends JPanel{
         btn_reset.setFont(new Font("Optima",Font.BOLD,17));
         btn_reset.setBackground(new Color(0, 173, 181));
     }
-    private void initPanels(int top, int left, int bottom, int right){
+    private void initActions(){
+        btn_add.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btn_add.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/addHover.png"))));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_add.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
+            }
+        });
+
+        btn_reset.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btn_reset.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancelHover.png"))));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_reset.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancel.png"))));
+            }
+        });
+
+        btn_add.addActionListener(e -> {
+            err_numCompte.setText("");
+            err_idClient.setText("");
+            err_solde.setText("");
+
+            ActionResult actionResult=serviceAdmin.nouveauCompteClientExistant(txt_idClient.getText(),txt_solde.getText());
+            if(actionResult.isSuccess()){
+                btn_reset.doClick();
+                JOptionPane.showMessageDialog(this,"Compte Ajoute","Succes",JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                Map<String, String> errs=actionResult.getErrorMessage();
+                if(errs.containsKey("compte"))
+                    err_numCompte.setText(errs.get("compte"));
+                if(errs.containsKey("client"))
+                    err_idClient.setText(errs.get("client"));
+                if(errs.containsKey("solde"))
+                    err_solde.setText(errs.get("solde"));
+            }
+        });
+        btn_reset.addActionListener(e -> {
+            txt_idClient.resetField("Identifiant du client");
+            txt_solde.resetField("Solde");
+            err_solde.setText("");
+            err_idClient.setText("");
+            err_numCompte.setText("");
+        });
+    }
+    private void initPanels(){
         initTextFields();
         initLabels();
         initButtons();
-        setBorder(new EmptyBorder(top,left,bottom,right));
+        initActions();
         setLayout(new BorderLayout());
 
         JPanel westPanel= new JPanel();
@@ -96,9 +153,11 @@ public class CompteCreationPanel extends JPanel{
         lbl.setHorizontalAlignment(JLabel.CENTER);
         return lbl;
     }
-    CompteCreationPanel(IServiceAdminGUI serviceAdmin,int top, int left, int bottom, int right){
+
+    public CompteCreationPanel(IServiceAdminGUI serviceAdmin,int top, int left, int bottom, int right){
         this.serviceAdmin=serviceAdmin;
-        initPanels(top,left,bottom,right);
+        setBorder(new EmptyBorder(top,left,bottom,right));
+        initPanels();
         setBackground(new Color(34, 40, 49));
     }
 
