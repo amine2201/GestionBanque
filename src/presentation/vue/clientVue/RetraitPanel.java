@@ -72,6 +72,9 @@ public class RetraitPanel extends JPanel {
         });
 
         btn_reset.addActionListener(e -> {
+            txt_mnt.resetField("Montant");
+            err_mnt.setText("");
+            err_compte.setText("");
         });
         btn_add.addActionListener(e -> {
            ActionResult actionResult= serviceClient.retrait((String) txt_compte.getSelectedItem(),txt_mnt.getText());
@@ -92,7 +95,7 @@ public class RetraitPanel extends JPanel {
            }
         });
     }
-    private void initPanles(){
+    private void initPanels(){
         initLabels();
         initTextFields();
         initButtons();
@@ -147,6 +150,6 @@ public class RetraitPanel extends JPanel {
         this.serviceClient=serviceClient;
         setBackground(new Color(34, 40, 49));
         setBorder(new EmptyBorder(top,left,bottom,right));
-        initPanles();
+        initPanels();
     }
 }

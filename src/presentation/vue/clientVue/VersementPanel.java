@@ -1,6 +1,7 @@
 package presentation.vue.clientVue;
 
 import metier.clients.IServiceClientGUI;
+import presentation.modele.util.ActionResult;
 import presentation.vue.HintTextField;
 
 import javax.swing.*;
@@ -67,12 +68,21 @@ public class VersementPanel extends JPanel {
             });
 
             btn_reset.addActionListener(e -> {
+                txt_mnt.resetField("Montant");
+                err_mnt.setText("");
+                err_compte.setText("");
             });
-            btn_add.addActionListener(e -> {
-
-            });
+            btn_add.addActionListener(e ->
+            {
+                ActionResult actionResult= serviceClient.versement((String) txt_compte.getSelectedItem(),txt_mnt.getText());
+                if(actionResult.isSuccess()) {
+                    JOptionPane.showMessageDialog(this, "Versement termine", "Succes", JOptionPane.INFORMATION_MESSAGE);
+                    txt_mnt.resetField("Montant");
+                    err_mnt.setText("");
+                    err_compte.setText("");
+                }});
         }
-        private void initPanles(){
+        private void initPanels(){
             initLabels();
             initTextFields();
             initButtons();
@@ -127,7 +137,7 @@ public class VersementPanel extends JPanel {
             this.serviceClient=serviceClient;
             setBackground(new Color(34, 40, 49));
             setBorder(new EmptyBorder(top,left,bottom,right));
-            initPanles();
+            initPanels();
         }
     }
 

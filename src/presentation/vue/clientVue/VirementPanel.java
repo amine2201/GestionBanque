@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class VirementPanel extends JPanel {
@@ -73,12 +74,34 @@ public class VirementPanel extends JPanel {
         });
 
         btn_reset.addActionListener(e -> {
+            txt_mnt.resetField("Montant");
+            txt_ben.resetField("Bénéficiaire");
+            err_mnt.setText("");
+            err_compte.setText("");
         });
         btn_add.addActionListener(e -> {
-
+            ActionResult actionResult= serviceClient.virement((String) txt_compte.getSelectedItem(),(String) txt_ben.getText(),txt_mnt.getText());
+            if(actionResult.isSuccess()){
+                JOptionPane.showMessageDialog(this,"Virement termine","Succes",JOptionPane.INFORMATION_MESSAGE);
+                txt_mnt.resetField("Montant");
+                txt_ben.resetField("Bénéficiaire");
+                err_mnt.setText("");
+                err_compte.setText("");
+            }
+            else {
+                Map<String,String> errs=actionResult.getErrorMessage();
+                for(String key : errs.keySet()){
+                    if(key.equals("compte"))
+                        err_compte.setText(errs.get(key));
+                    if(key.equals("ben"))
+                        err_compte.setText(errs.get(key));
+                    if(key.equals("solde"))
+                        err_mnt.setText(errs.get(key));
+                }
+            }
         });
     }
-    private void initPanles(){
+    private void initPanels(){
         initLabels();
         initTextFields();
         initButtons();
@@ -136,6 +159,6 @@ public class VirementPanel extends JPanel {
         this.serviceClient=serviceClient;
         setBackground(new Color(34, 40, 49));
         setBorder(new EmptyBorder(top,left,bottom,right));
-        initPanles();
+        initPanels();
     }
 }
