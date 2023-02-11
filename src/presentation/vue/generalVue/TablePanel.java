@@ -1,16 +1,10 @@
 package presentation.vue.generalVue;
 
-import dao.daoFiles.ClientDao;
-import dao.daoFiles.CompteDao;
 import metier.admin.IServiceAdminGUI;
-import metier.admin.ServiceAdminGUI;
-import presentation.controleur.SeedData;
 import presentation.modele.entitesDeLaBanque.Client;
-import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.vue.SearchPanel;
-import presentation.vue.clientVue.ClientCreationPanel;
-import presentation.vue.clientVue.TableClient;
-import presentation.vue.compteVue.TableCompte;
+import presentation.vue.adminVue.clientVue.TableClient;
+import presentation.vue.adminVue.compteVue.TableCompte;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -18,9 +12,6 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class TablePanel extends JPanel {
     private TableClient tableClient;

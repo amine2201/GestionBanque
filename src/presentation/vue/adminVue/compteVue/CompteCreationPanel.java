@@ -1,4 +1,4 @@
-package presentation.vue.compteVue;
+package presentation.vue.adminVue.compteVue;
 
 import metier.admin.IServiceAdminGUI;
 import presentation.modele.entitesDeLaBanque.Compte;

@@ -1,4 +1,4 @@
-package presentation.vue.clientVue;
+package presentation.vue.adminVue.clientVue;
 
 import metier.admin.IServiceAdminGUI;
 import presentation.modele.util.ActionResult;
@@ -24,7 +24,7 @@ public class ClientCreationPanel extends JPanel {
     private JButton btn_add,btn_cancel;
     private IServiceAdminGUI serviceAdmin;
     private long client_id;
-    private ClassLoader cl=getClass().getClassLoader();;
+    private ClassLoader cl=getClass().getClassLoader();
     void initLabels(){
         lbl_id=setLabel("Identifiant",Color.WHITE,17);
         lbl_nom=setLabel("Nom",Color.WHITE,17);
@@ -251,6 +251,18 @@ public class ClientCreationPanel extends JPanel {
         txt_tel.resetField(tel);
         txt_email.resetField(email);
         txt_sexe.setSelectedItem(sexe);
+
+        err_id.setText("");
+        err_nom.setText("");
+        err_prenom.setText("");
+        err_login.setText("");
+        err_mdp.setText("");
+        err_mdp_confirmation.setText("");
+        err_cin.setText("");
+        err_tel.setText("");
+        err_email.setText("");
+        err_sexe.setText("");
+
     }
     public ClientCreationPanel(IServiceAdminGUI serviceAdmin,int top, int left, int bottom, int right,long id){
         this.serviceAdmin=serviceAdmin;

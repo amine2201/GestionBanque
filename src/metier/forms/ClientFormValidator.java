@@ -190,7 +190,7 @@ public class ClientFormValidator {
             setError(CHAMP_SEXE,e.getMessage());
         }
     }
-    public boolean modifierUtilisateur(String prenom, String nom,String email,String pass,String passConfirmation, String cin, String tel,String sexe){
+    public boolean modifierUtilisateurAdmin(String prenom, String nom, String email, String pass, String passConfirmation, String cin, String tel, String sexe){
         boolean valid=true;
         try {
             verifierPrenom(prenom);
@@ -255,6 +255,30 @@ public class ClientFormValidator {
             setResultMsg("echoue");
         }
         return client;
+    }
+
+    public boolean modifierUtilisateurClient(String email,String mdp,String mdpc,String tel,Client client){
+        boolean valid=true;
+        try {
+            verifierEmail(email);
+        }catch (FormException e){
+            setError(CHAMP_EMAIL,e.getMessage());
+            valid=false;
+        }
+        try {
+            verifierPass(mdp,mdpc);
+        }catch (FormException e){
+            setError(CHAMP_PASS,e.getMessage());
+            valid=false;
+        }
+        try {
+            verifierTel(tel);
+        }catch (FormException e){
+            setError(CHAMP_TEL,e.getMessage());
+            valid=false;
+        }
+
+        return valid;
     }
     }
 

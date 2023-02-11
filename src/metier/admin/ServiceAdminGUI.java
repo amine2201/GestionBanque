@@ -98,7 +98,7 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
     @Override
     public ActionResult modifierClient(String prenom, String nom, String email, String pass, String passConfirmation, String cin, String tel, String sexe,Client client) {
         ClientFormValidator clientFormValidator=new ClientFormValidator();
-        if(clientFormValidator.modifierUtilisateur(prenom,nom,email,pass,passConfirmation,cin,tel,sexe)){
+        if(clientFormValidator.modifierUtilisateurAdmin(prenom,nom,email,pass,passConfirmation,cin,tel,sexe)){
             client.setPrenom(prenom);
             client.setNom(nom);
             client.setEmail(email);

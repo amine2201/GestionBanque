@@ -1,5 +1,6 @@
 package presentation.vue;
 
+import dao.daoFiles.ClientDao;
 import metier.admin.ServiceAdminGUI;
 import metier.authentification.IAuthGUI;
 import metier.authentification.ServiceAuthGUI;
@@ -126,7 +127,7 @@ public class LoginFrame extends JFrame {
                 else {
                     if(authResult.getUtilisateur() instanceof Admin)
                         new MainFrame("Banque",new ServiceAdminGUI(banque),null);
-                    else new MainFrame("Banque",null,new ServiceClientGUI());
+                    else new MainFrame("Banque",null,new ServiceClientGUI(new ClientDao(),banque.getClientsDeBanque().get(0)));
                     dispose();}
             });
         btn_cancel.addActionListener(l -> dispose());

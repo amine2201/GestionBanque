@@ -2,11 +2,12 @@ package presentation.vue;
 
 import metier.admin.IServiceAdminGUI;
 import metier.clients.IServiceClientGUI;
+import metier.clients.ServiceClientGUI;
 import presentation.modele.entitesDeLaBanque.Client;
-import presentation.vue.clientVue.ClientCreationPanel;
+import presentation.vue.adminVue.clientVue.ClientCreationPanel;
 
-import presentation.vue.clientVue.ClientModificationPanel;
-import presentation.vue.compteVue.CompteCreationPanel;
+import presentation.vue.adminVue.clientVue.ClientModificationPanel;
+import presentation.vue.clientVue.RetraitPanel;
 import presentation.vue.generalVue.IdentityPanel;
 import presentation.vue.generalVue.SideMenuPanel;
 import presentation.vue.generalVue.StatistiquesPanel;
@@ -14,9 +15,7 @@ import presentation.vue.generalVue.TablePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -92,6 +91,8 @@ public class MainFrame extends JFrame {
     }
     private void initClientPanel(){
         sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
+        identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
+        centerPanel=new RetraitPanel(serviceClient,10,10,10,10);
     }
     private void initPanels(){
         if(serviceAdmin!=null)
