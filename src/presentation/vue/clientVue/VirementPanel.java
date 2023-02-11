@@ -2,6 +2,7 @@ package presentation.vue.clientVue;
 
 import metier.admin.IServiceAdminGUI;
 import metier.clients.IServiceClientGUI;
+import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.ActionResult;
 import presentation.vue.HintTextField;
 
@@ -28,12 +29,12 @@ public class VirementPanel extends JPanel {
 
         err_compte=setLabel("",Color.RED,12);
         err_mnt=setLabel("",Color.RED,12);
-        err_mnt=setLabel("",Color.RED,12);
+        err_ben=setLabel("",Color.RED,12);
 
         lbl_titre=setLabel("Retrait",Color.BLACK,25);
     }
     private void initTextFields(){
-        txt_compte=new JComboBox<>();
+        txt_compte=new JComboBox<>(serviceClient.comptes().stream().map(Compte::getNumeroCompte).toArray(String[]::new));
         txt_compte.addItem("sss");
         txt_compte.addItem("ddd");
         txt_mnt=new HintTextField("Montant");
@@ -119,7 +120,7 @@ public class VirementPanel extends JPanel {
 
         JPanel centerPanel=new JPanel();
         centerPanel.setBackground(new Color(34, 40, 49));
-        centerPanel.setLayout(new GridLayout(2,1,5,5));
+        centerPanel.setLayout(new GridLayout(3,1,5,5));
         centerPanel.setBorder(new EmptyBorder(10,10,400,10));
         centerPanel.add(txt_compte);
         centerPanel.add(txt_mnt);
@@ -127,7 +128,7 @@ public class VirementPanel extends JPanel {
 
         JPanel eastPanel=new JPanel();
         eastPanel.setBackground(new Color(34, 40, 49));
-        eastPanel.setLayout(new GridLayout(2,1,5,5));
+        eastPanel.setLayout(new GridLayout(3,1,5,5));
         eastPanel.setPreferredSize(new Dimension(450,getHeight()));
         eastPanel.setBorder(new EmptyBorder(10,10,400,10));
         eastPanel.add(err_compte);

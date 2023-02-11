@@ -1,6 +1,7 @@
 package presentation.vue.clientVue;
 
 import metier.clients.IServiceClientGUI;
+import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.ActionResult;
 import presentation.vue.HintTextField;
 
@@ -28,9 +29,7 @@ public class VersementPanel extends JPanel {
             lbl_titre=setLabel("Versement",Color.BLACK,25);
         }
         private void initTextFields(){
-            txt_compte=new JComboBox<>();
-            txt_compte.addItem("sss");
-            txt_compte.addItem("ddd");
+            txt_compte=new JComboBox<>(serviceClient.comptes().stream().map(Compte::getNumeroCompte).toArray(String[]::new));
             txt_mnt=new HintTextField("Montant");
         }
         private void initButtons(){

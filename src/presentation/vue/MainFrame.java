@@ -8,6 +8,8 @@ import presentation.vue.adminVue.clientVue.ClientCreationPanel;
 
 import presentation.vue.adminVue.clientVue.ClientModificationPanel;
 import presentation.vue.clientVue.RetraitPanel;
+import presentation.vue.clientVue.VersementPanel;
+import presentation.vue.clientVue.VirementPanel;
 import presentation.vue.generalVue.IdentityPanel;
 import presentation.vue.generalVue.SideMenuPanel;
 import presentation.vue.generalVue.StatistiquesPanel;
@@ -28,7 +30,7 @@ public class MainFrame extends JFrame {
     private final IServiceAdminGUI serviceAdmin;
     private IServiceClientGUI serviceClient;
     private final List<String> adminActions= List.of("DashBoard","Client","Compte");
-    private final List<String> clientActions=List.of("Virer","tirer","Chercher","Supprimer");;
+    private final List<String> clientActions=List.of("Virer","Retirer","Verser","Supprimer");;
     private int _switch;
     private void initAdminActions(){
         if(centerPanel instanceof TablePanel tablePanel){
@@ -80,7 +82,24 @@ public class MainFrame extends JFrame {
             }
     }
     private void initClientActions(){
-
+        Map<String,JButton> buttonMap=sideMenuPanel.getButtons();
+        for(String label : buttonMap.keySet()){
+            if(label.equals("Virer"))
+                buttonMap.get(label).addActionListener(e->{
+                    JPanel panel=new VirementPanel(serviceClient,10,10,10,10);
+                    redirect(panel);
+                });
+            if(label.equals("Retirer"))
+                buttonMap.get(label).addActionListener(e->{
+                    JPanel panel=new RetraitPanel(serviceClient,10,10,10,10);
+                    redirect(panel);
+                });
+            if(label.equals("Verser"))
+                buttonMap.get(label).addActionListener(e->{
+                    JPanel panel=new VersementPanel(serviceClient,10,10,10,10);
+                    redirect(panel);
+                });
+        }
     }
     private void initAdminPanel(){
         sideMenuPanel =new SideMenuPanel(adminActions,20,10,400,10);
@@ -93,6 +112,7 @@ public class MainFrame extends JFrame {
         sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
         identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
         centerPanel=new RetraitPanel(serviceClient,10,10,10,10);
+        initClientActions();
     }
     private void initPanels(){
         if(serviceAdmin!=null)
