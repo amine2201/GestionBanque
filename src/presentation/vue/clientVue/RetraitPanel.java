@@ -24,13 +24,11 @@ public class RetraitPanel extends JPanel {
     private IServiceClientGUI serviceClient;
     private ClassLoader cl=getClass().getClassLoader();
     private void initLabels(){
-        lbl_compte=setLabel("Num de compte: ",Color.BLACK,17);
-        lbl_mnt=setLabel("Montant: ",Color.BLACK,17);
-
+        lbl_compte=setLabel("Num de compte: ",Color.WHITE,17);
+        lbl_mnt=setLabel("Montant: ",Color.WHITE,17);
         err_compte=setLabel("",Color.RED,12);
         err_mnt=setLabel("",Color.RED,12);
-
-        lbl_titre=setLabel("Retrait",Color.BLACK,25);
+        lbl_titre=setLabel("Retrait",Color.WHITE,25);
     }
     private void initTextFields(){
         txt_compte=new JComboBox<>(serviceClient.comptes().stream().map(Compte::getNumeroCompte).toArray(String[]::new));
@@ -40,11 +38,14 @@ public class RetraitPanel extends JPanel {
     private void initButtons(){
         btn_add = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
         btn_add.setFont(new Font("Optima",Font.BOLD,17));
-        btn_add.setBackground(new Color(0, 173, 181));
+        btn_add.setBorder(BorderFactory.createEmptyBorder());
+        btn_add.setBackground(new Color(34, 40, 49));
+
 
         btn_reset = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancel.png"))));
         btn_reset.setFont(new Font("Optima",Font.BOLD,17));
-        btn_reset.setBackground(new Color(0, 173, 181));
+        btn_reset.setBorder(BorderFactory.createEmptyBorder());
+        btn_reset.setBackground(new Color(34, 40, 49));
     }
     private void initActions(){
         btn_add.addMouseListener(new MouseAdapter() {
@@ -127,7 +128,7 @@ public class RetraitPanel extends JPanel {
 
         JPanel southPanel=new JPanel();
         southPanel.setBackground(new Color(34, 40, 49));
-        southPanel.setLayout(new GridLayout(1,2,5,5));
+        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER,50,10));
         southPanel.add(btn_add);
         southPanel.add(btn_reset);
 

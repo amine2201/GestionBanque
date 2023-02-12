@@ -1,11 +1,9 @@
 package metier.forms;
 
 import dao.daoFiles.ClientDao;
+import dao.daoFiles.CompteDao;
 import metier.Verifiable;
-import presentation.modele.entitesDeLaBanque.Admin;
-import presentation.modele.entitesDeLaBanque.Client;
-import presentation.modele.entitesDeLaBanque.Compte;
-import presentation.modele.entitesDeLaBanque.Utilisateur;
+import presentation.modele.entitesDeLaBanque.*;
 import presentation.modele.util.TypeLog;
 
 import java.util.HashMap;
@@ -18,7 +16,7 @@ public class CompteFormValidator {
     private ClientDao clientDao;
     public static final String CHAMP_CLIENT = "client";
     public static final String CHAMP_SOLDE = "solde";
-
+    private Banque banque;
     private Map<String, String> errors= new HashMap<>();
     private String resultMsg;
 
@@ -37,14 +35,16 @@ public class CompteFormValidator {
     public void setResultMsg(String resultMsg) {
         this.resultMsg = resultMsg;
     }
-    public CompteFormValidator(ClientDao clientDao) {
+    public CompteFormValidator(ClientDao clientDao, Banque banque) {
         this.clientDao=clientDao;
+        this.banque=banque;
     }
     private Client verifierClient(String idClient) throws FormException{
         if(idClient!=null && idClient.trim().length()!=0){
             if(!isNumeric(idClient))
                 throw new FormException("Le champs Identifiant du client est numerique");
-            Client client=clientDao.findById(Long.valueOf(idClient));
+            Long id=Long.parseLong(idClient);
+            Client client=banque.getClientsDeBanque().stream().filter(c->c.getId().equals(id)).findFirst().orElse(null);
             if(client==null)
                 throw new FormException("Le Client est introuvable");
             return client;
@@ -94,8 +94,11 @@ public class CompteFormValidator {
             Compte compte=new Compte();
             compte.setPropriétaire(client);
             compte.setSolde(solde);
-            if(client != null)
+            if(client != null){
                 compte.setLog(TypeLog.CREATION,"pour le client "+client.getNomComplet());
+                client.getComptesClient().add(compte);
+                new CompteDao(client).save(compte);
+            }
 
         }
         else {

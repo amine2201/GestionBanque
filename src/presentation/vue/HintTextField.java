@@ -10,7 +10,7 @@ public class HintTextField extends JTextField {
 
     Font gainFont = new Font("Optima", Font.BOLD, 18);
     Font lostFont = new Font("Candara", Font.ITALIC, 17);
-    Color lostColor =new Color(186, 85, 211);
+    Color lostColor =new Color(60, 42, 33);
     Color gainColor=new Color(0,0,0);
     public void resetField(String hint){
         setText(hint);

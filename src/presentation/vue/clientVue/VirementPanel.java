@@ -23,31 +23,32 @@ public class VirementPanel extends JPanel {
     private IServiceClientGUI serviceClient;
     private ClassLoader cl=getClass().getClassLoader();
     private void initLabels(){
-        lbl_compte=setLabel("Num de compte: ",Color.BLACK,17);
-        lbl_mnt=setLabel("Montant: ",Color.BLACK,17);
-        lbl_ben=setLabel("Bénéficiaire",Color.BLACK,17);
+        lbl_compte=setLabel("Num de compte: ",Color.WHITE,17);
+        lbl_mnt=setLabel("Montant: ",Color.WHITE,17);
+        lbl_ben=setLabel("Bénéficiaire",Color.WHITE,17);
 
         err_compte=setLabel("",Color.RED,12);
         err_mnt=setLabel("",Color.RED,12);
         err_ben=setLabel("",Color.RED,12);
 
-        lbl_titre=setLabel("Retrait",Color.BLACK,25);
+        lbl_titre=setLabel("Virement",Color.WHITE,25);
     }
     private void initTextFields(){
         txt_compte=new JComboBox<>(serviceClient.comptes().stream().map(Compte::getNumeroCompte).toArray(String[]::new));
-        txt_compte.addItem("sss");
-        txt_compte.addItem("ddd");
         txt_mnt=new HintTextField("Montant");
         txt_ben=new HintTextField("Bénéficiaire");
     }
     private void initButtons(){
         btn_add = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
         btn_add.setFont(new Font("Optima",Font.BOLD,17));
-        btn_add.setBackground(new Color(0, 173, 181));
+        btn_add.setBorder(BorderFactory.createEmptyBorder());
+        btn_add.setBackground(new Color(34, 40, 49));
+
 
         btn_reset = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancel.png"))));
         btn_reset.setFont(new Font("Optima",Font.BOLD,17));
-        btn_reset.setBackground(new Color(0, 173, 181));
+        btn_reset.setBorder(BorderFactory.createEmptyBorder());
+        btn_reset.setBackground(new Color(34, 40, 49));
     }
     private void initActions(){
         btn_add.addMouseListener(new MouseAdapter() {
@@ -112,7 +113,7 @@ public class VirementPanel extends JPanel {
         JPanel westPanel=new JPanel();
         westPanel.setBackground(new Color(34, 40, 49));
         westPanel.setLayout(new GridLayout(3,1,5,5));
-        westPanel.setBorder(new EmptyBorder(10,10,400,10));
+        westPanel.setBorder(new EmptyBorder(10,10,350,10));
         westPanel.add(lbl_compte);
         westPanel.add(lbl_mnt);
         westPanel.add(lbl_ben);
@@ -121,7 +122,7 @@ public class VirementPanel extends JPanel {
         JPanel centerPanel=new JPanel();
         centerPanel.setBackground(new Color(34, 40, 49));
         centerPanel.setLayout(new GridLayout(3,1,5,5));
-        centerPanel.setBorder(new EmptyBorder(10,10,400,10));
+        centerPanel.setBorder(new EmptyBorder(10,10,350,10));
         centerPanel.add(txt_compte);
         centerPanel.add(txt_mnt);
         centerPanel.add(txt_ben);
@@ -130,14 +131,14 @@ public class VirementPanel extends JPanel {
         eastPanel.setBackground(new Color(34, 40, 49));
         eastPanel.setLayout(new GridLayout(3,1,5,5));
         eastPanel.setPreferredSize(new Dimension(450,getHeight()));
-        eastPanel.setBorder(new EmptyBorder(10,10,400,10));
+        eastPanel.setBorder(new EmptyBorder(10,10,350,10));
         eastPanel.add(err_compte);
         eastPanel.add(err_mnt);
         eastPanel.add(err_ben);
 
         JPanel southPanel=new JPanel();
         southPanel.setBackground(new Color(34, 40, 49));
-        southPanel.setLayout(new GridLayout(1,2,5,5));
+        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER,50,10));
         southPanel.add(btn_add);
         southPanel.add(btn_reset);
 

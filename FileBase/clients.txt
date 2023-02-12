@@ -1,6 +1,6 @@
 id,nom,prenom,login,password,cin,tel,email,sex
-1,nom1,prenom1,Client1,mdp11,cin1,tel1,mail1,HOMME
-2,nom2,prenom2,Client2,mdp22,cin2,tel1,mail2,HOMME
-3,nom3,prenom3,Client3,mdp33,cin3,tel1,mail3,HOMME
-4,nom4,prenom4,Client4,mdp44,cin4,tel1,mail4,HOMME
-5,nom5,prenom5,Client5,mdp55,cin5,tel1,mail5,HOMME
+1,Doe,John,johndoe,password1,AA111,0644445555,johndoe@email.com,HOMME
+2,Smith,Jane,janesmith,password2,BB222,0655556666,janesmith@email.com,FEMME
+3,Johnson,Bob,bobjohnson,password3,CC333,0666666666,bobjohnson@email.com,HOMME
+4,Brown,Emily,emilybrown,password4,DD444,0677777777,emilybrown@email.com,FEMME
+5,Davis,William,williamdavis,password5,EE555,0688888888,williamdavis@email.com,HOMME

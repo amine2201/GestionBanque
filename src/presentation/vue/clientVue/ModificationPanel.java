@@ -61,12 +61,12 @@ public class ModificationPanel extends JPanel {
         txt_email=new HintTextField(client.getEmail());
         txt_sexe=setNonEditableTextFields(client.getSexe().getLibelle(),17);
 
-        txt_mdp=new JPasswordField(client.getMotDePasse());
+        txt_mdp=new JPasswordField();
         txt_mdp.setFont(new Font("Optima",Font.BOLD,17));
         txt_mdp.setForeground(Color.BLACK);
         txt_mdp.setHorizontalAlignment(JTextField.LEFT);
 
-        txt_mdp_confirmation=new JPasswordField(client.getMotDePasse());
+        txt_mdp_confirmation=new JPasswordField();
         txt_mdp_confirmation.setFont(new Font("Optima",Font.BOLD,17));
         txt_mdp_confirmation.setForeground(Color.BLACK);
         txt_mdp_confirmation.setHorizontalAlignment(JTextField.LEFT);
@@ -74,7 +74,7 @@ public class ModificationPanel extends JPanel {
 
     }
     private void initButtons(){
-        btn_edit = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
+        btn_edit = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/edit.png"))));
         btn_edit.setFont(new Font("Optima",Font.BOLD,17));
         btn_edit.setBackground(new Color(0, 173, 181));
 
@@ -171,8 +171,7 @@ public class ModificationPanel extends JPanel {
 
         JPanel southPanel= new JPanel();
         southPanel.setBackground(new Color(34, 40, 49));
-        southPanel.setBorder(new EmptyBorder(10,10,10,10));
-        southPanel.setLayout(new GridLayout(1,2,20,20));
+        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER,50,10));
         southPanel.setPreferredSize(new Dimension(getWidth(),100));
         southPanel.add(btn_edit);
         southPanel.add(btn_cancel);
@@ -223,6 +222,11 @@ public class ModificationPanel extends JPanel {
         txt_mdp_confirmation.setText("");
         txt_tel.resetField(tel);
         txt_email.resetField(email);
+
+        err_mdp.setText("");
+        err_mdp_confirmation.setText("");
+        err_tel.setText("");
+        err_email.setText("");
     }
     public ModificationPanel(IServiceClientGUI serviceClient, int top, int left, int bottom, int right){
         this.serviceCLient =serviceClient;

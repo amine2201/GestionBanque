@@ -50,6 +50,7 @@ public class ServiceClientGUI implements IServiceClientGUI{
         double val=Double.parseDouble(solde);
         if(val<0) return new ActionResult(false,Map.of("solde","Solde negatif"));
         _compte.setSolde(_compte.getSolde()+val);
+         compteDao.update(_compte);
         return new ActionResult(true,null);
     }
 
@@ -63,19 +64,22 @@ public class ServiceClientGUI implements IServiceClientGUI{
         if(val<0) return new ActionResult(false,Map.of("solde","Solde negatif"));
         if(val>_compte.getSolde())  return new ActionResult(false,Map.of("solde","Solde insuffisant"));
         _compte.setSolde(_compte.getSolde()-val);
+        compteDao.update(_compte);
         return new ActionResult(true,null);
     }
 
     @Override
     public ActionResult virement(String compte, String ben, String solde) {
         Compte compte1=compteDao.findById(compte);
+        Client client2=null;
         if(compte1==null)
             return new ActionResult(false, Map.of("compte","Compte introuvable"));
         Compte compte2=null;
         for(Client client1: clientDao.findAll()){
             compte2=new CompteDao(client1).findById(ben);
-            if(compte2!=null)
-                break;
+            if(compte2!=null){
+                client2=client1;
+                break;}
         }
         if(compte2==null) return new ActionResult(false, Map.of("ben","Compte introuvable"));
         if(!isDecimal(solde)) return new ActionResult(false,Map.of("solde","Solde negatif"));
@@ -84,6 +88,8 @@ public class ServiceClientGUI implements IServiceClientGUI{
         if(val>compte1.getSolde())  return new ActionResult(false,Map.of("solde","Solde insuffisant"));
         compte1.setSolde(compte1.getSolde()-val);
         compte2.setSolde(compte2.getSolde()+val);
+        compteDao.update(compte1);
+        new CompteDao(client2).update(compte2);
         return new ActionResult(true,null);
     }
 
@@ -95,7 +101,7 @@ public class ServiceClientGUI implements IServiceClientGUI{
         client.setEmail(email);
         client.setMotDePasse(mdp);
         client.setTel(tel);
-        clientDao.save(client);
+        clientDao.update(client);
         return new ActionResult(true,null);
     }
 
@@ -114,6 +120,6 @@ public class ServiceClientGUI implements IServiceClientGUI{
 
     @Override
     public List<Compte> comptes() {
-        return client.getComptesClient();
+        return compteDao.findAll();
     }
 }

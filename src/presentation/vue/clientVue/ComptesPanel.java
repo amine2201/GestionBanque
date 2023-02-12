@@ -93,7 +93,7 @@ public class ComptesPanel extends JPanel {
         add(scrollPane,BorderLayout.CENTER);
 
         JPanel southPanel=new JPanel();
-        southPanel.setLayout(new GridLayout(1,4));
+        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER,50,10));
         southPanel.setBackground(new Color(34, 40, 49));
         southPanel.add(btn_ret);
         southPanel.add(btn_ver);

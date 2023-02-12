@@ -136,7 +136,7 @@ public class MainFrame extends JFrame {
                         }
                         else {
                             String numCompte=(String)id;
-                            JPanel jPanel=new VirementPanel(serviceClient,10,10,10,10);
+                            JPanel jPanel=new VirementPanel(serviceClient,10,10,350,10);
                             redirect(jPanel);
                             ((VirementPanel)jPanel).setSelectedCompte(numCompte);
                         }
@@ -169,7 +169,7 @@ public class MainFrame extends JFrame {
         initAdminActions();
     }
     private void initClientPanel(){
-        sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
+        sideMenuPanel =new SideMenuPanel(clientActions,20,10,350,10);
         identityPanel= new IdentityPanel(((ServiceClientGUI)serviceClient).getClient().getNomComplet(),10,10,20,30);
         initClientActions();
 

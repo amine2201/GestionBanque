@@ -46,7 +46,7 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
     }
     @Override
     public ActionResult nouveauCompteClientExistant(String idClient,String solde) {
-        CompteFormValidator compteFormValidator=new CompteFormValidator(clientDao);
+        CompteFormValidator compteFormValidator=new CompteFormValidator(clientDao,banque);
         Client client=compteFormValidator.validerCompte(idClient,solde);
         return new ActionResult(client!=null,compteFormValidator.getErrors());
     }
@@ -127,8 +127,8 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
     public ActionResult supprimerCompte(String numCompte) {
         for(Client client: clientDao.findAll()){
             CompteDao compteDao=new CompteDao(client);
-            if(compteDao.deleteById(numCompte))
-                return new ActionResult(true,null);
+            if(compteDao.deleteById(numCompte)){
+                return new ActionResult(true,null);}
         }
         return new ActionResult(false,null);
     }

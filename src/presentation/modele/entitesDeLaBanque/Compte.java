@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Compte {
     private static long          compteur = 1;
@@ -73,6 +74,17 @@ public class Compte {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Compte compte = (Compte) o;
+
+       return Objects.equals(numeroCompte, compte.numeroCompte);
+    }
+
+
+    @Override
     public String toString() {
 
         String      compteStr  = "------------------------------------------------------\n";
@@ -82,6 +94,7 @@ public class Compte {
                     compteStr += "------------------------------------------------------\n";
 
         return compteStr;
+
     }
 
 
