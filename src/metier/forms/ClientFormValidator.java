@@ -170,7 +170,7 @@ public class ClientFormValidator {
     //-----------------------------------Verifier Sexe--------------------------------------
     private void verifierSexe(String sexe) throws FormException{
         if(sexe!=null && sexe.trim().length()!=0){
-            if(!Pattern.matches("^H|F$",sexe.toUpperCase()))
+            if(!Pattern.matches("^(HOMME|FEMME)$",sexe.toUpperCase()))
                 throw new FormException("Le champs Sexe est incorrect");
 
         }

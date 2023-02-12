@@ -76,11 +76,13 @@ public class ModificationPanel extends JPanel {
     private void initButtons(){
         btn_edit = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/edit.png"))));
         btn_edit.setFont(new Font("Optima",Font.BOLD,17));
-        btn_edit.setBackground(new Color(0, 173, 181));
+        btn_edit.setBorder(BorderFactory.createEmptyBorder());
+        btn_edit.setBackground(new Color(34, 40, 49));
 
         btn_cancel = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancel.png"))));
         btn_cancel.setFont(new Font("Optima",Font.BOLD,17));
-        btn_cancel.setBackground(new Color(0, 173, 181));
+        btn_cancel.setBorder(BorderFactory.createEmptyBorder());
+        btn_cancel.setBackground(new Color(34, 40, 49));
     }
     private void initActions(){
         btn_edit.addMouseListener(new MouseAdapter() {

@@ -103,14 +103,14 @@ public class TablePanel extends JPanel {
                 int row=table.getSelectedRow();
                 if(row!=-1){
                     String numCompte           =  (String) tableCompte.getValueAt(row, 0);
-                    Client client=serviceAdmin.chercherClientParId((long)tableCompte.getValueAt(row,3));
+                    String nomComplet=(String) tableCompte.getValueAt(row,3);
 
 
                     serviceAdmin.supprimerCompte(numCompte);
-                    tableClient.initClientsData(serviceAdmin.getClients());
+                    tableCompte.initComptesData(serviceAdmin.getComptes());
 
                     JOptionPane.showMessageDialog(this,
-                            "Le compte "+numCompte+"du client "+client.getNomComplet()+ " a été supprimé avec succès",
+                            "Le compte "+numCompte+"du client "+nomComplet+ " a été supprimé avec succès",
                             "I N F O",
                             JOptionPane.INFORMATION_MESSAGE);
                 }

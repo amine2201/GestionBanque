@@ -40,11 +40,13 @@ public class CompteCreationPanel extends JPanel{
     private void initButtons(){
         btn_add = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
         btn_add.setFont(new Font("Optima",Font.BOLD,17));
-        btn_add.setBackground(new Color(0, 173, 181));
+        btn_add.setBorder(BorderFactory.createEmptyBorder());
+        btn_add.setBackground(new Color(34, 40, 49));
 
         btn_reset = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancel.png"))));
         btn_reset.setFont(new Font("Optima",Font.BOLD,17));
-        btn_reset.setBackground(new Color(0, 173, 181));
+        btn_reset.setBorder(BorderFactory.createEmptyBorder());
+        btn_reset.setBackground(new Color(34, 40, 49));
     }
     private void initActions(){
         btn_add.addMouseListener(new MouseAdapter() {
@@ -136,7 +138,7 @@ public class CompteCreationPanel extends JPanel{
         JPanel southPanel= new JPanel();
         southPanel.setBackground(new Color(34, 40, 49));
         southPanel.setBorder(new EmptyBorder(10,10,10,10));
-        southPanel.setLayout(new GridLayout(1,2,20,20));
+        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER,50,10));
         southPanel.setPreferredSize(new Dimension(getWidth(),100));
         southPanel.add(btn_add);
         southPanel.add(btn_reset);

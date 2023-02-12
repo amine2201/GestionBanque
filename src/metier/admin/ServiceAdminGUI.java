@@ -105,7 +105,7 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
             client.setMotDePasse(pass);
             client.setCin(cin);
             client.setTel(tel);
-            client.setSexe(Sexe.valueOf(sexe));
+            client.setSexe(sexe.equals("HOMMME")?Sexe.HOMME:Sexe.FEMME);
             clientDao.update(client);
             return new ActionResult(true,null);
         }

@@ -57,12 +57,18 @@ public class ClientModificationPanel extends JPanel {
         txt_id.setHorizontalAlignment(JTextField.CENTER);
         txt_id.setEditable(false);
 
-        txt_nom=new HintTextField(client.getNom());
-        txt_prenom=new HintTextField(client.getPrenom());
-        txt_login=new HintTextField(client.getLogin());
-        txt_cin=new HintTextField(client.getCin());
-        txt_tel=new HintTextField(client.getTel());
-        txt_email=new HintTextField(client.getEmail());
+        txt_nom=new HintTextField("Nom");
+        txt_nom.setText(client.getNom());
+        txt_prenom=new HintTextField("Prenom");
+        txt_prenom.setText(client.getPrenom());
+        txt_login=new HintTextField("Login");
+        txt_login.setText(client.getLogin());
+        txt_cin=new HintTextField("CIN");
+        txt_cin.setText(client.getCin());
+        txt_tel=new HintTextField("Tel");
+        txt_tel.setText(client.getTel());
+        txt_email=new HintTextField("Email");
+        txt_email.setText(client.getEmail());
 
         txt_mdp=new JPasswordField(client.getMotDePasse());
         txt_mdp.setFont(new Font("Optima",Font.BOLD,17));
@@ -86,11 +92,13 @@ public class ClientModificationPanel extends JPanel {
     private void initButtons(){
         btn_edit = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
         btn_edit.setFont(new Font("Optima",Font.BOLD,17));
-        btn_edit.setBackground(new Color(0, 173, 181));
+        btn_edit.setBorder(BorderFactory.createEmptyBorder());
+        btn_edit.setBackground(new Color(34, 40, 49));
 
         btn_cancel = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/cancel.png"))));
         btn_cancel.setFont(new Font("Optima",Font.BOLD,17));
-        btn_cancel.setBackground(new Color(0, 173, 181));
+        btn_cancel.setBorder(BorderFactory.createEmptyBorder());
+        btn_cancel.setBackground(new Color(34, 40, 49));
     }
     private void initActions(){
         btn_edit.addMouseListener(new MouseAdapter() {
@@ -184,7 +192,7 @@ public class ClientModificationPanel extends JPanel {
         JPanel southPanel= new JPanel();
         southPanel.setBackground(new Color(34, 40, 49));
         southPanel.setBorder(new EmptyBorder(10,10,10,10));
-        southPanel.setLayout(new GridLayout(1,2,20,20));
+        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER,50,10));
         southPanel.setPreferredSize(new Dimension(getWidth(),100));
         southPanel.add(btn_edit);
         southPanel.add(btn_cancel);
