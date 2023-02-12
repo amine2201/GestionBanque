@@ -227,6 +227,7 @@ public class CompteDao implements IDao<Compte,String> {
                         c.getDateCreation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).contains(keyword) ||
                         c.getSolde().toString().equals(keyword) ||
                         c.getPropriétaire().getId().toString().equals(keyword)
+                        || c.getPropriétaire().getNomComplet().contains(keyword)
 
         ).collect(Collectors.toList());
     }

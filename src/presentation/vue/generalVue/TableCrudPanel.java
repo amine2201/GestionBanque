@@ -12,9 +12,6 @@ public class TableCrudPanel extends JPanel {
     private JButton btn_add, btn_edit, btn_delete;
 
 
-    public JButton deleteBtn() {
-        return btn_delete;
-    }
 
     public JButton getBtn_add() {
         return btn_add;

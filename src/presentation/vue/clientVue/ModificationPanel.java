@@ -2,6 +2,7 @@ package presentation.vue.clientVue;
 
 import metier.admin.IServiceAdminGUI;
 import metier.clients.IServiceClientGUI;
+import metier.clients.ServiceClientGUI;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.util.ActionResult;
 import presentation.vue.HintTextField;
@@ -18,8 +19,8 @@ public class ModificationPanel extends JPanel {
     public static final String CHAMP_PRENOM = "prenom",CHAMP_NOM = "nom",CHAMP_EMAIL = "email", CHAMP_PASS = "pass",CHAMP_CIN = "cin",CHAMP_TEL = "tel",CHAMP_SEXE = "sexe";
     private JLabel lbl_id, lbl_nom, lbl_prenom, lbl_login, lbl_mdp,lbl_mdp_confirmation, lbl_cin, lbl_tel, lbl_email,lbl_sexe;
     private JLabel err_id, err_nom, err_prenom, err_login, err_mdp, err_mdp_confirmation, err_cin, err_tel, err_email,err_sexe;
-    private HintTextField txt_nom, txt_prenom, txt_login, txt_cin, txt_tel, txt_email,txt_sexe;
-    private JTextField txt_id;
+    private HintTextField  txt_tel, txt_email;
+    private JTextField txt_id,txt_nom, txt_prenom, txt_login, txt_cin,txt_sexe;
     private JPasswordField txt_mdp,txt_mdp_confirmation;
     private JButton btn_edit,btn_cancel;
     private IServiceClientGUI serviceCLient;
@@ -50,23 +51,15 @@ public class ModificationPanel extends JPanel {
     }
 
     void initTextFields(){
-        txt_id=new JTextField(client.getId()+"");
-        txt_id.setFont(new Font("Optima",Font.BOLD,17));
-        txt_id.setHorizontalAlignment(JTextField.CENTER);
-        txt_id.setEditable(false);
+        txt_id=setNonEditableTextFields(client.getId()+"",17);
 
-        txt_nom=new HintTextField(client.getNom());
-        txt_nom.setEditable(false);
-        txt_prenom=new HintTextField(client.getPrenom());
-        txt_prenom.setEditable(false);
-        txt_login=new HintTextField(client.getLogin());
-        txt_login.setEditable(false);
-        txt_cin=new HintTextField(client.getCin());
-        txt_cin.setEditable(false);
+        txt_nom=setNonEditableTextFields(client.getNom(),17);
+        txt_prenom=setNonEditableTextFields(client.getPrenom(),17);
+        txt_login=setNonEditableTextFields(client.getLogin(),17);
+        txt_cin=setNonEditableTextFields(client.getCin(),17);
         txt_tel=new HintTextField(client.getTel());
         txt_email=new HintTextField(client.getEmail());
-        txt_sexe=new HintTextField(client.getSexe().getLibelle());
-        txt_sexe.setEditable(false);
+        txt_sexe=setNonEditableTextFields(client.getSexe().getLibelle(),17);
 
         txt_mdp=new JPasswordField(client.getMotDePasse());
         txt_mdp.setFont(new Font("Optima",Font.BOLD,17));
@@ -188,7 +181,13 @@ public class ModificationPanel extends JPanel {
         add(centerPanel,BorderLayout.CENTER);
         add(eastPanel,BorderLayout.EAST);
         add(southPanel,BorderLayout.SOUTH);
-
+    }
+    private JTextField setNonEditableTextFields(String ph,int size){
+        JTextField txt=new JTextField(ph);
+        txt.setFont(new Font("Optima",Font.BOLD,size));
+        txt.setHorizontalAlignment(JTextField.CENTER);
+        txt.setEditable(false);
+        return txt;
     }
     private JLabel setLabel(String txt,Color color,int size){
         JLabel lbl=new JLabel(txt);
@@ -225,9 +224,9 @@ public class ModificationPanel extends JPanel {
         txt_tel.resetField(tel);
         txt_email.resetField(email);
     }
-    public ModificationPanel(IServiceClientGUI serviceClient, int top, int left, int bottom, int right, Client client){
+    public ModificationPanel(IServiceClientGUI serviceClient, int top, int left, int bottom, int right){
         this.serviceCLient =serviceClient;
-        this.client=client;
+        this.client=((ServiceClientGUI)serviceClient).getClient();
         initPanels(top,left,bottom,right);
         setBackground(new Color(34, 40, 49));
 

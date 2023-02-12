@@ -98,6 +98,7 @@ public class TablePanel extends JPanel {
             });
         }
         else{
+            searchPanel.getCrudPanel().getBtn_edit().setVisible(false);
             searchPanel.getCrudPanel().getBtn_delete().addActionListener(e->{
                 int row=table.getSelectedRow();
                 if(row!=-1){

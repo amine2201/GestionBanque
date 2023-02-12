@@ -7,9 +7,8 @@ import presentation.modele.entitesDeLaBanque.Client;
 import presentation.vue.adminVue.clientVue.ClientCreationPanel;
 
 import presentation.vue.adminVue.clientVue.ClientModificationPanel;
-import presentation.vue.clientVue.RetraitPanel;
-import presentation.vue.clientVue.VersementPanel;
-import presentation.vue.clientVue.VirementPanel;
+import presentation.vue.adminVue.compteVue.CompteCreationPanel;
+import presentation.vue.clientVue.*;
 import presentation.vue.generalVue.IdentityPanel;
 import presentation.vue.generalVue.SideMenuPanel;
 import presentation.vue.generalVue.StatistiquesPanel;
@@ -30,55 +29,57 @@ public class MainFrame extends JFrame {
     private final IServiceAdminGUI serviceAdmin;
     private IServiceClientGUI serviceClient;
     private final List<String> adminActions= List.of("DashBoard","Client","Compte");
-    private final List<String> clientActions=List.of("Virer","Retirer","Verser","Supprimer");;
+    private final List<String> clientActions=List.of("Virer","Retraire","Verser","Comptes","Profil");;
     private int _switch;
     private void initAdminActions(){
-        if(centerPanel instanceof TablePanel tablePanel){
-            tablePanel.getBtn_add().addActionListener(e->{
-                if(_switch==1)
-                    redirect(new ClientCreationPanel(serviceAdmin,10,10,10,10,Client.getCompteur()));
-
-            });
-            tablePanel.getBtn_edit().addActionListener(e->{
-                Object id=tablePanel.getSelectedID();
-                if(id instanceof Integer i && i==-1){
-                    String message=_switch==1?"Veuillez choisir un client d'abord !!!":"Veuillez choisir un compte d'abord !!!";
-                    JOptionPane.showMessageDialog(this,
-                            message,
-                            "A L E R T",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-                else{
-                    if(_switch==1){
-                        Long idClient=(long)id;
-                        Client client=serviceAdmin.chercherClientParId(idClient);
-                        if(client!=null)
-                            redirect(new ClientModificationPanel(serviceAdmin,10,10,10,10,client));
-                    }
-                    else{
-                        String numClient=String.valueOf(id);
-                        System.out.println(numClient);
-                    }
-                }
-            });
-        }
         Map<String,JButton> buttonMap=sideMenuPanel.getButtons();
             for(String label : buttonMap.keySet()){
                 if(label.equals("DashBoard"))
                     buttonMap.get(label).addActionListener(e->{
                         JPanel panel=new StatistiquesPanel(serviceAdmin.calculerEtAfficherStatistiques(),10,10,10,10);
                         redirect(panel);
+
                     });
-                if(label.equals("Client"))
+                if(label.equals("Client")){
                     buttonMap.get(label).addActionListener(e->{
+                        _switch=1;
                         JPanel panel=new TablePanel(1,serviceAdmin);
                         redirect(panel);
+                        ((TablePanel)centerPanel).getBtn_add().addActionListener(l->{
+                            if(_switch==1)
+                                redirect(new ClientCreationPanel(serviceAdmin,10,10,10,10,Client.getCompteur()));
+
+                        });
+                        ((TablePanel)centerPanel).getBtn_edit().addActionListener(l->{
+                            Object id=((TablePanel)centerPanel).getSelectedID();
+                            if(id instanceof Integer i && i==-1){
+                                String message="Veuillez choisir un client d'abord !!!";
+                                JOptionPane.showMessageDialog(this,
+                                        message,
+                                        "A L E R T",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                            else{
+                                Long idClient=(long)id;
+                                Client client=serviceAdmin.chercherClientParId(idClient);
+                                if(client!=null)
+                                    redirect(new ClientModificationPanel(serviceAdmin,10,10,10,10,client));
+                            }
+                        });
                     });
-                if(label.equals("Compte"))
+                }
+                if(label.equals("Compte")){
                     buttonMap.get(label).addActionListener(e->{
+                        _switch=2;
                         JPanel panel=new TablePanel(2,serviceAdmin);
                         redirect(panel);
+                        ((TablePanel)centerPanel).getBtn_add().addActionListener(l->{
+                            if(_switch==2)
+                                redirect(new CompteCreationPanel(serviceAdmin,10,10,10,10));
+
+                        });
                     });
+                }
             }
     }
     private void initClientActions(){
@@ -89,7 +90,7 @@ public class MainFrame extends JFrame {
                     JPanel panel=new VirementPanel(serviceClient,10,10,10,10);
                     redirect(panel);
                 });
-            if(label.equals("Retirer"))
+            if(label.equals("Retraire"))
                 buttonMap.get(label).addActionListener(e->{
                     JPanel panel=new RetraitPanel(serviceClient,10,10,10,10);
                     redirect(panel);
@@ -99,6 +100,65 @@ public class MainFrame extends JFrame {
                     JPanel panel=new VersementPanel(serviceClient,10,10,10,10);
                     redirect(panel);
                 });
+            if(label.equals("Profil"))
+                buttonMap.get(label).addActionListener(e->{
+                    JPanel panel=new ModificationPanel(serviceClient,10,10,10,10);
+                    redirect(panel);
+                });
+            if(label.equals("Comptes")){
+                buttonMap.get(label).addActionListener(e->{
+                    JPanel panel=new ComptesPanel(serviceClient,10,10,10,10);
+                    redirect(panel);
+                    ((ComptesPanel)centerPanel).getBtn_ret().addActionListener(l->{
+                        Object id=((ComptesPanel)centerPanel).getSelectedCompte();
+                        if(id instanceof Integer i && i==-1){
+                            String message="Veuillez choisir un compte d'abord !!!";
+                            JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "A L E R T",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                        else {
+                            String numCompte=(String)id;
+                            JPanel jPanel=new RetraitPanel(serviceClient,10,10,10,10);
+                            redirect(jPanel);
+                            ((RetraitPanel)jPanel).setSelectedCompte(numCompte);
+                        }
+                    });
+                    ((ComptesPanel)centerPanel).getBtn_vir().addActionListener(l->{
+                        Object id=((ComptesPanel)centerPanel).getSelectedCompte();
+                        if(id instanceof Integer i && i==-1){
+                            String message="Veuillez choisir un compte d'abord !!!";
+                            JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "A L E R T",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                        else {
+                            String numCompte=(String)id;
+                            JPanel jPanel=new VirementPanel(serviceClient,10,10,10,10);
+                            redirect(jPanel);
+                            ((VirementPanel)jPanel).setSelectedCompte(numCompte);
+                        }
+                    });
+                    ((ComptesPanel)centerPanel).getBtn_ver().addActionListener(l->{
+                        Object id=((ComptesPanel)centerPanel).getSelectedCompte();
+                        if(id instanceof Integer i && i==-1){
+                            String message="Veuillez choisir un compte d'abord !!!";
+                            JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "A L E R T",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                        else {
+                            String numCompte=(String)id;
+                            JPanel jPanel=new VersementPanel(serviceClient,10,10,10,10);
+                            redirect(jPanel);
+                            ((VersementPanel)jPanel).setSelectedCompte(numCompte);
+                        }
+                    });
+                });
+            }
         }
     }
     private void initAdminPanel(){
@@ -111,8 +171,8 @@ public class MainFrame extends JFrame {
     private void initClientPanel(){
         sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
         identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
-        centerPanel=new RetraitPanel(serviceClient,10,10,10,10);
         initClientActions();
+
     }
     private void initPanels(){
         if(serviceAdmin!=null)
@@ -128,10 +188,18 @@ public class MainFrame extends JFrame {
         mainContainer.add(sideMenuPanel,BorderLayout.WEST);
 //        mainContainer.add(footerPanel,BorderLayout.SOUTH);
         mainContainer.add(identityPanel,BorderLayout.NORTH);
-        mainContainer.add(centerPanel,BorderLayout.CENTER);
+        defaultPanel();
     }
+
+    private void defaultPanel() {
+        if(serviceAdmin!=null)
+            sideMenuPanel.getButtons().get("DashBoard").doClick();
+        else sideMenuPanel.getButtons().get("Comptes").doClick();
+    }
+
     private void redirect(JPanel panel){
-        mainContainer.remove(centerPanel);
+        if(centerPanel!=null)
+            mainContainer.remove(centerPanel);
         centerPanel=panel;
         mainContainer.add(centerPanel,BorderLayout.CENTER);
         mainContainer.revalidate();

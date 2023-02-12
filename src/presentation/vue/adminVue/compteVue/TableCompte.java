@@ -37,13 +37,7 @@ public class TableCompte extends AbstractTableModel {
     public String getColumnName(int column) {
         return columnNames[column];
     }
-    @Override
-    public Class<?> getColumnClass(int columnIndex) {
-        if (data[0].length==0) {
-            return Object.class;
-        }
-        return getValueAt(0, columnIndex).getClass();
-    }
+
 
     @Override
     public int getRowCount() {

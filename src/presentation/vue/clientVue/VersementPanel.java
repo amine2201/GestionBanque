@@ -132,6 +132,9 @@ public class VersementPanel extends JPanel {
             lbl.setHorizontalAlignment(JLabel.CENTER);
             return lbl;
         }
+    public void setSelectedCompte(String compte){
+        txt_compte.setSelectedItem(compte);
+    }
         public VersementPanel(IServiceClientGUI serviceClient, int top, int left, int bottom, int right){
             this.serviceClient=serviceClient;
             setBackground(new Color(34, 40, 49));
