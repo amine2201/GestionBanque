@@ -33,7 +33,7 @@ public class SearchPanel extends JPanel {
                 new ImageIcon(cl.getResource("images/icons/search.png"))
         );
         btn_search.setBorderPainted(false);
-
+        btn_search.setBackground(new Color(34, 40, 49));
         btn_search.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -55,7 +55,7 @@ public class SearchPanel extends JPanel {
         txt_search.setHorizontalAlignment(SwingConstants.CENTER);
         txt_search.setPreferredSize(new Dimension(200, 25));
         txt_search.setMaximumSize(new Dimension(200, 55));
-        txt_search.setBackground(new Color(45, 71, 132));
+//        txt_search.setBackground(new Color(45, 71, 132));
     }
     private void initComponents(){
         initTextField();
@@ -72,8 +72,7 @@ public class SearchPanel extends JPanel {
         JPanel pane = new JPanel();
         pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
         pane.add(btn_search); pane.add(txt_search);
-        pane.setBorder(BorderFactory.createLineBorder(Color.white, 1));
-        pane.setBackground(Color.white);
+        pane.setBackground(new Color(34, 40, 49));
 
 
         //setLayout(new FlowLayout(FlowLayout.RIGHT));

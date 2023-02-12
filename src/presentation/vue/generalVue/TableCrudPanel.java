@@ -29,13 +29,16 @@ public class TableCrudPanel extends JPanel {
 
         btn_add = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
         btn_add.setBorderPainted(false);
+        btn_add.setBackground(new Color(34, 40, 49));
 
         btn_edit = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/edit.png"))));
         btn_edit.setBorderPainted(false);
+        btn_edit.setBackground(new Color(34, 40, 49));
+
 
         btn_delete = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/delete.png"))));
         btn_delete.setBorderPainted(false);
-
+        btn_delete.setBackground(new Color(34, 40, 49));
     }
     public void initActions(){
         btn_add.addMouseListener(new MouseAdapter() {
@@ -79,7 +82,7 @@ public class TableCrudPanel extends JPanel {
         initButtons();
         initActions();
         setLayout(new FlowLayout());
-        setBackground(Color.white);
+        setBackground(new Color(34, 40, 49));
         add(btn_add);
         add(btn_edit);
         add(btn_delete);

@@ -164,13 +164,13 @@ public class MainFrame extends JFrame {
     private void initAdminPanel(){
         sideMenuPanel =new SideMenuPanel(adminActions,20,10,400,10);
 //        footerPanel=new FooterPanel(List.of("Ajouter","Annuler"),10,400,20,20);
-        identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
+        identityPanel= new IdentityPanel("Admin",10,10,20,30);
         centerPanel= new StatistiquesPanel(serviceAdmin.calculerEtAfficherStatistiques(),10,10,10,10);
         initAdminActions();
     }
     private void initClientPanel(){
         sideMenuPanel =new SideMenuPanel(clientActions,20,10,400,10);
-        identityPanel= new IdentityPanel(new ArrayList<>(),10,10,20,30);
+        identityPanel= new IdentityPanel(((ServiceClientGUI)serviceClient).getClient().getNomComplet(),10,10,20,30);
         initClientActions();
 
     }
