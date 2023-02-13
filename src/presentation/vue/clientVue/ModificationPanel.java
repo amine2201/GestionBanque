@@ -57,8 +57,10 @@ public class ModificationPanel extends JPanel {
         txt_prenom=setNonEditableTextFields(client.getPrenom(),17);
         txt_login=setNonEditableTextFields(client.getLogin(),17);
         txt_cin=setNonEditableTextFields(client.getCin(),17);
-        txt_tel=new HintTextField(client.getTel());
-        txt_email=new HintTextField(client.getEmail());
+        txt_tel=new HintTextField("TEL");
+        txt_tel.setText(client.getTel());
+        txt_email=new HintTextField("Email");
+        txt_email.setText(client.getEmail());
         txt_sexe=setNonEditableTextFields(client.getSexe().getLibelle(),17);
 
         txt_mdp=new JPasswordField();
@@ -222,8 +224,8 @@ public class ModificationPanel extends JPanel {
     private void resetFields(String tel, String email ){
         txt_mdp.setText("");
         txt_mdp_confirmation.setText("");
-        txt_tel.resetField(tel);
-        txt_email.resetField(email);
+        txt_tel.setText(tel);
+        txt_email.setText(email);
 
         err_mdp.setText("");
         err_mdp_confirmation.setText("");

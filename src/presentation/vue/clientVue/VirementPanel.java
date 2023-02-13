@@ -96,7 +96,7 @@ public class VirementPanel extends JPanel {
                     if(key.equals("compte"))
                         err_compte.setText(errs.get(key));
                     if(key.equals("ben"))
-                        err_compte.setText(errs.get(key));
+                        err_ben.setText(errs.get(key));
                     if(key.equals("solde"))
                         err_mnt.setText(errs.get(key));
                 }
