@@ -183,7 +183,7 @@ public class ClientFormValidator {
     public void validerSexe(String sexe, Client client){
         try {
             verifierSexe(sexe);
-            if(sexe.toUpperCase().equals("H"))
+            if(sexe.toUpperCase().equals("HOMME"))
                 client.setSexe(Sexe.HOMME);
             else client.setSexe(Sexe.FEMME);
         } catch (FormException e) {
@@ -251,6 +251,7 @@ public class ClientFormValidator {
                 setResultMsg("succes");
         }
         else {
+            Client.setCompteur(Client.getCompteur()-1);
             client=null;
             setResultMsg("echoue");
         }

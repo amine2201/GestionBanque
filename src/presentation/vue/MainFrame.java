@@ -47,7 +47,7 @@ public class MainFrame extends JFrame {
                         redirect(panel);
                         ((TablePanel)centerPanel).getBtn_add().addActionListener(l->{
                             if(_switch==1)
-                                redirect(new ClientCreationPanel(serviceAdmin,10,10,10,10,Client.getCompteur()));
+                                redirect(new ClientCreationPanel(serviceAdmin,10,10,10,10));
 
                         });
                         ((TablePanel)centerPanel).getBtn_edit().addActionListener(l->{

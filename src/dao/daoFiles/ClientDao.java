@@ -21,7 +21,8 @@ public class ClientDao implements IDao<Client,Long> {
     public Long id;
     public ClientDao(){
         id=getId();
-        Client.setCompteur(id+1);
+        if(Client.getCompteur()<=id)
+            Client.setCompteur(id+1);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class ClientDao implements IDao<Client,Long> {
         try {
             lines=Files.readAllLines(Clients_Tab,StandardCharsets.UTF_8);
             String head=lines.remove(0);
-            for(int i=0; i<lines.size()-1;i++){
+            for(int i=0; i<lines.size();i++){
                 Long idClient=Long.valueOf(lines.get(i).substring(0,lines.get(i).indexOf(',')));
                 if(idClient.equals(client.getId())) {
                     lines.remove(i);

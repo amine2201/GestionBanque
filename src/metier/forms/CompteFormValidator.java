@@ -68,7 +68,10 @@ public class CompteFormValidator {
         if(solde!=null && solde.trim().length()!=0){
             if(!isDecimal(solde))
                 throw new FormException("Le champs solde est numerique");
-            return Double.parseDouble(solde);
+            Double val=Double.parseDouble(solde);
+            if(val<0)
+                throw new FormException("Le champs solde doit etre positif");
+            return val;
         }
         else {
             throw new FormException("Le champs solde est obligatoire");

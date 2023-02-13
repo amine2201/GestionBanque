@@ -80,7 +80,7 @@ public class CompteCreationPanel extends JPanel{
 
             ActionResult actionResult=serviceAdmin.nouveauCompteClientExistant(txt_idClient.getText(),txt_solde.getText());
             if(actionResult.isSuccess()){
-                btn_reset.doClick();
+                resetTextFields();
                 JOptionPane.showMessageDialog(this,"Compte Ajoute","Succes",JOptionPane.INFORMATION_MESSAGE);
             }
             else{
@@ -94,11 +94,7 @@ public class CompteCreationPanel extends JPanel{
             }
         });
         btn_reset.addActionListener(e -> {
-            txt_idClient.resetField("Identifiant du client");
-            txt_solde.resetField("Solde");
-            err_solde.setText("");
-            err_idClient.setText("");
-            err_numCompte.setText("");
+            resetTextFields();
         });
     }
     private void initPanels(){
@@ -155,7 +151,14 @@ public class CompteCreationPanel extends JPanel{
         lbl.setHorizontalAlignment(JLabel.CENTER);
         return lbl;
     }
-
+    private void resetTextFields(){
+        txt_numCompte.setText("b-co00"+Compte.getCompteur());
+        txt_idClient.resetField("Identifiant du client");
+        txt_solde.resetField("Solde");
+        err_solde.setText("");
+        err_idClient.setText("");
+        err_numCompte.setText("");
+    }
     public CompteCreationPanel(IServiceAdminGUI serviceAdmin,int top, int left, int bottom, int right){
         this.serviceAdmin=serviceAdmin;
         setBorder(new EmptyBorder(top,left,bottom,right));

@@ -1,6 +1,7 @@
 package presentation.vue.adminVue.clientVue;
 
 import metier.admin.IServiceAdminGUI;
+import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.util.ActionResult;
 import presentation.modele.util.Sexe;
 import presentation.vue.HintTextField;
@@ -23,7 +24,6 @@ public class ClientCreationPanel extends JPanel {
     private JComboBox<String> txt_sexe;
     private JButton btn_add,btn_cancel;
     private IServiceAdminGUI serviceAdmin;
-    private long client_id;
     private ClassLoader cl=getClass().getClassLoader();
     void initLabels(){
         lbl_id=setLabel("Identifiant",Color.WHITE,17);
@@ -52,7 +52,7 @@ public class ClientCreationPanel extends JPanel {
     void initTextFields(){
         txt_id=new HintTextField("Client ID");
         txt_id.setEditable(false);
-        txt_id.setText(client_id+"");
+        txt_id.setText(Client.getCompteur() +"");
         txt_nom=new HintTextField("Nom");
         txt_prenom=new HintTextField("Prenom");
         txt_login=new HintTextField("Login");
@@ -115,9 +115,21 @@ public class ClientCreationPanel extends JPanel {
         });
 
         btn_cancel.addActionListener(e -> {
-            resetFields(client_id,"Prenom","Nom","Login","","","CIN","TEL","Email","");
+            resetFields(Client.getCompteur(),"Prenom","Nom","Login","","","CIN","TEL","Email","");
         });
         btn_add.addActionListener(e -> {
+
+            err_id.setText("");
+            err_nom.setText("");
+            err_prenom.setText("");
+            err_login.setText("");
+            err_mdp.setText("");
+            err_mdp_confirmation.setText("");
+            err_cin.setText("");
+            err_tel.setText("");
+            err_email.setText("");
+            err_sexe.setText("");
+
                 List<String> values=getValues();
                 ActionResult actionResult= serviceAdmin.nouveauClient(values.get(0),values.get(1),values.get(2),values.get(3),values.get(4),values.get(5),values.get(6),values.get(7));
                 setResult(actionResult.getErrorMessage());
@@ -214,7 +226,7 @@ public class ClientCreationPanel extends JPanel {
     private void setResult(Map<String,String> err){
         if(err==null){
                 JOptionPane.showMessageDialog(this,"Client Ajoute","Succes",JOptionPane.INFORMATION_MESSAGE);
-                resetFields(client_id,"Prenom","Nom","Login","","","CIN","TEL","Email","");
+                resetFields(Client.getCompteur(),"Prenom","Nom","Login","","","CIN","TEL","Email","");
         }
         else {
             if(err.containsKey(CHAMP_PRENOM))
@@ -266,9 +278,8 @@ public class ClientCreationPanel extends JPanel {
         err_sexe.setText("");
 
     }
-    public ClientCreationPanel(IServiceAdminGUI serviceAdmin,int top, int left, int bottom, int right,long id){
+    public ClientCreationPanel(IServiceAdminGUI serviceAdmin,int top, int left, int bottom, int right){
         this.serviceAdmin=serviceAdmin;
-        client_id=id;
         initPanels(top,left,bottom,right);
         setBackground(new Color(34, 40, 49));
 

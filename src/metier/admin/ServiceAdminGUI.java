@@ -105,7 +105,7 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
             client.setMotDePasse(pass);
             client.setCin(cin);
             client.setTel(tel);
-            client.setSexe(sexe.equals("HOMMME")?Sexe.HOMME:Sexe.FEMME);
+            client.setSexe(sexe.equals("HOMME")?Sexe.HOMME:Sexe.FEMME);
             clientDao.update(client);
             return new ActionResult(true,null);
         }
@@ -117,6 +117,9 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
         Client client=clientDao.findById(id);
         if(client!=null){
             clientDao.delete(client);
+            client=banque.getClientsDeBanque().stream().filter(client::equals).findFirst().orElse(null);
+            CompteDao compteDao=new CompteDao(client);
+            client.getComptesClient().forEach(compteDao::delete);
             banque.getClientsDeBanque().remove(client);
             return new ActionResult(true,null);
         }

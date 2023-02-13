@@ -28,7 +28,8 @@ public class CompteDao implements IDao<Compte,String> {
     public CompteDao(Client client){
         this.client=client;
         id=getId();
-        Compte.setCompteur(id+1);
+        if(Compte.getCompteur()<=id)
+            Compte.setCompteur(id+1);
     }
 
     @Override
@@ -124,6 +125,7 @@ public class CompteDao implements IDao<Compte,String> {
                 String num_Compte=lines.get(i).substring(0,lines.get(i).indexOf(','));
                 if(numCompte.equals(num_Compte)){
                     lines.remove(i);
+                    Files.delete(Paths.get("FileBase/archives/logs_"+numCompte));
                     deleted=true;
                     break;
                 }
@@ -144,6 +146,7 @@ public class CompteDao implements IDao<Compte,String> {
                 String numCompte=lines.get(i).substring(0,lines.get(i).indexOf(','));
                 if(compte.getNumeroCompte().equals(numCompte)){
                     lines.remove(i);
+                    Files.delete(Paths.get("FileBase/archives/logs_"+numCompte));
                     deleted=true;
                     break;
                 }

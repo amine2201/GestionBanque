@@ -90,7 +90,7 @@ public class ClientModificationPanel extends JPanel {
 
     }
     private void initButtons(){
-        btn_edit = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/add.png"))));
+        btn_edit = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/edit.png"))));
         btn_edit.setFont(new Font("Optima",Font.BOLD,17));
         btn_edit.setBorder(BorderFactory.createEmptyBorder());
         btn_edit.setBackground(new Color(34, 40, 49));
@@ -225,7 +225,6 @@ public class ClientModificationPanel extends JPanel {
     private void setResult(Map<String,String> err){
         if(err==null){
             JOptionPane.showMessageDialog(this,"Client Modifie","Succes",JOptionPane.INFORMATION_MESSAGE);
-            resetFields(client.getId(),client.getPrenom(),client.getNom(),client.getLogin(),client.getMotDePasse(),client.getMotDePasse(),client.getCin(),client.getTel(),client.getEmail(),client.getSexe().getLibelle());
         }
         else {
             if(err.containsKey(CHAMP_PRENOM))
@@ -255,14 +254,14 @@ public class ClientModificationPanel extends JPanel {
 
     private void resetFields(long id,String prenom,String nom,String login,String mdp,String mdpC,String cin,String tel, String email, String sexe ){
         txt_id.setText(id+"");
-        txt_prenom.resetField(prenom);
-        txt_nom.resetField(nom);
-        txt_login.resetField(login);
+        txt_prenom.setText(prenom);
+        txt_nom.setText(nom);
+        txt_login.setText(login);
         txt_mdp.setText(mdp);
         txt_mdp_confirmation.setText(mdpC);
-        txt_cin.resetField(cin);
-        txt_tel.resetField(tel);
-        txt_email.resetField(email);
+        txt_cin.setText(cin);
+        txt_tel.setText(tel);
+        txt_email.setText(email);
         txt_sexe.setSelectedItem(sexe);
     }
     public ClientModificationPanel(IServiceAdminGUI serviceAdmin, int top, int left, int bottom, int right, Client client){
