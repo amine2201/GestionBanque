@@ -98,7 +98,7 @@ public class CompteFormValidator {
             compte.setPropriétaire(client);
             compte.setSolde(solde);
             if(client != null){
-                compte.setLog(TypeLog.CREATION,"pour le client "+client.getNomComplet());
+                compte.setLog(TypeLog.CREATION," du compte "+compte.getNumeroCompte()+" pour le client "+client.getNomComplet());
                 client.getComptesClient().add(compte);
                 new CompteDao(client).save(compte);
             }

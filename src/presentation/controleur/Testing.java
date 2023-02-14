@@ -13,8 +13,8 @@ public class Testing {
     public static void main(String[] args) {
         Banque maBanque= SeedData.seedData();
 //        new LoginFrame("Login",maBanque);
-//            new MainFrame("banque",null,new ServiceClientGUI(new ClientDao(),maBanque.getClientsDeBanque().get(0)));
-        new MainFrame("banque",new ServiceAdminGUI(maBanque),null);
+            new MainFrame("banque",null,new ServiceClientGUI(new ClientDao(),maBanque.getClientsDeBanque().get(0)));
+//        new MainFrame("banque",new ServiceAdminGUI(maBanque),null);
 
     }
 }

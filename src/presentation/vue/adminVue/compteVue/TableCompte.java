@@ -22,7 +22,7 @@ public class TableCompte extends AbstractTableModel {
         for(Compte compte : comptes){
 //            id,dateCreation,solde,idClient
             data[i][0]=compte.getNumeroCompte();
-            data[i][1]=compte.getDateCreation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            data[i][1]=compte.getDateCreation().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             data[i][2]=compte.getSolde();
             data[i][3]=compte.getPropriétaire().getNomComplet();
             i++;

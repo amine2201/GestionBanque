@@ -37,7 +37,7 @@ public class ServiceAdminGUI implements IServiceAdminGUI{
     private ActionResult nouveauCompte(Client client, double solde){
         CompteDao compteDao=new CompteDao(client);
         Compte compte=new Compte();
-        compte.setLog(TypeLog.CREATION,"pour le client "+client.getNomComplet());
+        compte.setLog(TypeLog.CREATION," du compte "+compte.getNumeroCompte()+" pour le client "+client.getNomComplet());
         compte.setPropriétaire(client);
         compte.setSolde(solde);
         client.getComptesClient().add(compte);

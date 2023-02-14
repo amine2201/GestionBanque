@@ -3,6 +3,7 @@ package presentation.vue.generalVue;
 import presentation.modele.util.Log;
 
 import javax.swing.table.AbstractTableModel;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TableLog extends AbstractTableModel {
@@ -20,7 +21,7 @@ public class TableLog extends AbstractTableModel {
         int i=0;
         for(Log log : logs){
             data[i][0]=log.getDate();
-            data[i][1]=log.getTime();
+            data[i][1]=log.getTime().format(DateTimeFormatter.ofPattern("HH:mm"));
             data[i][2]=log.getType()+log.getMessage();
             i++;
         }

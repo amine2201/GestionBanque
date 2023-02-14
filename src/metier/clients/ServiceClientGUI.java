@@ -51,7 +51,7 @@ public class ServiceClientGUI implements IServiceClientGUI{
         double val=Double.parseDouble(solde);
         if(val<0) return new ActionResult(false,Map.of("solde","Solde negatif"));
         _compte.setSolde(_compte.getSolde()+val);
-        _compte.setLog(TypeLog.VERSEMENT,"de "+solde);
+        _compte.setLog(TypeLog.VERSEMENT," de "+solde+" DH");
          compteDao.update(_compte);
         return new ActionResult(true,null);
     }
@@ -66,7 +66,7 @@ public class ServiceClientGUI implements IServiceClientGUI{
         if(val<0) return new ActionResult(false,Map.of("solde","Solde negatif"));
         if(val>_compte.getSolde())  return new ActionResult(false,Map.of("solde","Solde insuffisant"));
         _compte.setSolde(_compte.getSolde()-val);
-        _compte.setLog(TypeLog.RETRAIT,"de "+solde);
+        _compte.setLog(TypeLog.RETRAIT," de "+solde+" DH");
         compteDao.update(_compte);
         return new ActionResult(true,null);
     }
@@ -91,7 +91,8 @@ public class ServiceClientGUI implements IServiceClientGUI{
         if(val>compte1.getSolde())  return new ActionResult(false,Map.of("solde","Solde insuffisant"));
         compte1.setSolde(compte1.getSolde()-val);
         compte2.setSolde(compte2.getSolde()+val);
-        compte1.setLog(TypeLog.VIREMENT,"de "+solde);
+        compte1.setLog(TypeLog.VIREMENT," de "+solde+" DH vers le compte "+compte2.getNumeroCompte());
+        compte2.setLog(TypeLog.VIREMENT," de "+solde+" DH du  compte "+compte1.getNumeroCompte());
         compteDao.update(compte1);
         new CompteDao(client2).update(compte2);
         return new ActionResult(true,null);

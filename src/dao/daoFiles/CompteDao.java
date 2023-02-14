@@ -106,6 +106,7 @@ public class CompteDao implements IDao<Compte,String> {
                 String numCompte=lines.get(i).substring(0,lines.get(i).indexOf(','));
                 if(compte.getNumeroCompte().equals(numCompte)){
                     lines.set(i,compteString(compte));
+                    setCompteLogs(numCompte,compte.getLogs().toArray(new Log[0]));
                     break;
                 }
             }
