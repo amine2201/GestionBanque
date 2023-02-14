@@ -7,6 +7,7 @@ import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.modele.util.ActionResult;
 import presentation.modele.util.Log;
+import presentation.modele.util.TypeLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,7 @@ public class ServiceClientGUI implements IServiceClientGUI{
         double val=Double.parseDouble(solde);
         if(val<0) return new ActionResult(false,Map.of("solde","Solde negatif"));
         _compte.setSolde(_compte.getSolde()+val);
+        _compte.setLog(TypeLog.VERSEMENT,"de "+solde);
          compteDao.update(_compte);
         return new ActionResult(true,null);
     }
@@ -64,6 +66,7 @@ public class ServiceClientGUI implements IServiceClientGUI{
         if(val<0) return new ActionResult(false,Map.of("solde","Solde negatif"));
         if(val>_compte.getSolde())  return new ActionResult(false,Map.of("solde","Solde insuffisant"));
         _compte.setSolde(_compte.getSolde()-val);
+        _compte.setLog(TypeLog.RETRAIT,"de "+solde);
         compteDao.update(_compte);
         return new ActionResult(true,null);
     }
@@ -88,6 +91,7 @@ public class ServiceClientGUI implements IServiceClientGUI{
         if(val>compte1.getSolde())  return new ActionResult(false,Map.of("solde","Solde insuffisant"));
         compte1.setSolde(compte1.getSolde()-val);
         compte2.setSolde(compte2.getSolde()+val);
+        compte1.setLog(TypeLog.VIREMENT,"de "+solde);
         compteDao.update(compte1);
         new CompteDao(client2).update(compte2);
         return new ActionResult(true,null);
@@ -106,16 +110,11 @@ public class ServiceClientGUI implements IServiceClientGUI{
     }
 
     @Override
-    public List<Log> dernièresOpérations(String compte) {
+    public List<Log> getLogs(String compte) {
         Compte _compte=compteDao.findById(compte);
-        if(_compte==null)
-            return null;
-        List<Log> logs=new ArrayList<>();
-        List<Log> logs1 = _compte.getLogs();
-        for(int i = logs1.size()-1; i>=0&&i> logs1.size()-5; i--){
-            logs.add(logs1.get(i));
-        }
-        return logs;
+        if(_compte!=null)
+            return _compte.getLogs();
+        else return null;
     }
 
     @Override

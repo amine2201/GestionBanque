@@ -22,7 +22,7 @@ public class ComptesPanel extends JPanel {
     private JTableHeader tableHeader;
     private IServiceClientGUI serviceClient;
     ClassLoader cl = getClass().getClassLoader();
-    private JButton btn_vir, btn_ver, btn_ret;
+    private JButton btn_vir, btn_ver, btn_ret,btn_info;
 
     public JButton getBtn_vir() {
         return btn_vir;
@@ -35,6 +35,11 @@ public class ComptesPanel extends JPanel {
     public JButton getBtn_ret() {
         return btn_ret;
     }
+
+    public JButton getBtn_info() {
+        return btn_info;
+    }
+
     private void initButtons(){
         btn_vir = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/transfer.png"))));
         btn_vir.setBorderPainted(false);
@@ -47,6 +52,9 @@ public class ComptesPanel extends JPanel {
         btn_ret = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/withdraw.png"))));
         btn_ret.setBorderPainted(false);
 //        btn_ret.setBackground(new Color(0, 173, 181));
+
+        btn_info = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/information.png"))));
+        btn_info.setBorderPainted(false);
 
     }
     private void initActions(){
@@ -84,6 +92,18 @@ public class ComptesPanel extends JPanel {
                 btn_ret.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/withdraw.png"))));
             }
         });
+
+        btn_info.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btn_info.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/informationHover.png"))));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_info.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/information.png"))));
+            }
+        });
     }
     private void initPanels(){
         initButtons();
@@ -98,6 +118,7 @@ public class ComptesPanel extends JPanel {
         southPanel.add(btn_ret);
         southPanel.add(btn_ver);
         southPanel.add(btn_vir);
+        southPanel.add(btn_info);
 
         add(southPanel,BorderLayout.SOUTH);
     }

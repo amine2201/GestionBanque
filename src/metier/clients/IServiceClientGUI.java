@@ -12,7 +12,7 @@ public interface IServiceClientGUI {
     ActionResult retrait  (String compte,String solde);
     ActionResult virement (String compte,String ben,String solde);
     ActionResult modifierProfile(String email,String mdp,String mdpc,String tel);
-    List<Log> dernièresOpérations(String compte);
+    List<Log> getLogs(String compte);
     List<Compte> comptes();
 
 }

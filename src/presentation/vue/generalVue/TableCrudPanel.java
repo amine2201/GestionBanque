@@ -9,7 +9,7 @@ import java.util.Objects;
 public class TableCrudPanel extends JPanel {
 
     private ClassLoader cl = getClass().getClassLoader();
-    private JButton btn_add, btn_edit, btn_delete;
+    private JButton btn_add, btn_edit, btn_delete,btn_info;
 
 
 
@@ -23,6 +23,10 @@ public class TableCrudPanel extends JPanel {
 
     public JButton getBtn_delete() {
         return btn_delete;
+    }
+
+    public JButton getBtn_info() {
+        return btn_info;
     }
 
     private void initButtons(){
@@ -39,6 +43,10 @@ public class TableCrudPanel extends JPanel {
         btn_delete = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/delete.png"))));
         btn_delete.setBorderPainted(false);
         btn_delete.setBackground(new Color(34, 40, 49));
+
+        btn_info = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/information.png"))));
+        btn_info.setBorderPainted(false);
+        btn_info.setBackground(new Color(34, 40, 49));
     }
     public void initActions(){
         btn_add.addMouseListener(new MouseAdapter() {
@@ -75,6 +83,17 @@ public class TableCrudPanel extends JPanel {
                 btn_delete.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/delete.png"))));
             }
         });
+        btn_info.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btn_info.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/informationHover.png"))));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_info.setIcon(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/information.png"))));
+            }
+        });
     }
 
     public TableCrudPanel(){
@@ -86,6 +105,7 @@ public class TableCrudPanel extends JPanel {
         add(btn_add);
         add(btn_edit);
         add(btn_delete);
+        add(btn_info);
     }
 
 

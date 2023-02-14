@@ -4,15 +4,13 @@ import metier.admin.IServiceAdminGUI;
 import metier.clients.IServiceClientGUI;
 import metier.clients.ServiceClientGUI;
 import presentation.modele.entitesDeLaBanque.Client;
+import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.vue.adminVue.clientVue.ClientCreationPanel;
 
 import presentation.vue.adminVue.clientVue.ClientModificationPanel;
 import presentation.vue.adminVue.compteVue.CompteCreationPanel;
 import presentation.vue.clientVue.*;
-import presentation.vue.generalVue.IdentityPanel;
-import presentation.vue.generalVue.SideMenuPanel;
-import presentation.vue.generalVue.StatistiquesPanel;
-import presentation.vue.generalVue.TablePanel;
+import presentation.vue.generalVue.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -77,6 +75,24 @@ public class MainFrame extends JFrame {
                             if(_switch==2)
                                 redirect(new CompteCreationPanel(serviceAdmin,10,10,10,10));
 
+                        });
+                        ((TablePanel)centerPanel).getBtn_info().addActionListener(l->{
+                            Object id=((TablePanel)centerPanel).getSelectedID();
+                            if(id instanceof Integer i && i==-1){
+                                String message="Veuillez choisir un compte d'abord !!!";
+                                JOptionPane.showMessageDialog(this,
+                                        message,
+                                        "A L E R T",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                            else{
+                                String numCompte=(String) id;
+                                Compte compte=serviceAdmin.chercherCompteParNum(numCompte);
+                                if(compte!=null){
+                                    JPanel jPanel=new LogPanel(compte.getLogs());
+                                    redirect(jPanel);
+                                }
+                            }
                         });
                     });
                 }
@@ -155,6 +171,21 @@ public class MainFrame extends JFrame {
                             JPanel jPanel=new VersementPanel(serviceClient,10,10,10,10);
                             redirect(jPanel);
                             ((VersementPanel)jPanel).setSelectedCompte(numCompte);
+                        }
+                    });
+                    ((ComptesPanel)centerPanel).getBtn_info().addActionListener(l->{
+                        Object id=((ComptesPanel)centerPanel).getSelectedCompte();
+                        if(id instanceof Integer i && i==-1){
+                            String message="Veuillez choisir un compte d'abord !!!";
+                            JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "A L E R T",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                        else {
+                            String numCompte=(String)id;
+                            JPanel jPanel=new LogPanel(serviceClient.getLogs(numCompte));
+                            redirect(jPanel);
                         }
                     });
                 });

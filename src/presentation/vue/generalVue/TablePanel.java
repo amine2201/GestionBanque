@@ -59,6 +59,7 @@ public class TablePanel extends JPanel {
     }
     private void initActions(){
         if(_switch==1){
+            searchPanel.getCrudPanel().getBtn_info().setVisible(false);
             searchPanel.getCrudPanel().getBtn_delete().addActionListener(e->{
                 int row=table.getSelectedRow();
                 if(row!=-1){
@@ -141,6 +142,9 @@ public class TablePanel extends JPanel {
     }
     public JButton getBtn_edit(){
         return searchPanel.getCrudPanel().getBtn_edit();
+    }
+    public JButton getBtn_info(){
+        return searchPanel.getCrudPanel().getBtn_info();
     }
     public Object getSelectedID(){
             int row=table.getSelectedRow();
