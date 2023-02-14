@@ -43,18 +43,19 @@ public class ComptesPanel extends JPanel {
     private void initButtons(){
         btn_vir = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/transfer.png"))));
         btn_vir.setBorderPainted(false);
-//        btn_vir.setBackground(new Color(0, 173, 181));
+        btn_vir.setBackground(new Color(34, 40, 49));
 
         btn_ver = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/deposit.png"))));
         btn_ver.setBorderPainted(false);
-//        btn_ver.setBackground(new Color(0, 173, 181));
+        btn_ver.setBackground(new Color(34, 40, 49));
 
         btn_ret = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/withdraw.png"))));
         btn_ret.setBorderPainted(false);
-//        btn_ret.setBackground(new Color(0, 173, 181));
+        btn_ret.setBackground(new Color(34, 40, 49));
 
         btn_info = new JButton(new ImageIcon(Objects.requireNonNull(cl.getResource("images/icons/information.png"))));
         btn_info.setBorderPainted(false);
+        btn_info.setBackground(new Color(34, 40, 49));
 
     }
     private void initActions(){
