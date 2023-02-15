@@ -3,6 +3,7 @@ package presentation.vue;
 import metier.admin.IServiceAdminGUI;
 import metier.clients.IServiceClientGUI;
 import metier.clients.ServiceClientGUI;
+import presentation.controleur.SeedData;
 import presentation.modele.entitesDeLaBanque.Client;
 import presentation.modele.entitesDeLaBanque.Compte;
 import presentation.vue.adminVue.clientVue.ClientCreationPanel;
@@ -209,6 +210,14 @@ public class MainFrame extends JFrame {
         if(serviceAdmin!=null)
             initAdminPanel();
         else initClientPanel();
+        initLogout();
+    }
+
+    private void initLogout() {
+        identityPanel.getBtn_logout().addActionListener(e->{
+            new LoginFrame("Login", SeedData.seedData());
+            dispose();
+        });
     }
 
     private void initContainer(){

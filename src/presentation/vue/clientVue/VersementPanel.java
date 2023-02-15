@@ -93,7 +93,7 @@ public class VersementPanel extends JPanel {
             JPanel westPanel=new JPanel();
             westPanel.setBackground(new Color(34, 40, 49));
             westPanel.setLayout(new GridLayout(2,1,5,5));
-            westPanel.setBorder(new EmptyBorder(10,10,400,10));
+            westPanel.setBorder(new EmptyBorder(10,10,375,10));
             westPanel.add(lbl_compte);
             westPanel.add(lbl_mnt);
 
@@ -101,7 +101,7 @@ public class VersementPanel extends JPanel {
             JPanel centerPanel=new JPanel();
             centerPanel.setBackground(new Color(34, 40, 49));
             centerPanel.setLayout(new GridLayout(2,1,5,5));
-            centerPanel.setBorder(new EmptyBorder(10,10,400,10));
+            centerPanel.setBorder(new EmptyBorder(10,10,375,10));
             centerPanel.add(txt_compte);
             centerPanel.add(txt_mnt);
 
@@ -109,7 +109,7 @@ public class VersementPanel extends JPanel {
             eastPanel.setBackground(new Color(34, 40, 49));
             eastPanel.setLayout(new GridLayout(2,1,5,5));
             eastPanel.setPreferredSize(new Dimension(450,getHeight()));
-            eastPanel.setBorder(new EmptyBorder(10,10,400,10));
+            eastPanel.setBorder(new EmptyBorder(10,10,375,10));
             eastPanel.add(err_compte);
             eastPanel.add(err_mnt);
 
