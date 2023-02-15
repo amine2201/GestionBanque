@@ -12,6 +12,8 @@ import presentation.modele.util.AuthResult;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class LoginFrame extends JFrame {
@@ -130,6 +132,22 @@ public class LoginFrame extends JFrame {
                     else new MainFrame("Banque",null,new ServiceClientGUI(new ClientDao(),banque.getClientsDeBanque().get(0)));
                     dispose();}
             });
+        txt_login.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    btn_login.doClick();
+                }
+            }
+        });
+        txt_pass.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    btn_login.doClick();
+                }
+            }
+        });
         btn_cancel.addActionListener(l -> dispose());
     }
 
